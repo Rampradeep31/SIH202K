@@ -1,0 +1,77 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "NH-544 Salem-Coimbatore Highway",
+        "highway": "trunk"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            76.9,
+            10.95
+          ],
+          [
+            77.05,
+            11.02
+          ],
+          [
+            77.2,
+            11.1
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Coimbatore Avinashi Road",
+        "highway": "primary"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            76.96,
+            11.0
+          ],
+          [
+            77.08,
+            11.06
+          ],
+          [
+            77.15,
+            11.1
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Coimbatore Trichy Road (NH-81)",
+        "highway": "primary"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            76.97,
+            10.99
+          ],
+          [
+            77.05,
+            10.97
+          ],
+          [
+            77.2,
+            10.95
+          ]
+        ]
+      }
+    }
+  ]
+}

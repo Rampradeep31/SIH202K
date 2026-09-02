@@ -30,9 +30,15 @@ def get_tamilnadu_districts_geojson() -> Dict[str, Any]:
     Contains exact geographical boundary shapes with zero hexagonal or synthetic simplification.
     """
     import os, json
+    base_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
     data_path = os.path.join(os.path.dirname(__file__), "..", "data", "tamil_nadu_districts_exact.geojson")
+    tn_path = os.path.join(base_dir, "tamil_nadu_dataset", "tamil_nadu_districts.geojson")
+    
     if os.path.exists(data_path):
         with open(data_path, "r", encoding="utf-8") as f:
+            return json.load(f)
+    elif os.path.exists(tn_path):
+        with open(tn_path, "r", encoding="utf-8") as f:
             return json.load(f)
     return {"type": "FeatureCollection", "features": []}
 

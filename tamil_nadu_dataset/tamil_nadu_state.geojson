@@ -1,0 +1,40 @@
+{
+  "type": "FeatureCollection",
+  "name": "Tamil_Nadu_State_Boundary",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "state": "Tamil Nadu",
+        "country": "India"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              76.2,
+              8.0
+            ],
+            [
+              80.3,
+              8.0
+            ],
+            [
+              80.3,
+              13.6
+            ],
+            [
+              76.2,
+              13.6
+            ],
+            [
+              76.2,
+              8.0
+            ]
+          ]
+        ]
+      }
+    }
+  ]
+}

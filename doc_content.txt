@@ -1,0 +1,745 @@
+SIH 2026 – Problem Statement 26019
+National Digital Platform for Research and Policy Innovation in Land Governance
+Comprehensive Problem Understanding, Literature Survey, Novelty, Data, Architecture, Cost, Time and User-Impact Document
+1. Executive Summary
+PS 26019 proposes a secure, scalable and AI-enabled National Research and Policy Innovation Platform for land governance. The key problem is not the absence of land data. India already has substantial land-record digitization, cadastral mapping, GIS, satellite, research and policy initiatives. The major gap is fragmentation: data, research, geospatial evidence and policy information are distributed across systems and are difficult to convert into reusable evidence for policy experimentation and decision-making.
+The proposed platform acts as an intelligence and research layer above existing systems. It connects land and geospatial datasets, research publications, policy documents, socioeconomic information and analytical tools through AI, GIS, knowledge retrieval and scenario-based policy analysis.
+2. Problem Statement in Simple Terms
+Imagine a government wants to decide where to build a new industrial corridor. Three possible routes may exist. To choose responsibly, officials need land records, cadastral maps, satellite imagery, land-use information, population data, roads, climate/hazard information, research papers and policy documents. Today these resources can be scattered across departments, portals, research institutions and datasets.
+The platform brings these resources into one research and policy intelligence environment. A policymaker can ask a natural-language question, inspect the supporting evidence on a map, compare historical trends, and evaluate alternative scenarios before implementation.
+3. Core Concept
+Current Ecosystem
+Proposed Intelligence Layer
+Outcome
+Land records
+Unified discovery + analytics
+Evidence
+GIS / cadastral maps
+Interactive spatial analysis
+Spatial insight
+Satellite / remote sensing
+Land-use change detection
+Trend insight
+Research papers
+AI semantic search + RAG
+Knowledge synthesis
+Policy documents
+Policy comparison + linking
+Policy evidence
+Socioeconomic / climate data
+Cross-domain analytics
+Impact assessment
+Multiple datasets
+Scenario modelling
+Decision support
+4. Main Users
+Researchers and universities – discover literature, datasets, case studies and GIS evidence.
+Policymakers – compare evidence and evaluate alternative land-governance scenarios.
+Government departments – discover and combine authorized datasets and monitor indicators.
+GIS / data analysts – perform spatial, temporal and predictive analysis.
+Research organizations and industry experts – collaborate on applied projects and pilots.
+Public users – access appropriate public knowledge, maps and non-sensitive insights.
+5. Major Platform Modules
+Module
+Purpose
+AI Land Governance Research Copilot
+Natural-language discovery and source-cited synthesis of research, policies, datasets and case studies.
+National Research Repository
+Central catalogue for papers, reports, datasets, policy documents and case studies.
+Geospatial Intelligence
+Map-based visualization of land use, infrastructure, hazards and policy-related indicators.
+Land-Use Change Analytics
+Compare historical and current land-use/land-cover patterns and identify trends.
+Policy Scenario Simulator
+Compare possible policy or development scenarios using defined assumptions and indicators.
+Knowledge Graph
+Connect policies, research, datasets, locations, land-use changes and outcomes.
+Collaboration Workspace
+Support research projects, notes, datasets, discussions and pilot initiatives.
+Dashboards & Analytics
+Show land-use trends, policy indicators, climate resilience, disputes and project outcomes.
+API / Integration Layer
+Allow authorized integration with existing government, GIS and research systems.
+Role-Based Security
+Provide permissions for researchers, officials, institutions and public users.
+6. Novelty
+The novelty should NOT be presented as simply 'AI + GIS + land records'. The stronger novelty is integration into a research-to-policy loop.
+Research-to-policy intelligence: connects academic evidence directly with land, geospatial and socioeconomic evidence.
+AI Land Governance Research Copilot: retrieves and synthesizes source documents rather than providing unsupported generic answers.
+Research-to-GIS connection: links a research finding to its geographic context, land-use layer and supporting spatial evidence.
+Policy experimentation: enables scenario comparison before implementation rather than only reporting historical conditions.
+Land Governance Knowledge Graph: connects policies, research, datasets, locations, indicators and outcomes.
+Evidence-to-action pipeline: transforms fragmented information into traceable, evidence-backed decision support.
+Ask-the-map experience: users can express spatial questions in natural language and receive corresponding map/analytics views.
+7. Novelty Statement for SIH
+Unlike existing land-information and GIS platforms that primarily store, visualize or administer land data, the proposed platform creates an AI-powered research-to-policy ecosystem that connects land data, geospatial evidence, academic knowledge and policy scenarios to support evidence-based land governance.
+Short version: Existing systems tell us what is happening to land; the proposed platform helps users understand the evidence, explore why it is happening, compare what could happen next, and evaluate policy options before implementation.
+8. Existing Solutions and Positioning
+Existing Initiative / Approach
+Primary Strength
+Gap Addressed by PS 26019
+DILRMP
+Land-record modernization, cadastral digitization, integration and land information management.
+Adds research discovery, cross-domain intelligence and policy experimentation.
+NAKSHA
+GIS-based urban land-parcel mapping and database creation.
+Adds research-policy workflows and AI-assisted evidence synthesis.
+Land Stack initiatives
+Integration of land, ownership, registration and building information in pilots.
+Adds research, policy analysis, scenario comparison and knowledge connections.
+State land portals
+Citizen-facing land services and records.
+Provides a cross-domain national research and policy ecosystem.
+GIS platforms
+Spatial visualization and analysis.
+Connects GIS evidence to research, policy and socioeconomic context.
+Academic repositories
+Research publication and dissemination.
+Connects literature to datasets, maps, policies and decision workflows.
+Government MIS dashboards
+Programme monitoring and KPIs.
+Adds predictive, analytical and scenario-based decision support.
+Important positioning: the platform should not replace DILRMP, NAKSHA or other government systems. It should act as an intelligence, research and policy-innovation layer that can consume authorized outputs through APIs or data connectors.
+9. Literature Survey – Key Findings
+Research Area
+Literature / Existing Finding
+Gap Relevant to the Project
+Digital land administration
+India has advanced land-record digitization and cadastral mapping.
+Digitized information still needs stronger cross-domain research and policy intelligence.
+GIS & remote sensing
+GIS and satellite data are widely used for LULC monitoring and spatial analysis.
+Evidence is often project-specific and not continuously connected to policy workflows.
+Urbanization & LULC
+Research extensively studies urban expansion and land-use conversion.
+Findings and datasets are distributed across individual studies.
+Climate-resilient planning
+Studies show climate considerations are not consistently integrated into spatial planning.
+Need integrated climate + land + policy scenario analysis.
+Land tenure / geospatial governance
+Geospatial technologies increasingly support land-tenure analysis.
+Need stronger integration of spatial evidence with governance and policy outcomes.
+AI / knowledge retrieval
+RAG and semantic retrieval can improve discovery of large document collections.
+A domain-specific land-governance evidence layer can connect documents with maps and datasets.
+Knowledge-to-action
+Recent research highlights gaps in translating geospatial evidence into planning and action.
+Platform explicitly targets the research-to-policy transition.
+10. Research Gap
+Data fragmentation – land, GIS, satellite, socioeconomic and policy datasets exist in different systems.
+Research fragmentation – studies, reports and case studies are distributed across institutions.
+Knowledge-to-policy gap – evidence is not always transformed into actionable policy analysis.
+Limited policy experimentation – conventional dashboards are mainly descriptive rather than scenario-based.
+Weak research-GIS linkage – literature often has to be interpreted separately from spatial evidence.
+Manual discovery and analysis – researchers and officials spend significant time finding, cleaning and comparing information.
+Interoperability challenge – systems need standardized metadata, APIs and controlled data exchange.
+11. Example Scenario – Industrial Corridor
+Government proposes an industrial corridor and has three possible routes.
+The platform brings together land-use, cadastral/parcel, satellite, road, population, climate/hazard, research and policy information.
+AI retrieves relevant studies and government documents and links them to affected regions.
+GIS displays agricultural land, built-up areas, sensitive zones, infrastructure and population exposure.
+The analytics layer estimates indicators for each route.
+The policy simulator compares Route A, Route B and Route C using transparent assumptions.
+The dashboard shows trade-offs and supporting evidence rather than a black-box answer.
+The policymaker can select the preferred scenario for further official evaluation.
+12. Recommended SIH MVP
+Do not attempt a national, all-data implementation during the hackathon. Build one high-quality vertical pilot.
+MVP Component
+Prototype Scope
+Region
+One state / district / selected study area.
+Land analysis
+LULC change across 2–3 time points.
+Satellite
+Sentinel-2 or Landsat-derived indicators / processed layers.
+Infrastructure
+Roads, major infrastructure and selected development features.
+Socioeconomic
+Population and a small set of relevant indicators.
+Hazards
+Rainfall/flood/drought or one selected hazard layer.
+Research repository
+Curated land-governance papers, reports and case studies.
+Policy database
+Curated policy documents and metadata.
+AI Copilot
+RAG-based source-cited research and policy question answering.
+Policy simulation
+One concrete scenario such as industrial/urban expansion or land-use policy comparison.
+Dashboard
+Map + trend + evidence + scenario comparison.
+13. Datasets Required
+Dataset Category
+Minimum Required Fields / Examples
+Purpose
+Administrative boundaries
+State, district, taluk, village/ULB polygons
+Spatial aggregation and filtering.
+LULC
+Agriculture, forest, water, built-up, barren, etc. by year
+Land-use change analysis.
+Satellite imagery
+Sentinel-2 / Landsat or derived indicators
+Change detection and environmental indicators.
+Cadastral / parcel data
+Parcel geometry, land type, area; synthetic for prototype if required
+Parcel-level analysis.
+Road & infrastructure
+Roads, highways, railways, industrial areas, projects
+Accessibility and development context.
+Socioeconomic
+Population, density, selected development indicators
+Social and economic impact assessment.
+Climate / hazard
+Rainfall, flood, drought, landslide or other selected hazard
+Resilience and risk analysis.
+Land disputes
+Count, type, location, status; aggregate/non-sensitive data
+Governance analytics.
+Research documents
+Papers, reports, case studies, metadata
+RAG and knowledge discovery.
+Policy documents
+Policy, year, sector, objective, target area, status
+Policy comparison and scenario context.
+14. Data Strategy
+Open data first: prioritize public government, satellite, GIS and research datasets.
+Synthetic data for sensitive fields: use synthetic cadastral/ownership-like structures for the prototype instead of personal data.
+API-ready architecture: design connectors so authorized government datasets can be integrated later.
+Metadata-first design: store source, date, geographic coverage, license/permission and data quality metadata.
+Versioning: preserve dataset versions so analytical results remain reproducible.
+15. Technical Architecture
+Recommended stack: React/Next.js frontend; FastAPI or Spring Boot backend; PostgreSQL + PostGIS for structured and spatial data; Python, GeoPandas, GDAL and scikit-learn for analytics; pgvector or another vector store for semantic retrieval; MapLibre/OpenLayers for maps; object storage for documents; Docker for deployment.
+Layer
+Suggested Technology
+Role
+Frontend
+React / Next.js
+Portal, dashboards and research workspace.
+Backend
+FastAPI / Spring Boot
+APIs, workflows and business logic.
+Database
+PostgreSQL
+Structured platform data.
+Spatial database
+PostGIS
+Spatial queries and geospatial relationships.
+GIS
+MapLibre / OpenLayers / GeoServer
+Interactive mapping and spatial services.
+Data processing
+Python, Pandas, GeoPandas, GDAL
+Cleaning, transformation and geospatial processing.
+AI/ML
+Scikit-learn / PyTorch
+Prediction, classification and trend modelling.
+RAG
+Embeddings + pgvector/vector DB + LLM
+Research and policy document intelligence.
+Knowledge graph
+Neo4j or graph model in PostgreSQL
+Connect entities and evidence.
+API integration
+REST / ETL
+Authorized external data integration.
+Deployment
+Docker + cloud/NIC-ready infrastructure
+Scalability and reproducibility.
+Security
+RBAC, TLS, encryption, audit logs
+Controlled access and accountability.
+16. Cost Analysis
+Cost Area
+SIH Prototype
+Production Consideration
+Software licenses
+Low – mostly open source
+Low to medium depending on enterprise tools.
+Cloud compute
+Low – small pilot
+Scales with data volume and processing.
+Storage
+Low for curated prototype
+Higher for satellite/raster archives.
+AI/LLM
+Low to medium depending on API/local model
+Usage-based; can optimize with caching/open models.
+Data acquisition
+Low if open data is used
+Potentially significant for licensed/high-resolution data.
+GIS infrastructure
+Low with open-source stack
+Higher for national-scale services and high availability.
+Security & integration
+Prototype-level
+Major production engineering cost.
+Maintenance
+Minimal during hackathon
+Ongoing data, model and infrastructure maintenance.
+Key message: the software prototype can be built at relatively low cost using open-source technologies. The major production costs are data governance, infrastructure, security, integration, large-scale geospatial processing and maintenance.
+17. Time and Effort
+Work Area
+Risk
+How to Control It
+National-scale data collection
+Very High
+Use one pilot region and open data.
+GIS engine development
+High
+Use PostGIS + MapLibre/OpenLayers instead of building GIS from scratch.
+Satellite processing
+High
+Use selected preprocessed/derived datasets for MVP.
+Policy simulation
+High
+Implement one transparent scenario model with assumptions.
+RAG
+Medium
+Use curated documents and a small knowledge base first.
+Government integration
+Very High
+Use mock/API-ready connectors in prototype.
+Security
+Medium
+Implement RBAC, authentication, audit logs and basic encryption.
+Dashboard
+Low–Medium
+Build only decision-critical views.
+The goal is not to finish every requirement in the problem statement. The goal is to demonstrate one complete, credible workflow from data discovery to evidence generation to policy scenario comparison.
+18. User Effort Reduction
+User
+Before
+With Platform
+Effort Reduced
+Researcher
+Search multiple portals, download papers, identify datasets, prepare maps and compare studies manually.
+Ask AI, retrieve cited evidence, open linked datasets/maps and work in one workspace.
+Information discovery, repetitive document review, data discovery and basic visualization.
+Policymaker
+Request data from departments, read reports, wait for analyses and manually compare alternatives.
+Ask policy question, inspect evidence, view GIS indicators and compare scenarios.
+Data consolidation, evidence retrieval and repetitive scenario comparison.
+Government analyst
+Clean and combine data from multiple sources for every analysis.
+Use standardized datasets, metadata and reusable analytical workflows.
+Repeated data preparation and map/report creation.
+Institution / research team
+Maintain separate papers, datasets and project notes.
+Use shared repository and collaborative workspace.
+Document discovery and coordination effort.
+Public user
+Search multiple public sources for non-sensitive knowledge.
+Use curated public views and evidence summaries.
+Basic information discovery.
+19. Measuring Time Savings Properly
+Do not claim unsupported percentages such as '80% time reduction'. During the prototype evaluation, measure a baseline task manually and then with the platform.
+Task
+Baseline Measurement
+Platform Measurement
+Find relevant research and policies
+Time to locate 10 relevant sources
+Time using AI search/RAG
+Prepare land-use comparison
+Manual GIS/data preparation time
+Platform analysis time
+Compare scenarios
+Manual spreadsheet/report time
+Simulator time
+Prepare evidence brief
+Manual compilation time
+AI-assisted cited report time
+This allows the team to report measured effort reduction rather than making unsupported claims.
+20. Main Risks and Mitigation
+Risk
+Mitigation
+Data privacy / sensitive land records
+Use authorized access, aggregation and synthetic data for prototype.
+AI hallucination
+RAG, source citations, confidence indicators and 'insufficient evidence' responses.
+Model bias
+Document assumptions, validate against historical data and keep human review.
+Policy prediction overclaim
+Present outputs as scenario-based decision support, not guaranteed forecasts.
+Large scope
+One-region vertical MVP and modular architecture.
+Data quality differences
+Metadata, validation, provenance and versioning.
+Integration dependency
+API-ready connectors and simulated integrations for SIH.
+GIS complexity
+Use mature open-source geospatial components.
+21. Proposed End-to-End Workflow
+Data Sources → Ingestion → Validation/Standardization → PostgreSQL/PostGIS + Document Store → AI/RAG + GIS Analytics + ML → Knowledge Graph → Policy Scenario Engine → Evidence Dashboard → Human Decision
+22. Recommended Demo Story
+Start with a real policy question: e.g., selecting a development corridor or managing urban expansion.
+Show that relevant data and research are distributed across multiple sources.
+Ask the AI Research Copilot a domain question and show source citations.
+Open the GIS map and show historical/current LULC and affected infrastructure.
+Show the key indicators for two or three policy scenarios.
+Run the scenario simulator and display trade-offs.
+Open the evidence panel showing research, datasets and assumptions behind the result.
+End with the decision dashboard and explain how the same architecture can scale to more states and authorized government datasets.
+23. Key KPIs for the Prototype
+KPI
+What It Demonstrates
+Research retrieval relevance
+Quality of AI evidence discovery.
+Citation coverage
+Traceability of AI answers.
+LULC change detection accuracy
+Quality of geospatial analytics.
+Scenario computation time
+Decision-support responsiveness.
+Map query response time
+GIS usability.
+Data source coverage
+Interoperability.
+Task time reduction
+Practical user benefit.
+User satisfaction / usability
+UX quality.
+24. Final Value Proposition
+The proposed platform does not attempt to replace India's existing land-information infrastructure. It connects that infrastructure with research, geospatial evidence, socioeconomic context, AI-assisted knowledge discovery and policy experimentation. Its central value is converting fragmented land information into traceable evidence and scenario-based decision support.
+25. One-Line Pitch
+“From Land Data to Policy Evidence.” The platform connects land data, research, GIS and AI to help researchers and policymakers understand land-change patterns, evaluate evidence and compare policy scenarios before implementation.
+26. Suggested Team Focus
+Workstream
+Responsibility
+AI/RAG
+Research copilot, document ingestion, semantic search, citations.
+GIS/Data
+PostGIS, LULC layers, maps, geospatial preprocessing.
+ML/Analytics
+Trend analysis, scoring and scenario models.
+Backend
+APIs, data pipelines, authentication, workflow.
+Frontend
+Research workspace, GIS dashboard, simulator UI.
+Integration/QA
+Datasets, API connectors, testing, demo flow and documentation.
+27. Final Strategic Recommendation
+For SIH, build a narrow but deep prototype: one region, one major land-governance use case, a curated research/policy corpus, one geospatial analysis pipeline and one policy simulation. Make every AI output traceable to evidence. Demonstrate measurable reduction in information-discovery and repetitive analysis effort. Present the production architecture as scalable and API-ready rather than pretending the hackathon prototype already contains all national land data.
+28. Dataset Acquisition Plan – Official / Reliable Sources
+The prototype should use open, authoritative and reproducible sources wherever possible. The links below are starting points for dataset discovery and access. Availability, download permissions, licensing and geographic coverage must be checked before using each dataset in the final system.
+Dataset
+Recommended Source
+What to Collect
+Use in Model / Platform
+Indian LULC
+Bhuvan / NRSC – https://bhuvan-app1.nrsc.gov.in/2dresources/bhuvanstore.php
+LULC layers by year; 50K/250K and available higher-resolution thematic products
+Land-use change labels, spatial features, validation
+Bhuvan thematic maps
+Bhuvan – https://bhuvan.nrsc.gov.in/
+LULC, land degradation, flood hazard, soil, geomorphology, cadastral/other thematic layers where available
+GIS evidence and feature engineering
+Bhuvan 2D
+https://bhuvan-app1.nrsc.gov.in/bhuvan2d/bhuvan/bhuvan2d.php
+Road/rail, land cover, landslide, water bodies, cadastral boundary and other visual layers
+Map visualization and spatial context
+Sentinel-2
+Copernicus Data Space – https://dataspace.copernicus.eu/
+Sentinel-2 Level-2A surface reflectance imagery for the pilot region
+NDVI/NDWI/NDBI, change detection, ML features
+Landsat
+USGS EarthExplorer – https://earthexplorer.usgs.gov/
+Landsat historical imagery for longer time-series where useful
+Historical land-change analysis
+Indian government open data
+OGD India – https://www.data.gov.in/
+Land, population, infrastructure, environment, agriculture and other relevant catalogues
+Cross-domain indicators
+Rainfall
+OGD India – https://data.gov.in/catalog/rainfall-india
+Monthly/seasonal rainfall and departures from normal; use district/subdivision data where appropriate
+Climate features and risk indicators
+District rainfall
+OGD India – https://www.data.gov.in/catalog/rainfall
+District/station/gridded rainfall resources available through the catalogue
+Temporal climate analysis
+Population
+OGD India / Census resources – https://www.data.gov.in/
+Population, density, rural/urban distribution, literacy and related indicators
+Social-impact features
+Land administration
+DILRMP MIS – https://dilrmp.gov.in/dilrmpold/
+Public programme KPIs and authorized land-record information; do not scrape or expose sensitive records
+Context, programme indicators and integration design
+OpenStreetMap
+https://www.openstreetmap.org/
+Roads, buildings, POIs, infrastructure and transport features
+Accessibility and infrastructure features
+Research corpus
+Google Scholar / institutional repositories / government publications
+Research papers, reports, case studies and metadata; download only permitted documents
+RAG knowledge base
+Policy corpus
+Department of Land Resources + state government policy portals
+Acts, policies, schemes, guidelines, notifications and reports
+Policy RAG and scenario context
+29. Dataset Priority – What the Team Should Actually Download
+Do not collect everything at once. For the first model, use the following minimum dataset stack:
+1. One pilot-region boundary layer.
+2. Bhuvan LULC layers for at least two or three time points, where coverage permits.
+3. Sentinel-2 imagery for selected dates/seasons.
+4. Roads and major infrastructure from OpenStreetMap or authorized government layers.
+5. Population/socioeconomic indicators at a compatible administrative level.
+6. Rainfall or selected hazard data.
+7. A curated research corpus of land-governance papers/reports.
+8. A curated policy corpus.
+9. Synthetic parcel/cadastral data if parcel-level demonstration is required and authorized data is unavailable.
+30. Data Model / Common Schema
+Entity
+Key Fields
+Location
+location_id, state, district, taluk, village/ULB, geometry
+LULC
+location_id, year, class, area_sqkm, source, resolution
+SatelliteFeature
+location_id, date, NDVI, NDWI, NDBI, cloud_score, source
+Infrastructure
+feature_id, type, geometry, status, source
+Climate
+location_id, date/year, rainfall_mm, anomaly, source
+Socioeconomic
+location_id, year, population, density, indicator_1...
+ResearchDocument
+doc_id, title, authors, year, abstract, location_tags, topics, source_url, permissions
+PolicyDocument
+policy_id, title, year, jurisdiction, sector, objective, target_area, status, source_url
+Scenario
+scenario_id, assumptions, affected_area, model_version, indicators
+Evidence
+evidence_id, entity_id, source_id, confidence, provenance
+31. Data Preprocessing Pipeline
+Use a reproducible pipeline rather than manually editing files:
+Raw Source → Download/Connector → Schema Validation → CRS Standardization → Missing-Value Handling → Spatial Join → Feature Engineering → Quality Checks → Versioned Storage → Model/Analytics Layer
+Standardize all spatial data to a documented CRS; avoid mixing coordinate systems silently.
+Keep original raw files untouched and create processed versions separately.
+Record source, date accessed, spatial resolution, temporal coverage and license/permission.
+For raster data, clip to the pilot area and use cloud masking for optical imagery.
+Use consistent class labels for LULC across years before calculating change.
+Do not combine datasets at incompatible spatial scales without documenting aggregation or interpolation.
+Keep a data-quality score for every major dataset.
+32. Model Strategy – Build an Excellent System, Not Just One Model
+The project should be a multi-model decision-support system. Do not claim that one AI model solves land governance. Use specialized models for specialized tasks and combine their outputs through a transparent evidence layer.
+Model
+Recommended Approach
+Input
+Output
+LULC classification
+Random Forest baseline → XGBoost / deep learning comparison if data supports it
+Spectral bands + indices + terrain/context features
+Land-use class probabilities
+Land-use change
+Temporal change matrix + ML transition model
+LULC history + socioeconomic + infrastructure
+Transition probabilities / change hotspots
+Urban expansion
+Gradient Boosting / Random Forest; optionally spatial ML
+Built-up history + roads + population + proximity features
+Expansion probability / hotspot map
+Risk scoring
+Calibrated ML or weighted evidence model
+Land change + climate + population + infrastructure
+Risk score with contributing factors
+Policy scenario
+Scenario engine + predictive model
+Baseline + policy assumptions
+Projected indicator ranges
+Document retrieval
+Embedding retrieval + reranking + RAG
+Research/policy corpus
+Cited evidence and synthesis
+Knowledge graph
+Graph database / graph model
+Entities and relationships
+Connected evidence and explainability
+33. Recommended Primary ML Model – Land-Use Change / Urban Expansion
+For an SIH prototype, use a strong tabular/spatial ML pipeline rather than trying to train a huge deep-learning model from scratch. Start with a Random Forest baseline, then compare XGBoost/LightGBM if the dataset size and licensing permit. If high-quality labelled imagery is available, add a segmentation/classification model as a secondary experiment.
+Example features:
+Previous LULC class
+NDVI, NDWI, NDBI and selected spectral bands
+Elevation and slope if available
+Distance to roads
+Distance to major infrastructure
+Population density
+Population growth
+Rainfall / climate indicators
+Distance to urban centres
+Historical land-use transition frequency
+Administrative and planning indicators where legally/technically appropriate
+34. Model Training Prompt / Specification
+Use the following as the master instruction for the AI/data-science team when implementing the predictive model:
+MASTER MODEL DEVELOPMENT PROMPTYou are the lead geospatial machine-learning engineer for a national land-governance decision-support platform. Build a production-quality, reproducible and explainable land-use change / urban expansion prediction pipeline for a clearly defined pilot region.OBJECTIVEPredict the probability that each spatial unit will undergo a specified land-use transition (for example, agricultural → built-up) during the next analysis period, and produce a calibrated risk/probability map that can be used as one input to policy scenario analysis.DATAUse only documented datasets with provenance. Combine historical LULC labels, satellite-derived spectral indices, infrastructure proximity, population/socioeconomic indicators, climate/hazard indicators and terrain/context variables where available.REQUIREMENTS1. Perform rigorous spatial and temporal data validation.2. Harmonize CRS, resolution, spatial extent and temporal coverage.3. Prevent data leakage: future-year variables must never enter training features for a past prediction.4. Split train/validation/test data spatially and/or temporally so that nearby pixels or polygons do not create unrealistic leakage.5. Establish a simple baseline before advanced models.6. Train at least two candidate models and compare them using appropriate metrics.7. Report precision, recall, F1, ROC-AUC/PR-AUC where appropriate, calibration error and confusion matrix for classification.8. For spatial predictions, report spatially meaningful validation results and visually inspect error hotspots.9. Calibrate probabilities when necessary.10. Use SHAP or another suitable explainability method to identify major drivers.11. Provide uncertainty/confidence with every prediction; do not output unsupported certainty.12. Save preprocessing, feature definitions, model version, training period, dataset versions and evaluation results.13. Create reproducible scripts/configuration for training and inference.14. Export prediction layers in a GIS-compatible format.15. Build an inference API that accepts a region/time/scenario and returns predictions plus explanations.16. Include data-quality checks and fail safely when required features are missing.17. Document limitations and assumptions.18. Never present model output as a guaranteed future outcome. It is decision-support evidence.MODEL SELECTIONStart with Random Forest as a robust baseline. Compare with XGBoost/LightGBM if suitable. Use a deep-learning remote-sensing model only when labelled imagery and sufficient training data justify it.DELIVERABLES- cleaned feature dataset- preprocessing pipeline- trained baseline model- trained candidate model- validation report- calibration report- explainability report- prediction GeoTIFF/GeoPackage/GeoJSON as appropriate- model metadata- inference API- reproducible training script- model card describing intended use, limitations, data sources and known risksQUALITY BARThe model must be reproducible, spatially validated, explainable, calibrated where possible, versioned and conservative in its claims. Optimize for trustworthy decision support, not only the highest single accuracy number.
+35. RAG / Research Copilot Master Prompt
+Use this prompt for the land-governance research assistant:
+MASTER RAG PROMPTYou are an evidence-grounded Land Governance Research Copilot. Answer only from retrieved and authorized documents/data. Never invent laws, statistics, research findings, policy provisions, dataset values or citations.For every answer:1. Identify the user's research question and geographic scope.2. Retrieve relevant research papers, government documents, policy documents and dataset metadata.3. Prefer authoritative government and primary research sources.4. Rank sources by relevance, authority, date and geographic applicability.5. Clearly distinguish observed facts, research findings, model estimates and assumptions.6. Cite each material claim to its source document or dataset.7. If evidence conflicts, explicitly show the conflict and explain possible reasons.8. If evidence is insufficient, say so.9. For GIS questions, return the relevant spatial layer/entity and the evidence supporting it.10. For policy questions, summarize policy objective, jurisdiction, target population/area, evidence of outcomes and limitations.11. Never provide a definitive policy decision. Provide evidence and scenario options for human review.12. Return a concise answer first, followed by evidence, sources, assumptions and limitations.OUTPUT FORMAT- Answer- Key Evidence- Relevant Locations / GIS Layers- Relevant Policies- Relevant Research- Confidence / Evidence Quality- Assumptions- Limitations- Sources
+36. Policy Simulation Prompt / Specification
+POLICY SCENARIO ENGINE PROMPTYou are a policy-analysis engine for land governance. Compare alternative scenarios using only validated baseline data and explicitly supplied assumptions.For each scenario:1. Define the intervention and geographic scope.2. State all assumptions.3. Identify affected land-use classes and populations.4. Estimate changes in selected indicators.5. Provide uncertainty ranges where the model supports them.6. Compare against a baseline/no-policy scenario.7. Show positive and negative impacts.8. Identify potentially affected groups/areas.9. Link each major assumption to its source or evidence.10. Never claim causal certainty when the model only provides association or scenario projection.11. Return a transparent comparison table and GIS-ready output.12. Mark the result as decision support requiring expert/government validation.
+37. Model Evaluation – What Counts as 'Excellent'
+Area
+Target Practice
+Accuracy
+Use task-appropriate metrics; do not rely only on accuracy.
+Spatial generalization
+Spatial holdout or spatial cross-validation where feasible.
+Temporal generalization
+Test on a later time period where labels exist.
+Calibration
+Check whether predicted probabilities correspond to observed frequencies.
+Explainability
+SHAP/feature importance + map-based explanation.
+Robustness
+Sensitivity tests to missing/noisy features and alternate periods.
+Reproducibility
+Version datasets, code, preprocessing and model artifacts.
+Fairness / social impact
+Inspect whether high-risk predictions systematically affect particular populations/areas.
+Human oversight
+Keep policy decisions with authorized experts.
+Provenance
+Every important AI claim should trace back to data/source/model version.
+38. Suggested Model Evaluation Dashboard
+Dashboard Panel
+Display
+Model performance
+F1, precision, recall, ROC-AUC/PR-AUC where applicable
+Calibration
+Reliability plot / calibration score
+Spatial accuracy
+Actual vs predicted map
+Error analysis
+False-positive / false-negative hotspots
+Feature importance
+Top drivers and SHAP summary
+Uncertainty
+Prediction confidence / uncertainty layer
+Data quality
+Missingness, coverage, freshness, source quality
+Model version
+Training period, dataset version, model hash/version
+39. Research / Document Dataset Preparation
+For the RAG corpus, create a manifest before ingestion.
+Field
+Example
+doc_id
+R001
+title
+Land-use change study
+source_type
+Government / Journal / University
+publisher
+Organization name
+year
+2025
+jurisdiction
+Tamil Nadu / India
+topics
+LULC, urbanization, agriculture
+locations
+District names / coordinates if available
+url
+Official/public source
+access_permission
+Public / licensed / internal
+text_hash
+SHA-256
+embedding_version
+v1
+chunking_version
+v1
+40. Data Sources – Links to Put in the Team's Working Sheet
+Resource
+Link
+Bhuvan Store / Thematic datasets
+https://bhuvan-app1.nrsc.gov.in/2dresources/bhuvanstore.php
+Bhuvan 2D
+https://bhuvan-app1.nrsc.gov.in/bhuvan2d/bhuvan/bhuvan2d.php
+Bhuvan main portal
+https://bhuvan.nrsc.gov.in/
+Copernicus Data Space Ecosystem
+https://dataspace.copernicus.eu/
+Sentinel-2 products information
+https://sentinels.copernicus.eu/sentinel-data-access/sentinel-products/sentinel-2-data-products
+USGS EarthExplorer
+https://earthexplorer.usgs.gov/
+India Open Government Data
+https://www.data.gov.in/
+Rainfall catalogue – India
+https://data.gov.in/catalog/rainfall-india
+Rainfall catalogue
+https://www.data.gov.in/catalog/rainfall
+District rainfall normal
+https://www.data.gov.in/catalog/district-rainfall-normal-mm-monthly-seasonal-and-annual-data-period-1951-2000
+DILRMP MIS
+https://dilrmp.gov.in/dilrmpold/
+OpenStreetMap
+https://www.openstreetmap.org/
+Census / population resources via OGD
+https://www.data.gov.in/
+Department of Land Resources
+https://dolr.gov.in/
+41. Important Data-Access Notes
+Bhuvan exposes multiple thematic layers and services, including LULC at different scales and periods; some data products have specific download/request procedures. Check the dataset's stated access conditions before redistribution. 
+Bhuvan notes that georeferenced cadastral data in its portal is for planning/development purposes and is not valid for legal measurements or regulatory applications. Do not present it as authoritative legal ownership data.
+Copernicus states that Sentinel data are available on a free, full and open basis subject to its terms; use the official Data Space for current access.
+For government land records, use only authorized/public information. Do not scrape or expose personally identifiable ownership information.
+For research papers, respect copyright and repository/licensing conditions. Store metadata and permitted text; do not assume every PDF can be redistributed.
+For prototype satellite processing, downloading only the pilot region and selected time periods is much more practical than creating a national archive.
+42. Recommended First Model Experiment
+For the first serious experiment, use a single pilot district/urban region and predict one transition: agricultural → built-up. This is easier to explain, evaluate and visualize than attempting all possible land-use transitions simultaneously.
+Step
+Action
+1
+Select pilot region and define spatial unit.
+2
+Collect two or three historical LULC layers.
+3
+Collect Sentinel-2 imagery for comparable seasons.
+4
+Calculate NDVI, NDWI, NDBI and selected spectral features.
+5
+Join road/infrastructure and population features.
+6
+Create labels from observed LULC transition.
+7
+Train Random Forest baseline.
+8
+Train XGBoost/LightGBM comparison if appropriate.
+9
+Perform spatial/temporal validation.
+10
+Calibrate probabilities and explain drivers.
+11
+Generate a future transition-risk map.
+12
+Feed the risk map into the policy scenario module.
+43. Final End-to-End Model Architecture
+Data Sources → Data Lake/Object Storage → ETL/Validation → PostgreSQL + PostGIS → Feature Store/Analytics → ML Models + RAG + Knowledge Graph → Policy Scenario Engine → GIS/Decision Dashboard → Human Review
+The AI layer should therefore contain three cooperating intelligence systems: (1) predictive geospatial ML, (2) evidence-grounded research/policy RAG, and (3) transparent scenario simulation. This is stronger than using a generic LLM as the entire system.
+44. Final Team Deliverables
+Curated and documented pilot datasets.
+Data dictionary and provenance sheet.
+Automated preprocessing pipeline.
+LULC/land-change model with evaluation report.
+RAG research/policy assistant with citations.
+GIS dashboard with historical/current layers.
+One policy scenario simulator.
+Evidence/knowledge graph.
+Model card and limitations document.
+API documentation.
+Demo script showing a complete policy question from evidence to scenario comparison.
+45. Final Positioning
+The project should be presented as a national-scale architecture demonstrated through a focused pilot. The prototype does not need every land dataset in India. Its strength should be the ability to combine heterogeneous evidence, analyze it spatially, retrieve research with citations, model a defined land-use transition and compare policy scenarios transparently.
+46. Sources Verified for This Document
+Official/source pages checked during preparation include Bhuvan/NRSC thematic services, Copernicus Sentinel access, DILRMP MIS, India Open Government Data rainfall and population resources, and related official portals. The current source pages confirm that Bhuvan provides multiple LULC periods/scales and thematic layers, Copernicus provides Sentinel access, and OGD India provides rainfall and demographic datasets.
+Bhuvan thematic services and LULC availability: https://bhuvan-app1.nrsc.gov.in/2dresources/bhuvanstore.php
+Bhuvan 2D layers: https://bhuvan-app1.nrsc.gov.in/bhuvan2d/bhuvan/bhuvan2d.php
+Copernicus Sentinel access: https://dataspace.copernicus.eu/
+Sentinel-2 products: https://sentinels.copernicus.eu/sentinel-data-access/sentinel-products/sentinel-2-data-products
+DILRMP MIS: https://dilrmp.gov.in/dilrmpold/
+India OGD rainfall: https://data.gov.in/catalog/rainfall-india
+India OGD rainfall catalogue: https://www.data.gov.in/catalog/rainfall
+India OGD population resources: https://www.data.gov.in/

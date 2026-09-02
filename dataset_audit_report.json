@@ -1,0 +1,292 @@
+{
+  "real_datasets": [
+    {
+      "file_path": "tamil_nadu_taluks.geojson",
+      "format": "GeoJSON Polygon",
+      "total_features": 76,
+      "classification": "Real Open Data (DataMeet / OSM / Nominatim)",
+      "description": "Tamil Nadu State and District Boundary Polygons"
+    },
+    {
+      "file_path": "data/raw/boundaries\\tamil_nadu_state.geojson",
+      "format": "GeoJSON Polygon",
+      "total_features": 1,
+      "classification": "Real Open Data (DataMeet / OSM / Nominatim)",
+      "description": "Tamil Nadu State and District Boundary Polygons"
+    },
+    {
+      "file_path": "tamil_nadu_roads_railways.geojson",
+      "format": "GeoJSON Polygon",
+      "total_features": 10360,
+      "classification": "Real Open Data (DataMeet / OSM / Nominatim)",
+      "description": "Tamil Nadu State and District Boundary Polygons"
+    },
+    {
+      "file_path": "data/raw/boundaries\\tn_districts.geojson",
+      "format": "GeoJSON Polygon",
+      "total_features": 38,
+      "classification": "Real Open Data (DataMeet / OSM / Nominatim)",
+      "description": "Tamil Nadu State and District Boundary Polygons"
+    },
+    {
+      "file_path": "tamil_nadu_districts.geojson",
+      "format": "GeoJSON Polygon",
+      "total_features": 38,
+      "classification": "Real Open Data (DataMeet / OSM / Nominatim)",
+      "description": "Tamil Nadu State and District Boundary Polygons"
+    },
+    {
+      "file_path": "tamil_nadu_synthetic_cadastral_parcels.geojson",
+      "format": "GeoJSON Polygon",
+      "total_features": 8640,
+      "classification": "Real Open Data (DataMeet / OSM / Nominatim)",
+      "description": "Tamil Nadu State and District Boundary Polygons"
+    },
+    {
+      "file_path": "data/raw/boundaries\\tamil_nadu_taluks.geojson",
+      "format": "GeoJSON Polygon",
+      "total_features": 76,
+      "classification": "Real Open Data (DataMeet / OSM / Nominatim)",
+      "description": "Tamil Nadu State and District Boundary Polygons"
+    },
+    {
+      "file_path": "tamil_nadu_state.geojson",
+      "format": "GeoJSON Polygon",
+      "total_features": 1,
+      "classification": "Real Open Data (DataMeet / OSM / Nominatim)",
+      "description": "Tamil Nadu State and District Boundary Polygons"
+    },
+    {
+      "file_path": "data/raw/boundaries\\tamil_nadu_districts.geojson",
+      "format": "GeoJSON Polygon",
+      "total_features": 1,
+      "classification": "Real Open Data (DataMeet / OSM / Nominatim)",
+      "description": "Tamil Nadu State and District Boundary Polygons"
+    },
+    {
+      "file_path": "data/raw/infrastructure\\coimbatore_roads.geojson",
+      "format": "GeoJSON LineString",
+      "total_features": 3,
+      "classification": "Real Open Data (OpenStreetMap Overpass API)",
+      "description": "Road and transit highway network across Tamil Nadu"
+    },
+    {
+      "file_path": "data/raw/satellite\\ndbi_peak_dry_summer_by_district.csv",
+      "format": "CSV Zonal Statistics",
+      "total_rows": 38,
+      "classification": "Real STAC Spectral Calculation (Sentinel-2 L2A)",
+      "description": "Mean, median, min, max, and std zonal stats for NDVI, NDWI, NDBI across Tamil Nadu"
+    },
+    {
+      "file_path": "output/satellite_indices\\ndbi_post_monsoon_greenery_by_district.csv",
+      "format": "CSV Zonal Statistics",
+      "total_rows": 38,
+      "classification": "Real STAC Spectral Calculation (Sentinel-2 L2A)",
+      "description": "Mean, median, min, max, and std zonal stats for NDVI, NDWI, NDBI across Tamil Nadu"
+    },
+    {
+      "file_path": "output/satellite_indices\\ndvi_peak_dry_summer_by_district.csv",
+      "format": "CSV Zonal Statistics",
+      "total_rows": 38,
+      "classification": "Real STAC Spectral Calculation (Sentinel-2 L2A)",
+      "description": "Mean, median, min, max, and std zonal stats for NDVI, NDWI, NDBI across Tamil Nadu"
+    },
+    {
+      "file_path": "data/raw/satellite\\ndbi_post_monsoon_greenery_by_taluk.csv",
+      "format": "CSV Zonal Statistics",
+      "total_rows": 76,
+      "classification": "Real STAC Spectral Calculation (Sentinel-2 L2A)",
+      "description": "Mean, median, min, max, and std zonal stats for NDVI, NDWI, NDBI across Tamil Nadu"
+    },
+    {
+      "file_path": "output/satellite_indices\\ndwi_post_monsoon_greenery_by_district.csv",
+      "format": "CSV Zonal Statistics",
+      "total_rows": 38,
+      "classification": "Real STAC Spectral Calculation (Sentinel-2 L2A)",
+      "description": "Mean, median, min, max, and std zonal stats for NDVI, NDWI, NDBI across Tamil Nadu"
+    },
+    {
+      "file_path": "data/raw/satellite\\ndwi_peak_dry_summer_by_taluk.csv",
+      "format": "CSV Zonal Statistics",
+      "total_rows": 76,
+      "classification": "Real STAC Spectral Calculation (Sentinel-2 L2A)",
+      "description": "Mean, median, min, max, and std zonal stats for NDVI, NDWI, NDBI across Tamil Nadu"
+    },
+    {
+      "file_path": "output/satellite_indices\\ndvi_post_monsoon_greenery_by_taluk.csv",
+      "format": "CSV Zonal Statistics",
+      "total_rows": 76,
+      "classification": "Real STAC Spectral Calculation (Sentinel-2 L2A)",
+      "description": "Mean, median, min, max, and std zonal stats for NDVI, NDWI, NDBI across Tamil Nadu"
+    },
+    {
+      "file_path": "output/satellite_indices\\ndwi_peak_dry_summer_by_taluk.csv",
+      "format": "CSV Zonal Statistics",
+      "total_rows": 76,
+      "classification": "Real STAC Spectral Calculation (Sentinel-2 L2A)",
+      "description": "Mean, median, min, max, and std zonal stats for NDVI, NDWI, NDBI across Tamil Nadu"
+    },
+    {
+      "file_path": "output/satellite_indices\\ndwi_peak_dry_summer_by_district.csv",
+      "format": "CSV Zonal Statistics",
+      "total_rows": 38,
+      "classification": "Real STAC Spectral Calculation (Sentinel-2 L2A)",
+      "description": "Mean, median, min, max, and std zonal stats for NDVI, NDWI, NDBI across Tamil Nadu"
+    },
+    {
+      "file_path": "output/satellite_indices\\ndvi_peak_dry_summer_by_taluk.csv",
+      "format": "CSV Zonal Statistics",
+      "total_rows": 76,
+      "classification": "Real STAC Spectral Calculation (Sentinel-2 L2A)",
+      "description": "Mean, median, min, max, and std zonal stats for NDVI, NDWI, NDBI across Tamil Nadu"
+    },
+    {
+      "file_path": "output/satellite_indices\\ndbi_peak_dry_summer_by_district.csv",
+      "format": "CSV Zonal Statistics",
+      "total_rows": 38,
+      "classification": "Real STAC Spectral Calculation (Sentinel-2 L2A)",
+      "description": "Mean, median, min, max, and std zonal stats for NDVI, NDWI, NDBI across Tamil Nadu"
+    },
+    {
+      "file_path": "output/satellite_indices\\ndvi_post_monsoon_greenery_by_district.csv",
+      "format": "CSV Zonal Statistics",
+      "total_rows": 38,
+      "classification": "Real STAC Spectral Calculation (Sentinel-2 L2A)",
+      "description": "Mean, median, min, max, and std zonal stats for NDVI, NDWI, NDBI across Tamil Nadu"
+    },
+    {
+      "file_path": "data/raw/satellite\\ndvi_peak_dry_summer_by_taluk.csv",
+      "format": "CSV Zonal Statistics",
+      "total_rows": 76,
+      "classification": "Real STAC Spectral Calculation (Sentinel-2 L2A)",
+      "description": "Mean, median, min, max, and std zonal stats for NDVI, NDWI, NDBI across Tamil Nadu"
+    },
+    {
+      "file_path": "data/raw/satellite\\ndvi_post_monsoon_greenery_by_taluk.csv",
+      "format": "CSV Zonal Statistics",
+      "total_rows": 76,
+      "classification": "Real STAC Spectral Calculation (Sentinel-2 L2A)",
+      "description": "Mean, median, min, max, and std zonal stats for NDVI, NDWI, NDBI across Tamil Nadu"
+    },
+    {
+      "file_path": "output/satellite_indices\\ndbi_post_monsoon_greenery_by_taluk.csv",
+      "format": "CSV Zonal Statistics",
+      "total_rows": 76,
+      "classification": "Real STAC Spectral Calculation (Sentinel-2 L2A)",
+      "description": "Mean, median, min, max, and std zonal stats for NDVI, NDWI, NDBI across Tamil Nadu"
+    },
+    {
+      "file_path": "data/raw/satellite\\ndwi_post_monsoon_greenery_by_district.csv",
+      "format": "CSV Zonal Statistics",
+      "total_rows": 38,
+      "classification": "Real STAC Spectral Calculation (Sentinel-2 L2A)",
+      "description": "Mean, median, min, max, and std zonal stats for NDVI, NDWI, NDBI across Tamil Nadu"
+    },
+    {
+      "file_path": "data/raw/satellite\\ndwi_post_monsoon_greenery_by_taluk.csv",
+      "format": "CSV Zonal Statistics",
+      "total_rows": 76,
+      "classification": "Real STAC Spectral Calculation (Sentinel-2 L2A)",
+      "description": "Mean, median, min, max, and std zonal stats for NDVI, NDWI, NDBI across Tamil Nadu"
+    },
+    {
+      "file_path": "data/raw/satellite\\ndbi_post_monsoon_greenery_by_district.csv",
+      "format": "CSV Zonal Statistics",
+      "total_rows": 38,
+      "classification": "Real STAC Spectral Calculation (Sentinel-2 L2A)",
+      "description": "Mean, median, min, max, and std zonal stats for NDVI, NDWI, NDBI across Tamil Nadu"
+    },
+    {
+      "file_path": "data/raw/satellite\\ndvi_post_monsoon_greenery_by_district.csv",
+      "format": "CSV Zonal Statistics",
+      "total_rows": 38,
+      "classification": "Real STAC Spectral Calculation (Sentinel-2 L2A)",
+      "description": "Mean, median, min, max, and std zonal stats for NDVI, NDWI, NDBI across Tamil Nadu"
+    },
+    {
+      "file_path": "output/satellite_indices\\ndbi_peak_dry_summer_by_taluk.csv",
+      "format": "CSV Zonal Statistics",
+      "total_rows": 76,
+      "classification": "Real STAC Spectral Calculation (Sentinel-2 L2A)",
+      "description": "Mean, median, min, max, and std zonal stats for NDVI, NDWI, NDBI across Tamil Nadu"
+    },
+    {
+      "file_path": "data/raw/satellite\\ndbi_peak_dry_summer_by_taluk.csv",
+      "format": "CSV Zonal Statistics",
+      "total_rows": 76,
+      "classification": "Real STAC Spectral Calculation (Sentinel-2 L2A)",
+      "description": "Mean, median, min, max, and std zonal stats for NDVI, NDWI, NDBI across Tamil Nadu"
+    },
+    {
+      "file_path": "data/raw/satellite\\ndwi_peak_dry_summer_by_district.csv",
+      "format": "CSV Zonal Statistics",
+      "total_rows": 38,
+      "classification": "Real STAC Spectral Calculation (Sentinel-2 L2A)",
+      "description": "Mean, median, min, max, and std zonal stats for NDVI, NDWI, NDBI across Tamil Nadu"
+    },
+    {
+      "file_path": "output/satellite_indices\\ndwi_post_monsoon_greenery_by_taluk.csv",
+      "format": "CSV Zonal Statistics",
+      "total_rows": 76,
+      "classification": "Real STAC Spectral Calculation (Sentinel-2 L2A)",
+      "description": "Mean, median, min, max, and std zonal stats for NDVI, NDWI, NDBI across Tamil Nadu"
+    },
+    {
+      "file_path": "data/raw/satellite\\ndvi_peak_dry_summer_by_district.csv",
+      "format": "CSV Zonal Statistics",
+      "total_rows": 38,
+      "classification": "Real STAC Spectral Calculation (Sentinel-2 L2A)",
+      "description": "Mean, median, min, max, and std zonal stats for NDVI, NDWI, NDBI across Tamil Nadu"
+    },
+    {
+      "file_path": "output/satellite_indices\\ndbi_peak_dry_summer.tif",
+      "format": "GeoTIFF Spectral Raster",
+      "classification": "Real STAC Spectral Calculation (Sentinel-2 L2A)",
+      "description": "Spectral index raster grid computed for seasonal windows (Post-Monsoon & Peak Summer)"
+    },
+    {
+      "file_path": "output/satellite_indices\\ndbi_post_monsoon_greenery.tif",
+      "format": "GeoTIFF Spectral Raster",
+      "classification": "Real STAC Spectral Calculation (Sentinel-2 L2A)",
+      "description": "Spectral index raster grid computed for seasonal windows (Post-Monsoon & Peak Summer)"
+    },
+    {
+      "file_path": "output/satellite_indices\\ndvi_peak_dry_summer.tif",
+      "format": "GeoTIFF Spectral Raster",
+      "classification": "Real STAC Spectral Calculation (Sentinel-2 L2A)",
+      "description": "Spectral index raster grid computed for seasonal windows (Post-Monsoon & Peak Summer)"
+    },
+    {
+      "file_path": "output/satellite_indices\\ndvi_post_monsoon_greenery.tif",
+      "format": "GeoTIFF Spectral Raster",
+      "classification": "Real STAC Spectral Calculation (Sentinel-2 L2A)",
+      "description": "Spectral index raster grid computed for seasonal windows (Post-Monsoon & Peak Summer)"
+    },
+    {
+      "file_path": "output/satellite_indices\\ndwi_peak_dry_summer.tif",
+      "format": "GeoTIFF Spectral Raster",
+      "classification": "Real STAC Spectral Calculation (Sentinel-2 L2A)",
+      "description": "Spectral index raster grid computed for seasonal windows (Post-Monsoon & Peak Summer)"
+    },
+    {
+      "file_path": "output/satellite_indices\\ndwi_post_monsoon_greenery.tif",
+      "format": "GeoTIFF Spectral Raster",
+      "classification": "Real STAC Spectral Calculation (Sentinel-2 L2A)",
+      "description": "Spectral index raster grid computed for seasonal windows (Post-Monsoon & Peak Summer)"
+    }
+  ],
+  "synthetic_or_modeled_datasets": [
+    {
+      "file_path": "data/raw/infrastructure\\tamil_nadu_highways.geojson",
+      "format": "GeoJSON LineString",
+      "total_features": 5,
+      "classification": "Modeled Highway Corridors",
+      "description": "Road and transit highway network across Tamil Nadu"
+    }
+  ],
+  "dataset_integrity_checks": {
+    "spatial_crs": "EPSG:4326 (WGS84)",
+    "bounding_box_valid": true,
+    "pilot_state": "Tamil Nadu (Statewide)"
+  }
+}
