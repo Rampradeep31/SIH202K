@@ -15,7 +15,7 @@ import math
 import random
 from typing import Dict, List, Any
 
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 TN_DATASET_DIR = os.path.join(BASE_DIR, "tamil_nadu_dataset")
 DATA_DIR = os.path.join(BASE_DIR, "data")
 PROCESSED_MASTER = os.path.join(DATA_DIR, "processed", "spatial_master.geojson")
@@ -35,12 +35,15 @@ for sf in sat_files:
     with open(sf, "r", encoding="utf-8") as f:
         reader = csv.DictReader(f)
         for r in reader:
-            dist = r.get("district")
+            dist = r.get("district", "").strip('"\t ')
             if dist:
-                SAT_STATS_DISTRICT.setdefault(dist, {})[key] = {
-                    "mean": float(r["mean"]), "median": float(r["median"]),
-                    "min": float(r["min"]), "max": float(r["max"]), "std": float(r["std"])
-                }
+                try:
+                    SAT_STATS_DISTRICT.setdefault(dist, {})[key] = {
+                        "mean": float(r["mean"]), "median": float(r["median"]),
+                        "min": float(r["min"]), "max": float(r["max"]), "std": float(r["std"])
+                    }
+                except (ValueError, KeyError):
+                    pass
 
 # All 38 Districts of Tamil Nadu with Centroids, Taluks, and Real Attributes
 TAMIL_NADU_DISTRICTS = [
@@ -327,47 +330,109 @@ TIRUPPUR_TALUKS = [
 def _load_real_parcels() -> List[Dict[str, Any]]:
     random.seed(42)
     parcels = []
-    cad_file = os.path.join(TN_DATASET_DIR, "tamil_nadu_synthetic_cadastral_parcels.geojson")
-    if os.path.exists(cad_file):
-        with open(cad_file, "r", encoding="utf-8") as f:
-            data = json.load(f)
-            for idx, feat in enumerate(data.get("features", [])[:320], 1):
-                props = feat.get("properties", {})
-                coords = feat.get("geometry", {}).get("coordinates", [[]])[0]
-                if coords:
-                    lons = [c[0] for c in coords]
-                    lats = [c[1] for c in coords]
-                    clon = sum(lons) / len(lons)
-                    clat = sum(lats) / len(lats)
-                    
-                    parcels.append({
-                        "cell_id": f"TP-{idx:04d}",
-                        "taluk": props.get("taluk", "Tiruppur North"),
-                        "lat": round(clat, 5),
-                        "lon": round(clon, 5),
-                        "area_ha": round(props.get("area_sqm", 25000) / 10000.0, 1),
-                        "lulc_2018": "Agriculture",
-                        "lulc_2023": props.get("land_use", "Agriculture"),
-                        "transition_type": f"Agriculture -> {props.get('land_use', 'Agriculture')}",
-                        "converted_agri_to_built": 1 if props.get("land_use") == "Built-up" else 0,
-                        "ndvi_2018": 0.52,
-                        "ndvi_2023": 0.48 if props.get("land_use") == "Agriculture" else 0.14,
-                        "ndbi_2018": -0.25,
-                        "ndbi_2023": 0.25 if props.get("land_use") == "Built-up" else -0.22,
-                        "ndwi_2023": 0.08,
-                        "ndvi_delta": round((0.48 if props.get("land_use") == "Agriculture" else 0.14) - 0.52, 3),
-                        "ndbi_delta": round((0.25 if props.get("land_use") == "Built-up" else -0.22) - (-0.25), 3),
-                        "dist_to_nh_km": 2.5,
-                        "dist_to_rail_km": 3.0,
-                        "dist_to_urban_center_km": 4.5,
-                        "groundwater_status": "Critical",
-                        "soil_quality_score": 75.0,
-                        "pop_density_sqkm": 850,
-                        "slope_pct": 2.5,
-                        "polygon": coords
-                    })
     
-    # Fallback generator if CAD file yields empty
+    # Tiruppur key geographic points for spatial distance calculations
+    URBAN_CORE = (11.1075, 77.3411)  # Tiruppur City Core
+    RAIL_STATION = (11.1020, 77.3460)  # Main Tiruppur Railway Junction
+    # NH-544 (Salem-Coimbatore Highway corridor segment in Tiruppur)
+    NH544_LINE = [(11.193, 77.269), (11.160, 77.340), (11.140, 77.400)]
+    
+    def calculate_min_dist_to_nh(lat: float, lon: float) -> float:
+        min_d = float('inf')
+        for n_lat, n_lon in NH544_LINE:
+            d_lat = (lat - n_lat) * 111.0
+            d_lon = (lon - n_lon) * 111.0 * math.cos(math.radians(n_lat))
+            dist = math.sqrt(d_lat**2 + d_lon**2)
+            if dist < min_d:
+                min_d = dist
+        return round(min_d, 2)
+
+    def calculate_dist(lat1: float, lon1: float, lat2: float, lon2: float) -> float:
+        d_lat = (lat1 - lat2) * 111.0
+        d_lon = (lon1 - lon2) * 111.0 * math.cos(math.radians(lat2))
+        return round(math.sqrt(d_lat**2 + d_lon**2), 2)
+
+    cad_file = os.path.join(TN_DATASET_DIR, "tamil_nadu_synthetic_cadastral_parcels.geojson")
+    raw_features = []
+    if os.path.exists(cad_file):
+        try:
+            with open(cad_file, "r", encoding="utf-8") as f:
+                data = json.load(f)
+                raw_features = data.get("features", [])[:320]
+        except Exception:
+            raw_features = []
+
+    if raw_features:
+        for idx, feat in enumerate(raw_features, 1):
+            props = feat.get("properties", {})
+            coords = feat.get("geometry", {}).get("coordinates", [[]])[0]
+            if coords:
+                lons = [c[0] for c in coords]
+                lats = [c[1] for c in coords]
+                clon = sum(lons) / len(lons)
+                clat = sum(lats) / len(lats)
+                
+                # Spatial Distances
+                d_nh = calculate_min_dist_to_nh(clat, clon)
+                d_urban = calculate_dist(clat, clon, URBAN_CORE[0], URBAN_CORE[1])
+                d_rail = calculate_dist(clat, clon, RAIL_STATION[0], RAIL_STATION[1])
+                
+                # Synthetic/historical baseline LULC conversion logic
+                # Ensure balanced class distribution (0 and 1) for ML model training
+                conversion_score = max(0.0, 1.0 - (d_nh / 20.0) - (d_urban / 30.0))
+                noise = (random.random() - 0.5) * 0.4
+                is_converted = 1 if (idx % 3 == 0 or (conversion_score + noise) > 0.25) else 0
+                land_use_2023 = "Built-up" if is_converted else "Agriculture"
+                
+                # Spectral indices & deltas
+                ndvi_2018 = round(0.45 + (random.random() * 0.25), 3)
+                ndbi_2018 = round(-0.35 + (random.random() * 0.20), 3)
+                
+                if is_converted:
+                    ndvi_2023 = round(max(0.08, ndvi_2018 - 0.25 - (random.random() * 0.15)), 3)
+                    ndbi_2023 = round(min(0.45, ndbi_2018 + 0.35 + (random.random() * 0.15)), 3)
+                else:
+                    ndvi_2023 = round(ndvi_2018 - (random.random() * 0.04), 3)
+                    ndbi_2023 = round(ndbi_2018 + (random.random() * 0.03), 3)
+                    
+                ndvi_delta = round(ndvi_2023 - ndvi_2018, 3)
+                ndbi_delta = round(ndbi_2023 - ndbi_2018, 3)
+                
+                # Socio-demographic & Soil features
+                taluk_name = props.get("taluk", "Tiruppur North")
+                pop_density = 2400 if "North" in taluk_name or "South" in taluk_name else (1100 if "Avinashi" in taluk_name or "Palladam" in taluk_name else 650)
+                pop_density = int(pop_density + (random.random() - 0.5) * 200)
+                soil_score = round(82.0 - (d_urban * 1.5) + (random.random() * 10), 1)
+                slope = round(1.2 + (random.random() * 3.5), 1)
+
+                parcels.append({
+                    "cell_id": f"TP-{idx:04d}",
+                    "taluk": taluk_name,
+                    "lat": round(clat, 5),
+                    "lon": round(clon, 5),
+                    "area_ha": round(props.get("area_sqm", 25000) / 10000.0, 1),
+                    "lulc_2018": "Agriculture",
+                    "lulc_2023": land_use_2023,
+                    "transition_type": f"Agriculture -> {land_use_2023}",
+                    "converted_agri_to_built": is_converted,
+                    "ndvi_2018": ndvi_2018,
+                    "ndvi_2023": ndvi_2023,
+                    "ndbi_2018": ndbi_2018,
+                    "ndbi_2023": ndbi_2023,
+                    "ndwi_2023": round(0.05 + random.random()*0.10, 3),
+                    "ndvi_delta": ndvi_delta,
+                    "ndbi_delta": ndbi_delta,
+                    "dist_to_nh_km": d_nh,
+                    "dist_to_rail_km": d_rail,
+                    "dist_to_urban_center_km": d_urban,
+                    "groundwater_status": "Over-exploited" if d_urban < 8 else "Critical",
+                    "soil_quality_score": soil_score,
+                    "pop_density_sqkm": pop_density,
+                    "slope_pct": slope,
+                    "polygon": coords
+                })
+
+    # Fallback generator if empty
     if len(parcels) < 50:
         taluk_specs = [
             {"taluk": "Tiruppur North", "clat": 11.145, "clon": 77.341, "count": 50},
@@ -383,6 +448,23 @@ def _load_real_parcels() -> List[Dict[str, Any]]:
             for _ in range(spec["count"]):
                 lat = round(spec["clat"] + (random.random() - 0.5) * 0.12, 5)
                 lon = round(spec["clon"] + (random.random() - 0.5) * 0.12, 5)
+                
+                d_nh = calculate_min_dist_to_nh(lat, lon)
+                d_urban = calculate_dist(lat, lon, URBAN_CORE[0], URBAN_CORE[1])
+                d_rail = calculate_dist(lat, lon, RAIL_STATION[0], RAIL_STATION[1])
+                
+                is_converted = 1 if (d_nh < 4.0 or d_urban < 5.0) and random.random() < 0.70 else 0
+                
+                ndvi_2018 = round(0.50 + (random.random() * 0.20), 3)
+                ndbi_2018 = round(-0.30 + (random.random() * 0.15), 3)
+                
+                if is_converted:
+                    ndvi_2023 = round(ndvi_2018 - 0.30, 3)
+                    ndbi_2023 = round(ndbi_2018 + 0.40, 3)
+                else:
+                    ndvi_2023 = round(ndvi_2018 - 0.03, 3)
+                    ndbi_2023 = round(ndbi_2018 + 0.02, 3)
+                    
                 half_deg = 0.003
                 polygon_coords = [
                     [round(lon - half_deg, 5), round(lat - half_deg, 5)],
@@ -397,13 +479,14 @@ def _load_real_parcels() -> List[Dict[str, Any]]:
                     "lat": lat, "lon": lon,
                     "area_ha": 28.5,
                     "lulc_2018": "Agriculture",
-                    "lulc_2023": "Agriculture" if random.random() > 0.3 else "Built-up",
-                    "transition_type": "Agriculture -> Agriculture",
-                    "converted_agri_to_built": 1 if random.random() < 0.3 else 0,
-                    "ndvi_2018": 0.55, "ndvi_2023": 0.48,
-                    "ndbi_2018": -0.22, "ndbi_2023": -0.18, "ndwi_2023": 0.10,
-                    "ndvi_delta": -0.07, "ndbi_delta": 0.04,
-                    "dist_to_nh_km": 3.2, "dist_to_rail_km": 4.1, "dist_to_urban_center_km": 5.0,
+                    "lulc_2023": "Built-up" if is_converted else "Agriculture",
+                    "transition_type": f"Agriculture -> {'Built-up' if is_converted else 'Agriculture'}",
+                    "converted_agri_to_built": is_converted,
+                    "ndvi_2018": ndvi_2018, "ndvi_2023": ndvi_2023,
+                    "ndbi_2018": ndbi_2018, "ndbi_2023": ndbi_2023, "ndwi_2023": 0.10,
+                    "ndvi_delta": round(ndvi_2023 - ndvi_2018, 3),
+                    "ndbi_delta": round(ndbi_2023 - ndbi_2018, 3),
+                    "dist_to_nh_km": d_nh, "dist_to_rail_km": d_rail, "dist_to_urban_center_km": d_urban,
                     "groundwater_status": "Critical", "soil_quality_score": 72.0, "pop_density_sqkm": 920, "slope_pct": 2.1,
                     "polygon": polygon_coords
                 })

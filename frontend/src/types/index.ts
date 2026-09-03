@@ -95,6 +95,8 @@ export interface RAGSource {
   title: string;
   year: number;
   url: string;
+  verification_status?: string;
+  is_validated?: boolean;
 }
 
 export interface RAGResponse {

@@ -1,0 +1,587 @@
+[
+  {
+    "fact_id": "SOCIO_THIRUVALLUR",
+    "category": "socioeconomic",
+    "district": "Thiruvallur",
+    "statement": "Thiruvallur district had a population of 3,728,104 (Census 2011), population density of 1137.6 people/sq km, urban ratio of 65.41%, and literacy rate of 74.88%.",
+    "source": "Census of India 2011, Primary Census Abstract",
+    "source_url": "https://github.com/nishusharma1608/India-Census-2011-Analysis",
+    "verified": true
+  },
+  {
+    "fact_id": "SOCIO_CHENNAI",
+    "category": "socioeconomic",
+    "district": "Chennai",
+    "statement": "Chennai district had a population of 4,646,732 (Census 2011), population density of 35944.3 people/sq km, urban ratio of 100.0%, and literacy rate of 81.27%.",
+    "source": "Census of India 2011, Primary Census Abstract",
+    "source_url": "https://github.com/nishusharma1608/India-Census-2011-Analysis",
+    "verified": true
+  },
+  {
+    "fact_id": "SOCIO_KANCHEEPURAM",
+    "category": "socioeconomic",
+    "district": "Kancheepuram",
+    "statement": "Kancheepuram district had a population of 3,998,252 (Census 2011), population density of 859.4 people/sq km, urban ratio of 63.84%, and literacy rate of 75.37%.",
+    "source": "Census of India 2011, Primary Census Abstract",
+    "source_url": "https://github.com/nishusharma1608/India-Census-2011-Analysis",
+    "verified": true
+  },
+  {
+    "fact_id": "SOCIO_VELLORE",
+    "category": "socioeconomic",
+    "district": "Vellore",
+    "statement": "Vellore district had a population of 3,936,331 (Census 2011), population density of 644.6 people/sq km, urban ratio of 42.69%, and literacy rate of 70.47%.",
+    "source": "Census of India 2011, Primary Census Abstract",
+    "source_url": "https://github.com/nishusharma1608/India-Census-2011-Analysis",
+    "verified": true
+  },
+  {
+    "fact_id": "SOCIO_TIRUVANNAMALAI",
+    "category": "socioeconomic",
+    "district": "Tiruvannamalai",
+    "statement": "Tiruvannamalai district had a population of 2,464,875 (Census 2011), population density of 396.0 people/sq km, urban ratio of 20.71%, and literacy rate of 66.0%.",
+    "source": "Census of India 2011, Primary Census Abstract",
+    "source_url": "https://github.com/nishusharma1608/India-Census-2011-Analysis",
+    "verified": true
+  },
+  {
+    "fact_id": "SOCIO_VILUPPURAM",
+    "category": "socioeconomic",
+    "district": "Viluppuram",
+    "statement": "Viluppuram district had a population of 3,458,873 (Census 2011), population density of 478.3 people/sq km, urban ratio of 16.47%, and literacy rate of 63.48%.",
+    "source": "Census of India 2011, Primary Census Abstract",
+    "source_url": "https://github.com/nishusharma1608/India-Census-2011-Analysis",
+    "verified": true
+  },
+  {
+    "fact_id": "SOCIO_SALEM",
+    "category": "socioeconomic",
+    "district": "Salem",
+    "statement": "Salem district had a population of 3,482,056 (Census 2011), population density of 663.2 people/sq km, urban ratio of 51.06%, and literacy rate of 65.64%.",
+    "source": "Census of India 2011, Primary Census Abstract",
+    "source_url": "https://github.com/nishusharma1608/India-Census-2011-Analysis",
+    "verified": true
+  },
+  {
+    "fact_id": "SOCIO_NAMAKKAL",
+    "category": "socioeconomic",
+    "district": "Namakkal",
+    "statement": "Namakkal district had a population of 1,726,601 (Census 2011), population density of 503.8 people/sq km, urban ratio of 40.98%, and literacy rate of 68.12%.",
+    "source": "Census of India 2011, Primary Census Abstract",
+    "source_url": "https://github.com/nishusharma1608/India-Census-2011-Analysis",
+    "verified": true
+  },
+  {
+    "fact_id": "SOCIO_ERODE",
+    "category": "socioeconomic",
+    "district": "Erode",
+    "statement": "Erode district had a population of 2,251,744 (Census 2011), population density of 388.3 people/sq km, urban ratio of 51.25%, and literacy rate of 66.29%.",
+    "source": "Census of India 2011, Primary Census Abstract",
+    "source_url": "https://github.com/nishusharma1608/India-Census-2011-Analysis",
+    "verified": true
+  },
+  {
+    "fact_id": "SOCIO_THE_NILGIRIS",
+    "category": "socioeconomic",
+    "district": "The Nilgiris",
+    "statement": "The Nilgiris district had a population of 735,394 (Census 2011), population density of 286.1 people/sq km, urban ratio of 57.54%, and literacy rate of 77.46%.",
+    "source": "Census of India 2011, Primary Census Abstract",
+    "source_url": "https://github.com/nishusharma1608/India-Census-2011-Analysis",
+    "verified": true
+  },
+  {
+    "fact_id": "SOCIO_DINDIGUL",
+    "category": "socioeconomic",
+    "district": "Dindigul",
+    "statement": "Dindigul district had a population of 2,159,775 (Census 2011), population density of 353.5 people/sq km, urban ratio of 37.8%, and literacy rate of 68.61%.",
+    "source": "Census of India 2011, Primary Census Abstract",
+    "source_url": "https://github.com/nishusharma1608/India-Census-2011-Analysis",
+    "verified": true
+  },
+  {
+    "fact_id": "SOCIO_KARUR",
+    "category": "socioeconomic",
+    "district": "Karur",
+    "statement": "Karur district had a population of 1,064,493 (Census 2011), population density of 365.5 people/sq km, urban ratio of 41.8%, and literacy rate of 68.3%.",
+    "source": "Census of India 2011, Primary Census Abstract",
+    "source_url": "https://github.com/nishusharma1608/India-Census-2011-Analysis",
+    "verified": true
+  },
+  {
+    "fact_id": "SOCIO_TIRUCHIRAPPALLI",
+    "category": "socioeconomic",
+    "district": "Tiruchirappalli",
+    "statement": "Tiruchirappalli district had a population of 2,722,290 (Census 2011), population density of 599.8 people/sq km, urban ratio of 48.31%, and literacy rate of 74.9%.",
+    "source": "Census of India 2011, Primary Census Abstract",
+    "source_url": "https://github.com/nishusharma1608/India-Census-2011-Analysis",
+    "verified": true
+  },
+  {
+    "fact_id": "SOCIO_PERAMBALUR",
+    "category": "socioeconomic",
+    "district": "Perambalur",
+    "statement": "Perambalur district had a population of 565,223 (Census 2011), population density of 320.3 people/sq km, urban ratio of 17.59%, and literacy rate of 66.49%.",
+    "source": "Census of India 2011, Primary Census Abstract",
+    "source_url": "https://github.com/nishusharma1608/India-Census-2011-Analysis",
+    "verified": true
+  },
+  {
+    "fact_id": "SOCIO_ARIYALUR",
+    "category": "socioeconomic",
+    "district": "Ariyalur",
+    "statement": "Ariyalur district had a population of 754,894 (Census 2011), population density of 384.4 people/sq km, urban ratio of 11.92%, and literacy rate of 63.67%.",
+    "source": "Census of India 2011, Primary Census Abstract",
+    "source_url": "https://github.com/nishusharma1608/India-Census-2011-Analysis",
+    "verified": true
+  },
+  {
+    "fact_id": "SOCIO_CUDDALORE",
+    "category": "socioeconomic",
+    "district": "Cuddalore",
+    "statement": "Cuddalore district had a population of 2,605,914 (Census 2011), population density of 699.7 people/sq km, urban ratio of 34.39%, and literacy rate of 69.66%.",
+    "source": "Census of India 2011, Primary Census Abstract",
+    "source_url": "https://github.com/nishusharma1608/India-Census-2011-Analysis",
+    "verified": true
+  },
+  {
+    "fact_id": "SOCIO_THIRUVARUR",
+    "category": "socioeconomic",
+    "district": "Thiruvarur",
+    "statement": "Thiruvarur district had a population of 1,264,277 (Census 2011), population density of 552.8 people/sq km, urban ratio of 21.28%, and literacy rate of 74.86%.",
+    "source": "Census of India 2011, Primary Census Abstract",
+    "source_url": "https://github.com/nishusharma1608/India-Census-2011-Analysis",
+    "verified": true
+  },
+  {
+    "fact_id": "SOCIO_THANJAVUR",
+    "category": "socioeconomic",
+    "district": "Thanjavur",
+    "statement": "Thanjavur district had a population of 2,405,890 (Census 2011), population density of 704.5 people/sq km, urban ratio of 36.41%, and literacy rate of 74.44%.",
+    "source": "Census of India 2011, Primary Census Abstract",
+    "source_url": "https://github.com/nishusharma1608/India-Census-2011-Analysis",
+    "verified": true
+  },
+  {
+    "fact_id": "SOCIO_PUDUKKOTTAI",
+    "category": "socioeconomic",
+    "district": "Pudukkottai",
+    "statement": "Pudukkottai district had a population of 1,618,345 (Census 2011), population density of 345.3 people/sq km, urban ratio of 20.68%, and literacy rate of 68.62%.",
+    "source": "Census of India 2011, Primary Census Abstract",
+    "source_url": "https://github.com/nishusharma1608/India-Census-2011-Analysis",
+    "verified": true
+  },
+  {
+    "fact_id": "SOCIO_SIVAGANGA",
+    "category": "socioeconomic",
+    "district": "Sivaganga",
+    "statement": "Sivaganga district had a population of 1,339,101 (Census 2011), population density of 312.8 people/sq km, urban ratio of 31.65%, and literacy rate of 71.67%.",
+    "source": "Census of India 2011, Primary Census Abstract",
+    "source_url": "https://github.com/nishusharma1608/India-Census-2011-Analysis",
+    "verified": true
+  },
+  {
+    "fact_id": "SOCIO_MADURAI",
+    "category": "socioeconomic",
+    "district": "Madurai",
+    "statement": "Madurai district had a population of 3,038,252 (Census 2011), population density of 816.8 people/sq km, urban ratio of 58.66%, and literacy rate of 74.83%.",
+    "source": "Census of India 2011, Primary Census Abstract",
+    "source_url": "https://github.com/nishusharma1608/India-Census-2011-Analysis",
+    "verified": true
+  },
+  {
+    "fact_id": "SOCIO_THENI",
+    "category": "socioeconomic",
+    "district": "Theni",
+    "statement": "Theni district had a population of 1,245,899 (Census 2011), population density of 433.9 people/sq km, urban ratio of 53.89%, and literacy rate of 69.84%.",
+    "source": "Census of India 2011, Primary Census Abstract",
+    "source_url": "https://github.com/nishusharma1608/India-Census-2011-Analysis",
+    "verified": true
+  },
+  {
+    "fact_id": "SOCIO_RAMANATHAPURAM",
+    "category": "socioeconomic",
+    "district": "Ramanathapuram",
+    "statement": "Ramanathapuram district had a population of 1,353,445 (Census 2011), population density of 340.7 people/sq km, urban ratio of 30.38%, and literacy rate of 72.33%.",
+    "source": "Census of India 2011, Primary Census Abstract",
+    "source_url": "https://github.com/nishusharma1608/India-Census-2011-Analysis",
+    "verified": true
+  },
+  {
+    "fact_id": "SOCIO_THOOTHUKKUDI",
+    "category": "socioeconomic",
+    "district": "Thoothukkudi",
+    "statement": "Thoothukkudi district had a population of 1,750,176 (Census 2011), population density of 375.4 people/sq km, urban ratio of 47.22%, and literacy rate of 77.12%.",
+    "source": "Census of India 2011, Primary Census Abstract",
+    "source_url": "https://github.com/nishusharma1608/India-Census-2011-Analysis",
+    "verified": true
+  },
+  {
+    "fact_id": "SOCIO_TIRUNELVELI",
+    "category": "socioeconomic",
+    "district": "Tirunelveli",
+    "statement": "Tirunelveli district had a population of 3,077,233 (Census 2011), population density of 449.6 people/sq km, urban ratio of 48.53%, and literacy rate of 73.88%.",
+    "source": "Census of India 2011, Primary Census Abstract",
+    "source_url": "https://github.com/nishusharma1608/India-Census-2011-Analysis",
+    "verified": true
+  },
+  {
+    "fact_id": "SOCIO_KANNIYAKUMARI",
+    "category": "socioeconomic",
+    "district": "Kanniyakumari",
+    "statement": "Kanniyakumari district had a population of 1,870,374 (Census 2011), population density of 1099.8 people/sq km, urban ratio of 82.57%, and literacy rate of 82.8%.",
+    "source": "Census of India 2011, Primary Census Abstract",
+    "source_url": "https://github.com/nishusharma1608/India-Census-2011-Analysis",
+    "verified": true
+  },
+  {
+    "fact_id": "SOCIO_DHARMAPURI",
+    "category": "socioeconomic",
+    "district": "Dharmapuri",
+    "statement": "Dharmapuri district had a population of 1,506,843 (Census 2011), population density of 331.5 people/sq km, urban ratio of 18.67%, and literacy rate of 60.9%.",
+    "source": "Census of India 2011, Primary Census Abstract",
+    "source_url": "https://github.com/nishusharma1608/India-Census-2011-Analysis",
+    "verified": true
+  },
+  {
+    "fact_id": "SOCIO_KRISHNAGIRI",
+    "category": "socioeconomic",
+    "district": "Krishnagiri",
+    "statement": "Krishnagiri district had a population of 1,879,809 (Census 2011), population density of 363.3 people/sq km, urban ratio of 24.56%, and literacy rate of 63.2%.",
+    "source": "Census of India 2011, Primary Census Abstract",
+    "source_url": "https://github.com/nishusharma1608/India-Census-2011-Analysis",
+    "verified": true
+  },
+  {
+    "fact_id": "SOCIO_COIMBATORE",
+    "category": "socioeconomic",
+    "district": "Coimbatore",
+    "statement": "Coimbatore district had a population of 3,458,045 (Census 2011), population density of 738.3 people/sq km, urban ratio of 75.65%, and literacy rate of 76.23%.",
+    "source": "Census of India 2011, Primary Census Abstract",
+    "source_url": "https://github.com/nishusharma1608/India-Census-2011-Analysis",
+    "verified": true
+  },
+  {
+    "fact_id": "SOCIO_TIRUPPUR",
+    "category": "socioeconomic",
+    "district": "Tiruppur",
+    "statement": "Tiruppur district had a population of 2,479,052 (Census 2011), population density of 473.4 people/sq km, urban ratio of 60.12%, and literacy rate of 71.02%.",
+    "source": "Census of India 2011, Primary Census Abstract",
+    "source_url": "https://github.com/nishusharma1608/India-Census-2011-Analysis",
+    "verified": true
+  },
+  {
+    "fact_id": "SOCIO_VIRUDHUNAGAR",
+    "category": "socioeconomic",
+    "district": "Virudhunagar",
+    "statement": "Virudhunagar district had a population of 1,942,288 (Census 2011), population density of 458.0 people/sq km, urban ratio of 50.47%, and literacy rate of 80.15%.",
+    "source": "Census of India 2011, Primary Census Abstract",
+    "source_url": "https://www.census2011.co.in/census/district/47-virudhunagar.html",
+    "verified": true
+  },
+  {
+    "fact_id": "SOCIO_NAGAPATTINAM",
+    "category": "socioeconomic",
+    "district": "Nagapattinam",
+    "statement": "Nagapattinam district had a population of 1,616,450 (Census 2011), population density of 629.0 people/sq km, urban ratio of 22.56%, and literacy rate of 83.59%.",
+    "source": "Census of India 2011, Primary Census Abstract",
+    "source_url": "https://www.census2011.co.in/census/district/40-nagapattinam.html",
+    "verified": true
+  },
+  {
+    "fact_id": "CLIMATE_TN_MONSOON_PATTERN",
+    "category": "climate",
+    "district": "Tamil Nadu (statewide)",
+    "statement": "Tamil Nadu's rainfall climatology (IMD data, 1901-2015) shows the Northeast Monsoon (October-December) as the dominant rainy season, not the Southwest Monsoon that dominates most of India. The highest average monthly rainfall is in October (183.2 mm), followed by November (176.9 mm). This is a critical distinction from the rest of India when discussing seasonal water availability or drought risk.",
+    "source": "IMD subdivision-wise rainfall data, 1901-2015",
+    "source_url": "https://github.com/chandanverma07/DataSets",
+    "verified": true
+  },
+  {
+    "fact_id": "CLIMATE_TN_RECENT_VARIABILITY_2006-2015",
+    "category": "climate",
+    "district": "Tamil Nadu (statewide)",
+    "statement": "Between 2006-2015, Tamil Nadu's annual rainfall total (IMD subdivision data) ranged from a low of 636.2 mm in 2012 to a high of 1204.6 mm in 2015, illustrating significant year-to-year variability relevant to drought/flood risk planning.",
+    "source": "IMD subdivision-wise rainfall data, 1901-2015",
+    "source_url": "https://github.com/chandanverma07/DataSets",
+    "verified": true
+  },
+  {
+    "fact_id": "RC001",
+    "category": "research_paper",
+    "district": null,
+    "statement": "[2021] Land-use change detection and assessment for sustainable development of peri-urban areas using remote sensing and GIS: Coimbatore City, Tamil Nadu. Uses Landsat-derived LULC analysis and an ANN-based GIS change-modeller to measure built-up area growth in Coimbatore's peri-urban zones across 1997, 2009 and 2017, projecting growth to 2030/2040.",
+    "source": "Multiple authors (see source)",
+    "source_url": "https://www.academia.edu/61976119/LAND_USE_CHANGE_DETECTION_AND_ASSESSMENT_FOR_SUSTAINABLE_DEVELOPMENT_OF_PERI_URBAN_AREAS_USING_REMOTE_SENSING_AND_GIS_A_CASE_STUDY_OF_COIMBATORE_CITY_TAMIL_NADU_INDIA",
+    "verified": true
+  },
+  {
+    "fact_id": "RC002",
+    "category": "research_paper",
+    "district": null,
+    "statement": "[2025] Urban Development in the Western Part of Tamil Nadu (Kongu Nadu Region): A Temporal Study Using LULC Change Detection Analysis. Examines urban expansion in the Kongu Nadu region (western TN) from 1985-2024 using multi-source satellite imagery, tracking impacts on agriculture, forest cover, and water bodies.",
+    "source": "S. Mohammed Junaid",
+    "source_url": "https://www.researchgate.net/publication/urban-development-kongu-nadu-tamil-nadu",
+    "verified": true
+  },
+  {
+    "fact_id": "RC003",
+    "category": "research_paper",
+    "district": null,
+    "statement": "[2019] Analysis of land use/land cover changes using geospatial techniques in Salem district, Tamil Nadu, South India. Uses Landsat TM/OLI imagery (1992-2015) and supervised maximum-likelihood classification to quantify LULC dynamics and agricultural/water-body loss in Salem district.",
+    "source": "Multiple authors (see source)",
+    "source_url": "https://link.springer.com/article/10.1007/s42452-019-0485-5",
+    "verified": true
+  },
+  {
+    "fact_id": "RC004",
+    "category": "research_paper",
+    "district": null,
+    "statement": "[2023] A study of urban heat island effects using remote sensing and GIS techniques in Kancheepuram, Tamil Nadu, India. Analyzes Land Surface Temperature distribution in Kancheepuram district using Landsat imagery (1988 vs 2021) and NDVI classification, linking land-use change to urban heat island intensification.",
+    "source": "Multiple authors (see source)",
+    "source_url": "https://www.sciencedirect.com/science/article/abs/pii/S2212095523001918",
+    "verified": true
+  },
+  {
+    "fact_id": "RC005",
+    "category": "research_paper",
+    "district": null,
+    "statement": "[2018] Land-use/cover change in Coimbatore urban area (Tamil Nadu, India) \u2014 a remote sensing and GIS-based study. Explains LULC change in Coimbatore City Corporation using Landsat ETM+/OLI, finding significant built-up area increase over 11 years and recommending green-infrastructure planning.",
+    "source": "P. Prabu, Mithas Ahmad Dar",
+    "source_url": "https://www.researchgate.net/publication/326130212_Land-usecover_change_in_Coimbatore_urban_area_Tamil_Nadu_India-a_remote_sensing_and_GIS-based_study",
+    "verified": true
+  },
+  {
+    "fact_id": "RC006",
+    "category": "research_paper",
+    "district": null,
+    "statement": "[2024] Long-term land use and land cover change detection and prediction using remote sensing and ML approaches (1995-2035) for Gudalur Taluk, Tamil Nadu. Applies a CA-Markov hybrid model with GIS methods to evaluate LULC changes 1994-2024 in Gudalur Taluk (Nilgiris) and forecast trends for 2034-2044.",
+    "source": "Multiple authors (see source)",
+    "source_url": "https://www.researchgate.net/publication/408056278_Long-term_land_use_and_land_cover_change_detection_and_prediction_using_remote_sensing_and_ML_approaches_1995-2035_for_Gudalur_Taluk_Tamil_Nadu",
+    "verified": true
+  },
+  {
+    "fact_id": "RC007",
+    "category": "research_paper",
+    "district": null,
+    "statement": "[2011] Land use/land cover change detection through remote sensing and GIS technology \u2014 St. Thomas Mount Block, Kancheepuram District, Tamil Nadu. Compares LULC across 1973, 1991 and 2006 near Chennai, finding rapid built-up expansion and declining agricultural/forest land as urbanization spreads outward from Chennai.",
+    "source": "R. Muruganandam, K. Kumaraswamy, K. Rudhravel Murthy",
+    "source_url": "https://www.researchgate.net/publication/274716134_LAND_USELAND_COVER_CHANGE_DETECTION_THROUGH_USING_REMOTE_SENSING_AND_GIS_TECHNOLOGY_-_A_CASE_STUDY_OF_ST_THOMAS_MOUNT_BLOCK_KANCHEEPURAM_DISTRICT_TAMIL_NADU",
+    "verified": true
+  },
+  {
+    "fact_id": "RC008",
+    "category": "research_paper",
+    "district": null,
+    "statement": "[2021] A decadal study on land use and land cover change detection along the coastal regions of Cuddalore and Nagapattinam districts of Tamil Nadu. Assesses LULC change (2000-2021) along the Cuddalore/Nagapattinam coast, linking built-up expansion and forest/mangrove change to coastal economic development.",
+    "source": "Zubair Ahmad Khanday, K. Sujatha",
+    "source_url": "https://www.researchgate.net/publication/378856903_A_DECADAL_STUDY_ON_LAND_USE_AND_LAND_COVER_CHANGE_DETECTION_ALONG_THE_COASTAL_REGIONS_OF_CUDDALORE_AND_NAGAPATTINAM_DISTRICTS_OF_TAMIL_NADU_INDIA_USING_REMOTE_SENSING_AND_GIS",
+    "verified": true
+  },
+  {
+    "fact_id": "RC009",
+    "category": "research_paper",
+    "district": null,
+    "statement": "[2025] Study Report on Quality of Land Records in Tamil Nadu. Field-based assessment of DILRMP implementation in Tamil Nadu, covering the 'Tamil Nilam' portal, taluk-level computerization progress, and remaining gaps (Aadhaar authentication, citizen awareness).",
+    "source": "Government-commissioned study",
+    "source_url": "https://cdnbbsr.s3waas.gov.in/s3d69116f8b0140cdeb1f99a4d5096ffe4/uploads/2025/07/20250730485426630.pdf",
+    "verified": true
+  },
+  {
+    "fact_id": "RC010",
+    "category": "research_paper",
+    "district": null,
+    "statement": "[2026] Challenges and improvements on digitalization of land records (India). Legal-studies perspective on India's digital land records initiative, examining accuracy, security and access improvements, with reference to Tamil Nadu.",
+    "source": "School of Law, Joy University, Tirunelveli, Tamil Nadu",
+    "source_url": "https://www.lawjournals.org/assets/archives/2026/vol12issue2/12144.pdf",
+    "verified": true
+  },
+  {
+    "fact_id": "RC011",
+    "category": "research_paper",
+    "district": null,
+    "statement": "[2022] Land use/land cover changes of Noyyal watershed in Coimbatore district, India, mapped using remote sensing techniques. Produces LULC maps and change-detection analysis of the Noyyal watershed (Coimbatore) over an 18-year period using remote sensing and GIS.",
+    "source": "Multiple authors (see source)",
+    "source_url": "https://link.springer.com/article/10.1007/s11356-022-18707-z",
+    "verified": true
+  },
+  {
+    "fact_id": "RC012",
+    "category": "research_paper",
+    "district": null,
+    "statement": "[2018] Assessment of Land Use/Land Cover Changes in Noyyal River Basin, Tamil Nadu, India: A case study using Geospatial techniques. Change-detection analysis (2001-2018) of built-up, agricultural, water body and forest land in the Noyyal river basin using visual interpretation of satellite imagery.",
+    "source": "Multiple authors (see source)",
+    "source_url": "https://www.trp.org.in/wp-content/uploads/2018/08/ARSS-Vol.7-No.2-July-September-2018-pp.19-21.pdf",
+    "verified": true
+  },
+  {
+    "fact_id": "RC013",
+    "category": "research_paper",
+    "district": null,
+    "statement": "[2020] Environmental Impact Assessment on Noyyal River Basin, Special Reference to Water Quality. EIA case study of the Noyyal river basin (Coimbatore, Erode, Karur districts), examining industrial effluent impact on water quality from textile/dyeing industries around Tiruppur.",
+    "source": "Multiple authors (see source)",
+    "source_url": "https://www.ijraset.com/research-paper/noyyal-river-basin-special-reference-to-water-quality",
+    "verified": true
+  },
+  {
+    "fact_id": "RC014",
+    "category": "research_paper",
+    "district": null,
+    "statement": "[2024] Investigating the impact of land use land cover change on groundwater level dynamics in the Koraiyar watershed, Coimbatore District, Tamil Nadu, India. Uses LISS-III/IV and Landsat-8 OLI imagery (2000, 2011, 2020) to link LULC change to declining groundwater levels and wet-crop area loss in the Koraiyar watershed, Coimbatore.",
+    "source": "Naik SRS, Masilamani P, Kushawaha J, Jahangeer J",
+    "source_url": "https://www.frontiersin.org/journals/water/articles/10.3389/frwa.2024.1339613/full",
+    "verified": true
+  },
+  {
+    "fact_id": "RC015",
+    "category": "research_paper",
+    "district": null,
+    "statement": "[2015] Groundwater Storage and Depletion Trends in Tamil Nadu State, India. Uses NASA GRACE satellite gravimetry and GLDAS data (2002-2012) to quantify statewide groundwater depletion in Tamil Nadu at 21.4 km3/yr, exceeding the annual recharge rate by 8%.",
+    "source": "P. Chinnasamy, G. Agoramoorthy",
+    "source_url": "https://link.springer.com/article/10.1007/s11269-015-0932-z",
+    "verified": true
+  },
+  {
+    "fact_id": "RC016",
+    "category": "research_paper",
+    "district": null,
+    "statement": "[2016] Groundwater sustainability indicators in parts of Tiruppur and Coimbatore districts, Tamil Nadu. Develops groundwater sustainability indicators for Tiruppur and Coimbatore districts, relevant to assessing agricultural vs. industrial water-use tradeoffs in the region.",
+    "source": "S. Anbazhagan, A. Jothibasu",
+    "source_url": "https://link.springer.com/content/pdf/10.1007/s12594-016-0384-y.pdf",
+    "verified": true
+  },
+  {
+    "fact_id": "RC017",
+    "category": "research_paper",
+    "district": null,
+    "statement": "[2024] Land Use and Land Cover Changes and Its Implications on Groundwater Quality in Perambalur District, Tamil Nadu. Analyzes LULC dynamics along national/state highways in Perambalur/Tiruchirappalli region (1995-2025 projected) and their implications for groundwater quality.",
+    "source": "Multiple authors (see source)",
+    "source_url": "https://www.researchgate.net/publication/387500698_Land_Use_and_Land_Cover_Changes_and_Its_Implications_on_Groundwater_Quality_in_Perambalur_District_Tamil_Nadu",
+    "verified": true
+  },
+  {
+    "fact_id": "RC018",
+    "category": "research_paper",
+    "district": null,
+    "statement": "[2022] Assessing Groundwater Depletion in Southern India as a Function of Urbanization and Change in Hydrology: A Threat to Tank Irrigation in Madurai City. Shows surface runoff reaching 86% of rainfall in urbanized Madurai vs ~70% in rural areas, and declining discharge into traditional irrigation tanks due to urbanization and erratic rainfall.",
+    "source": "Multiple authors (see source)",
+    "source_url": "https://link.springer.com/chapter/10.1007/978-981-16-5501-2_24",
+    "verified": true
+  },
+  {
+    "fact_id": "RC019",
+    "category": "research_paper",
+    "district": null,
+    "statement": "[2025] Spatiotemporal assessment and simulation of land use and land cover dynamics in coastal Tamil Nadu using CA-ANN modelling for sustainable development planning. Projects built-up area growth of over 154% (2017-2053) in coastal delta taluks of Tamil Nadu using Sentinel-2 data and a CA-ANN model, with accuracy validated 88-92% via Kappa statistics; also flags limitations of NDVI-based ecological assessment.",
+    "source": "Multiple authors (see source)",
+    "source_url": "https://www.sciencedirect.com/science/article/pii/S2590123025038241",
+    "verified": true
+  },
+  {
+    "fact_id": "PC001",
+    "category": "policy_document",
+    "district": null,
+    "statement": "[1971] The Tamil Nadu Town and Country Planning Act, 1971 \u2014 Jurisdiction: Tamil Nadu (State). Sector: Land use planning; urban/rural development; land acquisition. Status: Active.",
+    "source": "Tamil Nadu (State)",
+    "source_url": "https://www.tn.gov.in/tcp/acts_rules/Town_Country_Planning_Act_1971.pdf",
+    "verified": true
+  },
+  {
+    "fact_id": "PC002",
+    "category": "policy_document",
+    "district": null,
+    "statement": "[1971] The Tamil Nadu Town and Country Planning Act, 1971 (official CMDA copy) \u2014 Jurisdiction: Tamil Nadu (State) \u2014 Chennai Metropolitan Development Authority. Sector: Land use planning; master plans; zoning. Status: Active.",
+    "source": "Tamil Nadu (State) \u2014 Chennai Metropolitan Development Authority",
+    "source_url": "https://www.cmdachennai.gov.in/pdfs/tntcp_act.pdf",
+    "verified": true
+  },
+  {
+    "fact_id": "PC003",
+    "category": "policy_document",
+    "district": null,
+    "statement": "[2016] Digital India Land Records Modernization Programme (DILRMP) Guidelines, April 2016 \u2014 Jurisdiction: Central Government of India \u2014 Department of Land Resources, Ministry of Rural Development. Sector: Land records digitization; cadastral survey; registration integration. Status: Active (restructured as Central Sector Scheme, 100% central funding).",
+    "source": "Central Government of India \u2014 Department of Land Resources, Ministry of Rural Development",
+    "source_url": "https://cdnbbsr.s3waas.gov.in/s3d69116f8b0140cdeb1f99a4d5096ffe4/uploads/2024/02/202402211528939328.pdf",
+    "verified": true
+  },
+  {
+    "fact_id": "PC004",
+    "category": "policy_document",
+    "district": null,
+    "statement": "[2021] Guidelines of DILRMP (2021-2026) \u2014 Jurisdiction: Central Government of India \u2014 Department of Land Resources, Ministry of Rural Development. Sector: Land records digitization; survey/resurvey; GIS integration. Status: Active.",
+    "source": "Central Government of India \u2014 Department of Land Resources, Ministry of Rural Development",
+    "source_url": "https://landrevenue.rajasthan.gov.in/content/dam/landrevenue/settlementdepartment/pdffolder/Scheme%20and%20Section/DILRMP/Final%20Guidelines%20of%20DILRMP%202021-26.pdf",
+    "verified": true
+  },
+  {
+    "fact_id": "PC005",
+    "category": "policy_document",
+    "district": null,
+    "statement": "[2026] DILRMP-MIS Portal (Monitoring Information System) \u2014 State/UT progress data \u2014 Jurisdiction: Central Government of India \u2014 Department of Land Resources, Ministry of Rural Development. Sector: Land records digitization; programme monitoring. Status: Active \u2014 verified live, returns real state/UT progress data.",
+    "source": "Central Government of India \u2014 Department of Land Resources, Ministry of Rural Development",
+    "source_url": "https://dilrmp.gov.in/",
+    "verified": true
+  },
+  {
+    "fact_id": "PC006",
+    "category": "policy_document",
+    "district": null,
+    "statement": "[1969] The Tamil Nadu Agricultural Lands Record of Tenancy Rights Act, 1969 (Act No. 10 of 1969) \u2014 Jurisdiction: Tamil Nadu (State). Sector: Agricultural tenancy; land tenure records; farmer rights. Status: Active.",
+    "source": "Tamil Nadu (State)",
+    "source_url": "https://indiankanoon.org/doc/134826762/",
+    "verified": true
+  },
+  {
+    "fact_id": "PC007",
+    "category": "policy_document",
+    "district": null,
+    "statement": "[1961] The Tamil Nadu Land Reforms (Fixation of Ceiling on Land) Act, 1961 (Act No. 58 of 1961) \u2014 Jurisdiction: Tamil Nadu (State). Sector: Land ceiling; land redistribution; agrarian reform. Status: Active.",
+    "source": "Tamil Nadu (State)",
+    "source_url": "https://www.indiacode.nic.in/handle/123456789/20463?locale=en",
+    "verified": true
+  },
+  {
+    "fact_id": "PC008",
+    "category": "policy_document",
+    "district": null,
+    "statement": "[1961] The Tamil Nadu Land Reforms (Fixation of Ceiling on Land) Act, 1961 (PRS Legislative Research official copy) \u2014 Jurisdiction: Tamil Nadu (State). Sector: Land ceiling; land redistribution; agrarian reform. Status: Active.",
+    "source": "Tamil Nadu (State)",
+    "source_url": "https://prsindia.org/files/bills_acts/acts_states/tamil-nadu/1961/1961TN58.pdf",
+    "verified": true
+  },
+  {
+    "fact_id": "GAP_SATELLITE_COVERAGE",
+    "category": "known_gap",
+    "district": null,
+    "statement": "Real Sentinel-2 derived NDVI/NDWI/NDBI zonal statistics currently exist ONLY for Coimbatore district (from the tn_satellite_indices_pipeline.py run). No real satellite index data exists for any other Tamil Nadu district (including Erode, Tiruppur, Chennai, Madurai, etc.) until the pipeline is re-run with PILOT_DISTRICT_ONLY=None for full-state coverage. Any system answering a question about NDVI/NDWI/NDBI for a district other than Coimbatore MUST say data is not yet available for that district, and must NOT generate a plausible-sounding number.",
+    "source": "Internal pipeline configuration audit",
+    "source_url": null,
+    "verified": true
+  },
+  {
+    "fact_id": "GAP_CADASTRAL_SYNTHETIC",
+    "category": "known_gap",
+    "district": null,
+    "statement": "Cadastral/parcel-level data (survey_no, owner_type, land_use, dispute_status) in this platform is SYNTHETIC \u2014 randomly generated for demo purposes, not real land records. No open bulk cadastral dataset exists in India; real records sit in state Revenue Department systems (e.g., Tamil Nadu Patta Chitta / e-Sevai) and are not publicly downloadable. Any answer referencing specific parcel-level ownership or dispute status must be labeled as illustrative/demo data, never presented as real.",
+    "source": "Internal data audit",
+    "source_url": null,
+    "verified": true
+  },
+  {
+    "fact_id": "GAP_LAND_DISPUTES_SYNTHETIC",
+    "category": "known_gap",
+    "district": null,
+    "statement": "District-level land dispute counts and statistics in this platform are SYNTHETIC (randomly generated, Poisson-distributed placeholder data), not derived from real case records. The closest real source, India's National Judicial Data Grid (njdg.ecourts.gov.in), does not provide a bulk-downloadable 'land dispute' category. Any answer citing specific land dispute numbers must be labeled as illustrative/demo data.",
+    "source": "Internal data audit",
+    "source_url": null,
+    "verified": true
+  },
+  {
+    "fact_id": "GAP_DISTRICT_BOUNDARY_VINTAGE",
+    "category": "known_gap",
+    "district": null,
+    "statement": "Two different administrative boundary vintages exist in this project's data history: a 32-district/216-taluk version (2011 Census-era) and a 38-district/76-taluk version (post-2011 splits e.g. Chengalpattu, Ranipet, Tenkasi, Kallakurichi, Tirupathur, Mayiladuthurai). These MUST NOT be mixed in a single join or comparison without explicit reconciliation, as district boundaries and counts differ between the two.",
+    "source": "Internal data audit",
+    "source_url": null,
+    "verified": true
+  }
+]
