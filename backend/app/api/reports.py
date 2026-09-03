@@ -1,8 +1,10 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Depends
 from pydantic import BaseModel
 from typing import Dict, Any, Optional
 from app.scenarios.engine import scenario_engine
 from app.ml.models import ml_system
+from app.core.rbac import require_permission
+from app.rag.copilot import copilot
 
 router = APIRouter(prefix="/generate-report", tags=["Reports & Evidence Briefs"])
 
@@ -12,10 +14,23 @@ class ReportRequest(BaseModel):
     user_role: Optional[str] = "Policymaker"
 
 @router.post("")
-def generate_evidence_brief(req: ReportRequest) -> Dict[str, Any]:
+def generate_evidence_brief(
+    req: ReportRequest,
+    role: str = Depends(require_permission("generate_executive_report"))
+) -> Dict[str, Any]:
     scenarios = scenario_engine.simulate_all()
     selected_scenario = next((s for s in scenarios if s["id"] == req.scenario_id), scenarios[0])
-    
+
+    # Pull real citations from the verified research corpus instead of
+    # hardcoding author names — this brief previously cited two fabricated
+    # studies ("Ramasamy et al. 2023", "Murugesan & Jayaraman 2022") that
+    # don't exist in the corpus and have no source URL.
+    real_research = copilot.research[:2]
+    research_evidence = [
+        f"{r['authors']} ({r['year']}): {r['abstract'][:180].rstrip()}{'...' if len(r['abstract']) > 180 else ''} [{r['verification_status']}, source: {r['source_url']}]"
+        for r in real_research
+    ] or ["No corroborating peer-reviewed study currently in the verified research corpus for this query — treat this section as a data gap, not an absence of risk."]
+
     return {
         "title": "Executive Evidence Brief: Agricultural Land Preservation & Sustainable Industrial Development",
         "jurisdiction": "State of Tamil Nadu (Tiruppur District Pilot)",
@@ -41,10 +56,7 @@ def generate_evidence_brief(req: ReportRequest) -> Dict[str, Any]:
                 "CGWB and TWAD Board groundwater assessment classifying Tiruppur North and Palladam taluks as Over-exploited (>135% extraction stage).",
                 "MoRTH highway spatial vectors recording NH-544 high-capacity freight logistics throughput."
             ],
-            "research_evidence": [
-                "Ramasamy et al. (2023): Demonstrates that road proximity within 3 km of NH-544 is the dominant predictor of conversion probability (Odds Ratio 4.2).",
-                "Murugesan & Jayaraman (2022): Ground-truthed hydrological simulations establishing that impervious surface expansion reduces groundwater recharge by 38%."
-            ],
+            "research_evidence": research_evidence,
             "model_predictions": [
                 f"Ensemble Model (Random Forest + Gradient Boosting v1.2) predicts high-risk agricultural conversion across northern corridors with {ml_system.metrics_rf['roc_auc']} ROC-AUC validation score.",
                 "Over 35% of remaining agricultural cells along the Avinashi bypass register >70% transition probability over the 2024–2029 horizon."

@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { UserRole } from './types';
+import { setCurrentRole } from './services/api';
 import { Header } from './components/Header';
 import { Sidebar, NavTab } from './components/Sidebar';
 import { DemoWalkthroughModal } from './components/DemoWalkthroughModal';
@@ -15,6 +16,9 @@ import { ScenariosPage } from './pages/ScenariosPage';
 import { EvidenceChainPage } from './pages/EvidenceChainPage';
 import { DatasetsPage } from './pages/DatasetsPage';
 import { ModelsPage } from './pages/ModelsPage';
+import { DashboardsPage } from './pages/DashboardsPage';
+import { InnovationPortalPage } from './pages/InnovationPortalPage';
+import { WorkspacesPage } from './pages/WorkspacesPage';
 import { SettingsPage } from './pages/SettingsPage';
 
 export function App() {
@@ -22,6 +26,12 @@ export function App() {
   const [userRole, setUserRole] = useState<UserRole>('Policymaker');
   const [selectedCellId, setSelectedCellId] = useState<string>('TP-0002');
   const [askMapInitialQuery, setAskMapInitialQuery] = useState<string>('');
+
+  // Keep the API layer's role header in sync so backend RBAC actually
+  // enforces against whatever role is selected in the UI.
+  useEffect(() => {
+    setCurrentRole(userRole);
+  }, [userRole]);
 
   // Modals
   const [isDemoModalOpen, setIsDemoModalOpen] = useState(false);
@@ -88,6 +98,7 @@ export function App() {
             <ScenariosPage
               onNavigateTab={setActiveTab}
               onOpenReport={() => setIsReportModalOpen(true)}
+              userRole={userRole}
             />
           )}
 
@@ -101,6 +112,12 @@ export function App() {
           {activeTab === 'datasets' && <DatasetsPage />}
 
           {activeTab === 'models' && <ModelsPage />}
+
+          {activeTab === 'dashboards' && <DashboardsPage />}
+
+          {activeTab === 'innovation' && <InnovationPortalPage />}
+
+          {activeTab === 'workspaces' && <WorkspacesPage userRole={userRole} />}
 
           {activeTab === 'settings' && (
             <SettingsPage

@@ -6,6 +6,7 @@ dist-ssr/
 .eslintcache
 
 # Python & Backend
+backend/data_store/
 __pycache__/
 *.py[cod]
 *$py.class

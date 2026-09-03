@@ -10,7 +10,10 @@ import {
   Database,
   Cpu,
   Settings,
-  ShieldCheck
+  ShieldCheck,
+  BarChart3,
+  Rocket,
+  Users
 } from 'lucide-react';
 
 export type NavTab =
@@ -23,6 +26,9 @@ export type NavTab =
   | 'evidence'
   | 'datasets'
   | 'models'
+  | 'dashboards'
+  | 'innovation'
+  | 'workspaces'
   | 'settings';
 
 interface SidebarProps {
@@ -41,6 +47,9 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeTab, onTabChange }) => {
     { id: 'evidence', label: 'Evidence Chain', icon: FileCheck2, badge: 'Audit' },
     { id: 'datasets', label: 'Datasets', icon: Database, badge: 'Quality' },
     { id: 'models', label: 'Models & Monitoring', icon: Cpu, badge: 'Eval' },
+    { id: 'dashboards', label: 'Dashboards', icon: BarChart3, badge: '7 Metrics' },
+    { id: 'innovation', label: 'Innovation Portal', icon: Rocket, badge: null },
+    { id: 'workspaces', label: 'Collaborative Workspaces', icon: Users, badge: null },
     { id: 'settings', label: 'Settings', icon: Settings, badge: null }
   ];
 

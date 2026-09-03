@@ -19,6 +19,10 @@ from app.api.models_eval import router as models_router
 from app.api.datasets import router as datasets_router
 from app.api.evidence import router as evidence_router
 from app.api.reports import router as reports_router
+from app.api.disputes import router as disputes_router
+from app.api.climate import router as climate_router
+from app.api.innovation import router as innovation_router
+from app.api.workspaces import router as workspaces_router
 
 app = FastAPI(
     title=settings.PROJECT_NAME,
@@ -49,6 +53,10 @@ app.include_router(models_router, prefix=settings.API_V1_STR)
 app.include_router(datasets_router, prefix=settings.API_V1_STR)
 app.include_router(evidence_router, prefix=settings.API_V1_STR)
 app.include_router(reports_router, prefix=settings.API_V1_STR)
+app.include_router(disputes_router, prefix=settings.API_V1_STR)
+app.include_router(climate_router, prefix=settings.API_V1_STR)
+app.include_router(innovation_router, prefix=settings.API_V1_STR)
+app.include_router(workspaces_router, prefix=settings.API_V1_STR)
 
 @app.get("/")
 def root():

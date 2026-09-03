@@ -10,10 +10,30 @@ import {
   ScenarioItem,
   ModelMetrics,
   DatasetItem,
-  ExecutiveReport
+  ExecutiveReport,
+  DisputeStats,
+  ClimateMetrics,
+  InnovationProgramme,
+  Workspace
 } from '../types';
 
 const API_BASE = 'http://127.0.0.1:8000/api/v1';
+
+// Prototype-scope role identity: sent as a header on every request so the
+// backend's RBAC layer (app/core/rbac.py) can actually enforce permissions
+// server-side, not just hide buttons in the UI. Set from the role selector
+// in Settings/Header via api.setCurrentRole().
+let currentRole = 'Public User';
+export function setCurrentRole(role: string) {
+  currentRole = role;
+}
+
+export class ApiForbiddenError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = 'ApiForbiddenError';
+  }
+}
 
 async function fetchJson<T>(endpoint: string, options?: RequestInit): Promise<T> {
   try {
@@ -21,9 +41,14 @@ async function fetchJson<T>(endpoint: string, options?: RequestInit): Promise<T>
       ...options,
       headers: {
         'Content-Type': 'application/json',
+        'X-User-Role': currentRole,
         ...options?.headers
       }
     });
+    if (res.status === 403) {
+      const body = await res.json().catch(() => ({}));
+      throw new ApiForbiddenError(body.detail || `Role '${currentRole}' does not have permission for this action.`);
+    }
     if (!res.ok) {
       throw new Error(`HTTP error ${res.status}: ${res.statusText}`);
     }
@@ -105,5 +130,26 @@ export const api = {
   generateReport: (scenarioId: string, focusTaluk: string, userRole: string) => fetchJson<ExecutiveReport>('/generate-report', {
     method: 'POST',
     body: JSON.stringify({ scenario_id: scenarioId, focus_taluk: focusTaluk, user_role: userRole })
+  }),
+
+  // Land Dispute Statistics
+  getDisputeStats: () => fetchJson<DisputeStats>('/disputes'),
+
+  // Climate Resilience
+  getClimateMetrics: () => fetchJson<ClimateMetrics>('/climate'),
+
+  // Innovation Portal
+  getInnovationProgrammes: () => fetchJson<{ total_programmes: number; by_type: string[]; programmes: InnovationProgramme[] }>('/innovation'),
+
+  // Collaborative Workspaces
+  getWorkspaces: () => fetchJson<{ total_workspaces: number; workspaces: Workspace[] }>('/workspaces'),
+  getWorkspace: (id: string) => fetchJson<Workspace>(`/workspaces/${id}`),
+  createWorkspace: (name: string, description?: string, focusDistrict?: string) => fetchJson<Workspace>('/workspaces', {
+    method: 'POST',
+    body: JSON.stringify({ name, description, focus_district: focusDistrict })
+  }),
+  addWorkspaceNote: (workspaceId: string, authorName: string, text: string) => fetchJson<Workspace['notes'][number]>(`/workspaces/${workspaceId}/notes`, {
+    method: 'POST',
+    body: JSON.stringify({ author_name: authorName, text })
   })
 };

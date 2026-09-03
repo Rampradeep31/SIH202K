@@ -194,6 +194,57 @@ export interface DatasetItem {
   limitation_note?: string;
 }
 
+export interface DisputeStats {
+  data_source: string;
+  total_cases: number;
+  pending_case_rate_pct: number;
+  by_type: { dispute_type: string; count: number }[];
+  by_status: { status: string; count: number }[];
+  by_year: { year: number; count: number }[];
+  top_districts: { district: string; count: number }[];
+}
+
+export interface ClimateMetrics {
+  data_source: string;
+  coverage: string;
+  long_term_annual_avg_mm: number;
+  recent_decade_annual_avg_mm: number;
+  recent_vs_baseline_pct_change: number;
+  recent_decade_years: number[];
+  monthly_seasonality: { month: string; avg_rainfall_mm: number }[];
+  annual_totals: { year: number; total_rainfall_mm: number }[];
+}
+
+export interface InnovationProgramme {
+  id: string;
+  name: string;
+  type: string;
+  organizer: string;
+  description: string;
+  focus_area: string;
+  source_url: string;
+  status: string;
+}
+
+export interface WorkspaceNote {
+  id: string;
+  author_name: string;
+  author_role: string;
+  text: string;
+  posted_at: string;
+}
+
+export interface Workspace {
+  id: string;
+  name: string;
+  description?: string;
+  focus_district?: string | null;
+  created_by_role: string;
+  created_at: string;
+  notes: WorkspaceNote[];
+  note_count?: number;
+}
+
 export interface ExecutiveReport {
   title: string;
   jurisdiction: string;

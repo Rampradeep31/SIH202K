@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { api } from '../services/api';
-import { ScenarioItem } from '../types';
+import { api, ApiForbiddenError } from '../services/api';
+import { ScenarioItem, UserRole } from '../types';
 import {
   Sliders,
   RotateCcw,
@@ -11,8 +11,11 @@ import {
   CheckCircle2,
   Scale,
   ShieldAlert,
-  Calculator
+  Calculator,
+  Lock
 } from 'lucide-react';
+
+const CAN_SIMULATE_ROLES: UserRole[] = ['Government Analyst', 'Policymaker'];
 import {
   BarChart,
   Bar,
@@ -27,11 +30,14 @@ import {
 interface ScenariosPageProps {
   onNavigateTab: (tab: any) => void;
   onOpenReport: () => void;
+  userRole: UserRole;
 }
 
-export const ScenariosPage: React.FC<ScenariosPageProps> = ({ onNavigateTab, onOpenReport }) => {
+export const ScenariosPage: React.FC<ScenariosPageProps> = ({ onNavigateTab, onOpenReport, userRole }) => {
   const [loading, setLoading] = useState(true);
   const [scenarios, setScenarios] = useState<ScenarioItem[]>([]);
+  const [simError, setSimError] = useState<string | null>(null);
+  const canSimulate = CAN_SIMULATE_ROLES.includes(userRole);
   const [weights, setWeights] = useState({
     development_suitability: 0.25,
     infrastructure_access: 0.25,
@@ -57,17 +63,21 @@ export const ScenariosPage: React.FC<ScenariosPageProps> = ({ onNavigateTab, onO
   };
 
   const handleWeightChange = async (key: string, value: number) => {
+    if (!canSimulate) return;
     const updated = { ...weights, [key]: value };
     setWeights(updated);
+    setSimError(null);
     try {
       const res = await api.simulateScenarios(updated);
       setScenarios(res.scenarios);
     } catch (err) {
+      setSimError(err instanceof ApiForbiddenError ? err.message : 'Simulation failed.');
       console.error(err);
     }
   };
 
   const handleResetWeights = async () => {
+    if (!canSimulate) return;
     const defaultW = {
       development_suitability: 0.25,
       infrastructure_access: 0.25,
@@ -76,10 +86,12 @@ export const ScenariosPage: React.FC<ScenariosPageProps> = ({ onNavigateTab, onO
       ecological_protection: 0.15
     };
     setWeights(defaultW);
+    setSimError(null);
     try {
       const res = await api.simulateScenarios(defaultW);
       setScenarios(res.scenarios);
     } catch (err) {
+      setSimError(err instanceof ApiForbiddenError ? err.message : 'Simulation failed.');
       console.error(err);
     }
   };
@@ -236,12 +248,23 @@ export const ScenariosPage: React.FC<ScenariosPageProps> = ({ onNavigateTab, onO
           </div>
           <button
             onClick={handleResetWeights}
-            className="flex items-center space-x-1 px-3 py-1 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold rounded transition-colors"
+            disabled={!canSimulate}
+            className="flex items-center space-x-1 px-3 py-1 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold rounded transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
           >
             <RotateCcw className="w-3.5 h-3.5" />
             <span>Reset Weights</span>
           </button>
         </div>
+
+        {!canSimulate && (
+          <div className="mb-4 p-2.5 bg-slate-50 border border-slate-200 rounded-lg text-[11px] text-slate-600 flex items-center space-x-2">
+            <Lock className="w-3.5 h-3.5 shrink-0 text-slate-400" />
+            <span>Viewing as <strong>{userRole}</strong> — running simulations requires Government Analyst or Policymaker role.</span>
+          </div>
+        )}
+        {simError && (
+          <div className="mb-4 p-2.5 bg-red-50 border border-red-200 rounded-lg text-[11px] text-red-700">{simError}</div>
+        )}
 
         {/* Sliders Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 text-xs">
@@ -260,7 +283,8 @@ export const ScenariosPage: React.FC<ScenariosPageProps> = ({ onNavigateTab, onO
               step="0.05"
               value={weights.agricultural_preservation}
               onChange={(e) => handleWeightChange('agricultural_preservation', parseFloat(e.target.value))}
-              className="w-full h-1.5 bg-slate-200 rounded cursor-pointer"
+              disabled={!canSimulate}
+              className="w-full h-1.5 bg-slate-200 rounded cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
             />
             <p className="text-[10px] text-slate-500">Penalizes farmland loss & enforces Section 47A audits.</p>
           </div>
@@ -280,7 +304,8 @@ export const ScenariosPage: React.FC<ScenariosPageProps> = ({ onNavigateTab, onO
               step="0.05"
               value={weights.infrastructure_access}
               onChange={(e) => handleWeightChange('infrastructure_access', parseFloat(e.target.value))}
-              className="w-full h-1.5 bg-slate-200 rounded cursor-pointer"
+              disabled={!canSimulate}
+              className="w-full h-1.5 bg-slate-200 rounded cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
             />
             <p className="text-[10px] text-slate-500">Rewards development adjacent to NH-544 and rail links.</p>
           </div>
@@ -300,7 +325,8 @@ export const ScenariosPage: React.FC<ScenariosPageProps> = ({ onNavigateTab, onO
               step="0.05"
               value={weights.water_flood_safety}
               onChange={(e) => handleWeightChange('water_flood_safety', parseFloat(e.target.value))}
-              className="w-full h-1.5 bg-slate-200 rounded cursor-pointer"
+              disabled={!canSimulate}
+              className="w-full h-1.5 bg-slate-200 rounded cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
             />
             <p className="text-[10px] text-slate-500">Protects Noyyal riparian buffers & over-exploited blocks.</p>
           </div>
@@ -320,7 +346,8 @@ export const ScenariosPage: React.FC<ScenariosPageProps> = ({ onNavigateTab, onO
               step="0.05"
               value={weights.development_suitability}
               onChange={(e) => handleWeightChange('development_suitability', parseFloat(e.target.value))}
-              className="w-full h-1.5 bg-slate-200 rounded cursor-pointer"
+              disabled={!canSimulate}
+              className="w-full h-1.5 bg-slate-200 rounded cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
             />
             <p className="text-[10px] text-slate-500">Prioritizes textile industrial expansion & employment.</p>
           </div>
@@ -340,7 +367,8 @@ export const ScenariosPage: React.FC<ScenariosPageProps> = ({ onNavigateTab, onO
               step="0.05"
               value={weights.ecological_protection}
               onChange={(e) => handleWeightChange('ecological_protection', parseFloat(e.target.value))}
-              className="w-full h-1.5 bg-slate-200 rounded cursor-pointer"
+              disabled={!canSimulate}
+              className="w-full h-1.5 bg-slate-200 rounded cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
             />
             <p className="text-[10px] text-slate-500">Mandates green buffers and soil conservation.</p>
           </div>

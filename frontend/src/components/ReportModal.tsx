@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { api } from '../services/api';
+import { api, ApiForbiddenError } from '../services/api';
 import { ExecutiveReport } from '../types';
-import { Printer, X, Download, ShieldCheck, FileCheck } from 'lucide-react';
+import { Printer, X, Download, ShieldCheck, FileCheck, Lock } from 'lucide-react';
 
 interface ReportModalProps {
   isOpen: boolean;
@@ -12,18 +12,23 @@ interface ReportModalProps {
 export const ReportModal: React.FC<ReportModalProps> = ({ isOpen, onClose, userRole }) => {
   const [report, setReport] = useState<ExecutiveReport | null>(null);
   const [loading, setLoading] = useState(true);
+  const [forbidden, setForbidden] = useState<string | null>(null);
   const [selectedScenario, setSelectedScenario] = useState('scenario_sustainable');
   const [selectedTaluk, setSelectedTaluk] = useState('Avinashi');
 
   useEffect(() => {
     if (isOpen) {
       setLoading(true);
+      setForbidden(null);
       api.generateReport(selectedScenario, selectedTaluk, userRole)
         .then((res) => {
           setReport(res);
           setLoading(false);
         })
         .catch((err) => {
+          if (err instanceof ApiForbiddenError) {
+            setForbidden(err.message);
+          }
           console.error(err);
           setLoading(false);
         });
@@ -86,6 +91,12 @@ export const ReportModal: React.FC<ReportModalProps> = ({ isOpen, onClose, userR
           {loading ? (
             <div className="py-20 text-center text-slate-500 text-sm">
               Compiling multi-source evidence brief...
+            </div>
+          ) : forbidden ? (
+            <div className="py-20 text-center text-slate-500 text-sm flex flex-col items-center space-y-2">
+              <Lock className="w-8 h-8 text-slate-300" />
+              <p className="font-semibold text-slate-700">Access restricted</p>
+              <p className="text-xs max-w-md">{forbidden}</p>
             </div>
           ) : report ? (
             <div className="space-y-6">

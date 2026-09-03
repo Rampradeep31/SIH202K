@@ -10,8 +10,6 @@ it explicitly declares: 'Insufficient evidence available in the current knowledg
 import os
 import csv
 import json
-import math
-import re
 import sys
 import logging
 from typing import Dict, List, Any
@@ -224,41 +222,69 @@ class ResearchCopilot:
         self.policies = load_verified_policy_corpus()
         self.research = load_verified_research_corpus()
         self.facts = load_grounding_facts()
+        self._build_search_index()
+
+    def _build_search_index(self):
+        """
+        TF-IDF vector search over the corpus, replacing a prior implementation
+        that just counted whether each query token literally appeared in a
+        document's text (no weighting, no notion of relative relevance). This
+        is real information retrieval — terms are weighted by how distinctive
+        they are across the corpus (inverse document frequency) and documents
+        are ranked by cosine similarity to the query vector — not a deep
+        learning embedding model, so it's labeled "TF-IDF search" rather than
+        overclaiming a semantic/neural "AI search".
+        """
+        from sklearn.feature_extraction.text import TfidfVectorizer
+
+        self._policy_texts = [
+            (p["title"] + " " + p["summary"] + " " + " ".join(p["key_clauses"]))
+            for p in self.policies
+        ]
+        self._research_texts = [
+            (r["title"] + " " + r["abstract"] + " " + " ".join(r["key_findings"]))
+            for r in self.research
+        ]
+
+        corpus = self._policy_texts + self._research_texts
+        if corpus:
+            self._vectorizer = TfidfVectorizer(stop_words="english", ngram_range=(1, 2))
+            self._vectorizer.fit(corpus)
+            self._policy_matrix = self._vectorizer.transform(self._policy_texts) if self._policy_texts else None
+            self._research_matrix = self._vectorizer.transform(self._research_texts) if self._research_texts else None
+        else:
+            self._vectorizer = None
+            self._policy_matrix = None
+            self._research_matrix = None
+
+    def _search(self, question: str, texts_matrix, items, weight_key=None, top_k=2, min_score=0.05):
+        if self._vectorizer is None or texts_matrix is None or not items:
+            return []
+        from sklearn.metrics.pairwise import cosine_similarity
+
+        qvec = self._vectorizer.transform([question])
+        sims = cosine_similarity(qvec, texts_matrix)[0]
+        scored = []
+        for idx, item in enumerate(items):
+            sim = float(sims[idx])
+            if sim < min_score:
+                continue
+            weighted = sim * item.get(weight_key, 1.0) if weight_key else sim
+            scored.append((weighted, sim, item))
+        scored.sort(key=lambda x: x[0], reverse=True)
+        return scored[:top_k]
 
     def query(self, question: str) -> Dict[str, Any]:
         """
         Processes research/policy question with grounded retrieval and strict evidence attribution.
         """
         q_lower = question.lower()
-        
-        # Tokenize and score relevance
-        scored_policies = []
-        for p in self.policies:
-            score = 0.0
-            content = (p["title"] + " " + p["summary"] + " " + " ".join(p["key_clauses"])).lower()
-            tokens = re.findall(r'\w+', q_lower)
-            for token in tokens:
-                if len(token) > 3 and token in content:
-                    score += 1.0
-            if score > 0:
-                scored_policies.append((score * p["authority_weight"], p))
-                
-        scored_research = []
-        for r in self.research:
-            score = 0.0
-            content = (r["title"] + " " + r["abstract"] + " " + " ".join(r["key_findings"])).lower()
-            tokens = re.findall(r'\w+', q_lower)
-            for token in tokens:
-                if len(token) > 3 and token in content:
-                    score += 1.0
-            if score > 0:
-                scored_research.append((score, r))
 
-        scored_policies.sort(key=lambda x: x[0], reverse=True)
-        scored_research.sort(key=lambda x: x[0], reverse=True)
-        
-        top_policies = [p[1] for p in scored_policies[:2]]
-        top_research = [r[1] for r in scored_research[:2]]
+        scored_policies = self._search(question, self._policy_matrix, self.policies, weight_key="authority_weight")
+        scored_research = self._search(question, self._research_matrix, self.research)
+
+        top_policies = [p[2] for p in scored_policies]
+        top_research = [r[2] for r in scored_research]
         
         # Check if we have sufficient grounding
         if not top_policies and not top_research:
