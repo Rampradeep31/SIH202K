@@ -358,7 +358,18 @@ def _load_real_parcels() -> List[Dict[str, Any]]:
         try:
             with open(cad_file, "r", encoding="utf-8") as f:
                 data = json.load(f)
-                raw_features = data.get("features", [])[:320]
+                # This file spans all 38 districts statewide; the pilot is
+                # scoped to Tiruppur, so filter to Tiruppur parcels only.
+                # (Previously this took the first 320 features unfiltered,
+                # which meant most "Tiruppur" parcels were actually from
+                # whichever district happened to sort first in the file —
+                # e.g. Thiruvallur/Chennai-area, ~300km away — silently
+                # breaking every distance-to-highway/urban-core feature.)
+                all_features = data.get("features", [])
+                raw_features = [
+                    feat for feat in all_features
+                    if feat.get("properties", {}).get("district") == "Tiruppur"
+                ][:320]
         except Exception:
             raw_features = []
 
@@ -377,24 +388,34 @@ def _load_real_parcels() -> List[Dict[str, Any]]:
                 d_urban = calculate_dist(clat, clon, URBAN_CORE[0], URBAN_CORE[1])
                 d_rail = calculate_dist(clat, clon, RAIL_STATION[0], RAIL_STATION[1])
                 
-                # Synthetic/historical baseline LULC conversion logic
-                # Ensure balanced class distribution (0 and 1) for ML model training
-                conversion_score = max(0.0, 1.0 - (d_nh / 20.0) - (d_urban / 30.0))
-                noise = (random.random() - 0.5) * 0.4
-                is_converted = 1 if (idx % 3 == 0 or (conversion_score + noise) > 0.25) else 0
+                # Synthetic/historical baseline LULC conversion logic.
+                # Conversion is drawn stochastically from a probability that scales
+                # with real spatial risk drivers (highway/urban/rail proximity)
+                # rather than forced by a fixed idx%3 rule, so the label isn't
+                # artificially deterministic on top of the spatial signal. The
+                # floor term represents conversion drivers this model doesn't
+                # capture (informal industrial sheds, local rezoning, owner-
+                # initiated sale) — real-world conversion is never explained by
+                # distance alone.
+                conversion_score = max(0.0, 1.0 - (d_nh / 25.0) - (d_urban / 35.0) - (d_rail / 45.0))
+                conversion_prob = min(0.85, max(0.05, conversion_score * 0.7 + 0.28))
+                is_converted = 1 if random.random() < conversion_prob else 0
                 land_use_2023 = "Built-up" if is_converted else "Agriculture"
-                
-                # Spectral indices & deltas
+
+                # Spectral indices & deltas. NDVI/NDBI deltas correlate with
+                # conversion (built-up parcels trend toward vegetation loss /
+                # built-index gain) but carry heavy overlapping noise between
+                # classes, so they're a noisy signal rather than a near-perfect
+                # proxy for the label — a classifier has to combine them with the
+                # other features instead of reading the delta as the answer key.
                 ndvi_2018 = round(0.45 + (random.random() * 0.25), 3)
                 ndbi_2018 = round(-0.35 + (random.random() * 0.20), 3)
-                
-                if is_converted:
-                    ndvi_2023 = round(max(0.08, ndvi_2018 - 0.25 - (random.random() * 0.15)), 3)
-                    ndbi_2023 = round(min(0.45, ndbi_2018 + 0.35 + (random.random() * 0.15)), 3)
-                else:
-                    ndvi_2023 = round(ndvi_2018 - (random.random() * 0.04), 3)
-                    ndbi_2023 = round(ndbi_2018 + (random.random() * 0.03), 3)
-                    
+
+                ndvi_shift = (-0.13 if is_converted else -0.025) + (random.random() - 0.5) * 0.35
+                ndbi_shift = (0.16 if is_converted else 0.015) + (random.random() - 0.5) * 0.35
+                ndvi_2023 = round(max(0.05, min(0.85, ndvi_2018 + ndvi_shift)), 3)
+                ndbi_2023 = round(max(-0.40, min(0.60, ndbi_2018 + ndbi_shift)), 3)
+
                 ndvi_delta = round(ndvi_2023 - ndvi_2018, 3)
                 ndbi_delta = round(ndbi_2023 - ndbi_2018, 3)
                 
@@ -453,17 +474,16 @@ def _load_real_parcels() -> List[Dict[str, Any]]:
                 d_urban = calculate_dist(lat, lon, URBAN_CORE[0], URBAN_CORE[1])
                 d_rail = calculate_dist(lat, lon, RAIL_STATION[0], RAIL_STATION[1])
                 
-                is_converted = 1 if (d_nh < 4.0 or d_urban < 5.0) and random.random() < 0.70 else 0
-                
+                conversion_prob = 0.70 if (d_nh < 4.0 or d_urban < 5.0) else 0.08
+                is_converted = 1 if random.random() < conversion_prob else 0
+
                 ndvi_2018 = round(0.50 + (random.random() * 0.20), 3)
                 ndbi_2018 = round(-0.30 + (random.random() * 0.15), 3)
-                
-                if is_converted:
-                    ndvi_2023 = round(ndvi_2018 - 0.30, 3)
-                    ndbi_2023 = round(ndbi_2018 + 0.40, 3)
-                else:
-                    ndvi_2023 = round(ndvi_2018 - 0.03, 3)
-                    ndbi_2023 = round(ndbi_2018 + 0.02, 3)
+
+                ndvi_shift = (-0.14 if is_converted else -0.025) + (random.random() - 0.5) * 0.35
+                ndbi_shift = (0.17 if is_converted else 0.015) + (random.random() - 0.5) * 0.35
+                ndvi_2023 = round(max(0.05, min(0.85, ndvi_2018 + ndvi_shift)), 3)
+                ndbi_2023 = round(max(-0.40, min(0.60, ndbi_2018 + ndbi_shift)), 3)
                     
                 half_deg = 0.003
                 polygon_coords = [
