@@ -1,0 +1,80 @@
+{
+  "project_id": "SIH_2026_PS_26019",
+  "project_title": "National Digital Platform for Research and Policy Innovation in Land Governance",
+  "pilot_state": "Tamil Nadu",
+  "canonical_administrative_vintage": {
+    "districts_count": 38,
+    "taluks_count": 76,
+    "crs": "EPSG:4326 (WGS84)"
+  },
+  "datasets": {
+    "districts_boundary": {
+      "path": "tamil_nadu_dataset/tamil_nadu_districts.geojson",
+      "format": "GeoJSON Polygon",
+      "features": 38,
+      "data_source": "real"
+    },
+    "taluks_boundary": {
+      "path": "tamil_nadu_dataset/tamil_nadu_taluks.geojson",
+      "format": "GeoJSON Polygon",
+      "features": 76,
+      "data_source": "real"
+    },
+    "roads_railways": {
+      "path": "tamil_nadu_dataset/tamil_nadu_roads_railways.geojson",
+      "format": "GeoJSON LineString",
+      "features": 10360,
+      "data_source": "real"
+    },
+    "satellite_zonal_stats": {
+      "path": "tamil_nadu_dataset/*_by_district.csv & *_by_taluk.csv",
+      "format": "CSV Zonal Statistics",
+      "indices": [
+        "NDVI",
+        "NDWI",
+        "NDBI"
+      ],
+      "seasons": [
+        "post_monsoon_greenery",
+        "peak_dry_summer"
+      ],
+      "data_source": "real (Sentinel-2 L2A STAC)"
+    },
+    "rainfall_history": {
+      "path": "tamil_nadu_dataset/tamil_nadu_rainfall_1901_2015.csv",
+      "format": "CSV Time Series (1380 rows)",
+      "years": "1901-2015",
+      "data_source": "real (IMD)"
+    },
+    "district_socioeconomic": {
+      "path": "tamil_nadu_dataset/tamil_nadu_district_socioeconomic_2011.csv",
+      "format": "CSV Baseline (30 rows)",
+      "data_source": "real (Census 2011)"
+    },
+    "lulc_summary": {
+      "path": "tamil_nadu_dataset/tn_lulc_synthetic_summary.csv",
+      "format": "CSV (114 rows)",
+      "data_source": "synthetic (Bhuvan Model)"
+    },
+    "land_disputes_annual": {
+      "path": "tamil_nadu_dataset/tn_synthetic_land_disputes.csv",
+      "format": "CSV Macro Annual (228 rows)",
+      "data_source": "synthetic (NJDG Model)"
+    },
+    "land_disputes_breakdown": {
+      "path": "tamil_nadu_dataset/tamil_nadu_synthetic_land_disputes.csv",
+      "format": "CSV Micro Category (768 rows)",
+      "data_source": "synthetic (NJDG Model)"
+    },
+    "cadastral_parcels": {
+      "path": "tamil_nadu_dataset/tamil_nadu_synthetic_cadastral_parcels.geojson",
+      "format": "GeoJSON Polygon (8640 features)",
+      "data_source": "synthetic"
+    },
+    "spatial_master": {
+      "path": "data/processed/spatial_master.geojson",
+      "total_features": 19115,
+      "format": "GeoJSON Canonical Spatial Master"
+    }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "project_id": "SIH_2026_PS_26019",
+  "project_title": "National Digital Platform for Research and Policy Innovation in Land Governance",
+  "pilot_state": "Tamil Nadu",
+  "coordinate_reference_system": "EPSG:4326 (WGS84)",
+  "datasets": {
+    "districts_boundary": {
+      "path": "data/raw/boundaries/tn_districts.geojson",
+      "format": "GeoJSON Boundary",
+      "source": "OpenStreetMap Nominatim / DataMeet"
+    },
+    "coimbatore_roads": {
+      "path": "data/raw/infrastructure/coimbatore_roads.geojson",
+      "format": "GeoJSON LineString Network",
+      "source": "OpenStreetMap Overpass API"
+    },
+    "spatial_master": {
+      "path": "data/processed/spatial_master.geojson",
+      "total_features": 124,
+      "format": "GeoJSON Master Spatial Layer"
+    }
+  }
+}

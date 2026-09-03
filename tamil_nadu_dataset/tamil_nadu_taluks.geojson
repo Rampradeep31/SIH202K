@@ -1,0 +1,2666 @@
+{
+  "type": "FeatureCollection",
+  "name": "Tamil_Nadu_Taluks_Statewide",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "state": "Tamil Nadu",
+        "district": "Chennai",
+        "taluk": "Chennai North / West"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              12.9327,
+              80.1207
+            ],
+            [
+              13.0827,
+              80.1207
+            ],
+            [
+              13.0827,
+              80.2707
+            ],
+            [
+              12.9327,
+              80.2707
+            ],
+            [
+              12.9327,
+              80.1207
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "state": "Tamil Nadu",
+        "district": "Chennai",
+        "taluk": "Chennai South / East"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              13.0827,
+              80.2707
+            ],
+            [
+              13.232700000000001,
+              80.2707
+            ],
+            [
+              13.232700000000001,
+              80.42070000000001
+            ],
+            [
+              13.0827,
+              80.42070000000001
+            ],
+            [
+              13.0827,
+              80.2707
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "state": "Tamil Nadu",
+        "district": "Kanchipuram",
+        "taluk": "Kanchipuram North / West"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              12.684199999999999,
+              79.55359999999999
+            ],
+            [
+              12.8342,
+              79.55359999999999
+            ],
+            [
+              12.8342,
+              79.7036
+            ],
+            [
+              12.684199999999999,
+              79.7036
+            ],
+            [
+              12.684199999999999,
+              79.55359999999999
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "state": "Tamil Nadu",
+        "district": "Kanchipuram",
+        "taluk": "Kanchipuram South / East"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              12.8342,
+              79.7036
+            ],
+            [
+              12.9842,
+              79.7036
+            ],
+            [
+              12.9842,
+              79.8536
+            ],
+            [
+              12.8342,
+              79.8536
+            ],
+            [
+              12.8342,
+              79.7036
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "state": "Tamil Nadu",
+        "district": "Chengalpattu",
+        "taluk": "Chengalpattu North / West"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              12.5341,
+              79.83359999999999
+            ],
+            [
+              12.6841,
+              79.83359999999999
+            ],
+            [
+              12.6841,
+              79.9836
+            ],
+            [
+              12.5341,
+              79.9836
+            ],
+            [
+              12.5341,
+              79.83359999999999
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "state": "Tamil Nadu",
+        "district": "Chengalpattu",
+        "taluk": "Chengalpattu South / East"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              12.6841,
+              79.9836
+            ],
+            [
+              12.834100000000001,
+              79.9836
+            ],
+            [
+              12.834100000000001,
+              80.1336
+            ],
+            [
+              12.6841,
+              80.1336
+            ],
+            [
+              12.6841,
+              79.9836
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "state": "Tamil Nadu",
+        "district": "Thiruvallur",
+        "taluk": "Thiruvallur North / West"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              12.9932,
+              79.75789999999999
+            ],
+            [
+              13.1432,
+              79.75789999999999
+            ],
+            [
+              13.1432,
+              79.9079
+            ],
+            [
+              12.9932,
+              79.9079
+            ],
+            [
+              12.9932,
+              79.75789999999999
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "state": "Tamil Nadu",
+        "district": "Thiruvallur",
+        "taluk": "Thiruvallur South / East"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              13.1432,
+              79.9079
+            ],
+            [
+              13.2932,
+              79.9079
+            ],
+            [
+              13.2932,
+              80.0579
+            ],
+            [
+              13.1432,
+              80.0579
+            ],
+            [
+              13.1432,
+              79.9079
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "state": "Tamil Nadu",
+        "district": "Vellore",
+        "taluk": "Vellore North / West"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              12.766499999999999,
+              78.98249999999999
+            ],
+            [
+              12.9165,
+              78.98249999999999
+            ],
+            [
+              12.9165,
+              79.1325
+            ],
+            [
+              12.766499999999999,
+              79.1325
+            ],
+            [
+              12.766499999999999,
+              78.98249999999999
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "state": "Tamil Nadu",
+        "district": "Vellore",
+        "taluk": "Vellore South / East"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              12.9165,
+              79.1325
+            ],
+            [
+              13.0665,
+              79.1325
+            ],
+            [
+              13.0665,
+              79.2825
+            ],
+            [
+              12.9165,
+              79.2825
+            ],
+            [
+              12.9165,
+              79.1325
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "state": "Tamil Nadu",
+        "district": "Ranipet",
+        "taluk": "Ranipet North / West"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              12.778699999999999,
+              79.18329999999999
+            ],
+            [
+              12.9287,
+              79.18329999999999
+            ],
+            [
+              12.9287,
+              79.3333
+            ],
+            [
+              12.778699999999999,
+              79.3333
+            ],
+            [
+              12.778699999999999,
+              79.18329999999999
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "state": "Tamil Nadu",
+        "district": "Ranipet",
+        "taluk": "Ranipet South / East"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              12.9287,
+              79.3333
+            ],
+            [
+              13.0787,
+              79.3333
+            ],
+            [
+              13.0787,
+              79.4833
+            ],
+            [
+              12.9287,
+              79.4833
+            ],
+            [
+              12.9287,
+              79.3333
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "state": "Tamil Nadu",
+        "district": "Tirupathur",
+        "taluk": "Tirupathur North / West"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              12.3439,
+              78.41629999999999
+            ],
+            [
+              12.4939,
+              78.41629999999999
+            ],
+            [
+              12.4939,
+              78.5663
+            ],
+            [
+              12.3439,
+              78.5663
+            ],
+            [
+              12.3439,
+              78.41629999999999
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "state": "Tamil Nadu",
+        "district": "Tirupathur",
+        "taluk": "Tirupathur South / East"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              12.4939,
+              78.5663
+            ],
+            [
+              12.6439,
+              78.5663
+            ],
+            [
+              12.6439,
+              78.7163
+            ],
+            [
+              12.4939,
+              78.7163
+            ],
+            [
+              12.4939,
+              78.5663
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "state": "Tamil Nadu",
+        "district": "Tiruvannamalai",
+        "taluk": "Tiruvannamalai North / West"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              12.0753,
+              78.9247
+            ],
+            [
+              12.2253,
+              78.9247
+            ],
+            [
+              12.2253,
+              79.0747
+            ],
+            [
+              12.0753,
+              79.0747
+            ],
+            [
+              12.0753,
+              78.9247
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "state": "Tamil Nadu",
+        "district": "Tiruvannamalai",
+        "taluk": "Tiruvannamalai South / East"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              12.2253,
+              79.0747
+            ],
+            [
+              12.375300000000001,
+              79.0747
+            ],
+            [
+              12.375300000000001,
+              79.22470000000001
+            ],
+            [
+              12.2253,
+              79.22470000000001
+            ],
+            [
+              12.2253,
+              79.0747
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "state": "Tamil Nadu",
+        "district": "Cuddalore",
+        "taluk": "Cuddalore North / West"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              11.597999999999999,
+              79.6214
+            ],
+            [
+              11.748,
+              79.6214
+            ],
+            [
+              11.748,
+              79.7714
+            ],
+            [
+              11.597999999999999,
+              79.7714
+            ],
+            [
+              11.597999999999999,
+              79.6214
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "state": "Tamil Nadu",
+        "district": "Cuddalore",
+        "taluk": "Cuddalore South / East"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              11.748,
+              79.7714
+            ],
+            [
+              11.898,
+              79.7714
+            ],
+            [
+              11.898,
+              79.9214
+            ],
+            [
+              11.748,
+              79.9214
+            ],
+            [
+              11.748,
+              79.7714
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "state": "Tamil Nadu",
+        "district": "Villupuram",
+        "taluk": "Villupuram North / West"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              11.790099999999999,
+              79.33609999999999
+            ],
+            [
+              11.9401,
+              79.33609999999999
+            ],
+            [
+              11.9401,
+              79.4861
+            ],
+            [
+              11.790099999999999,
+              79.4861
+            ],
+            [
+              11.790099999999999,
+              79.33609999999999
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "state": "Tamil Nadu",
+        "district": "Villupuram",
+        "taluk": "Villupuram South / East"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              11.9401,
+              79.4861
+            ],
+            [
+              12.0901,
+              79.4861
+            ],
+            [
+              12.0901,
+              79.6361
+            ],
+            [
+              11.9401,
+              79.6361
+            ],
+            [
+              11.9401,
+              79.4861
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "state": "Tamil Nadu",
+        "district": "Kallakurichi",
+        "taluk": "Kallakurichi North / West"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              11.5884,
+              78.81389999999999
+            ],
+            [
+              11.7384,
+              78.81389999999999
+            ],
+            [
+              11.7384,
+              78.9639
+            ],
+            [
+              11.5884,
+              78.9639
+            ],
+            [
+              11.5884,
+              78.81389999999999
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "state": "Tamil Nadu",
+        "district": "Kallakurichi",
+        "taluk": "Kallakurichi South / East"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              11.7384,
+              78.9639
+            ],
+            [
+              11.8884,
+              78.9639
+            ],
+            [
+              11.8884,
+              79.1139
+            ],
+            [
+              11.7384,
+              79.1139
+            ],
+            [
+              11.7384,
+              78.9639
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "state": "Tamil Nadu",
+        "district": "Salem",
+        "taluk": "Salem North / West"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              11.5143,
+              77.996
+            ],
+            [
+              11.6643,
+              77.996
+            ],
+            [
+              11.6643,
+              78.146
+            ],
+            [
+              11.5143,
+              78.146
+            ],
+            [
+              11.5143,
+              77.996
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "state": "Tamil Nadu",
+        "district": "Salem",
+        "taluk": "Salem South / East"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              11.6643,
+              78.146
+            ],
+            [
+              11.814300000000001,
+              78.146
+            ],
+            [
+              11.814300000000001,
+              78.296
+            ],
+            [
+              11.6643,
+              78.296
+            ],
+            [
+              11.6643,
+              78.146
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "state": "Tamil Nadu",
+        "district": "Namakkal",
+        "taluk": "Namakkal North / West"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              11.0689,
+              78.0174
+            ],
+            [
+              11.2189,
+              78.0174
+            ],
+            [
+              11.2189,
+              78.1674
+            ],
+            [
+              11.0689,
+              78.1674
+            ],
+            [
+              11.0689,
+              78.0174
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "state": "Tamil Nadu",
+        "district": "Namakkal",
+        "taluk": "Namakkal South / East"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              11.2189,
+              78.1674
+            ],
+            [
+              11.3689,
+              78.1674
+            ],
+            [
+              11.3689,
+              78.3174
+            ],
+            [
+              11.2189,
+              78.3174
+            ],
+            [
+              11.2189,
+              78.1674
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "state": "Tamil Nadu",
+        "district": "Dharmapuri",
+        "taluk": "Dharmapuri North / West"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              11.9711,
+              78.00819999999999
+            ],
+            [
+              12.1211,
+              78.00819999999999
+            ],
+            [
+              12.1211,
+              78.1582
+            ],
+            [
+              11.9711,
+              78.1582
+            ],
+            [
+              11.9711,
+              78.00819999999999
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "state": "Tamil Nadu",
+        "district": "Dharmapuri",
+        "taluk": "Dharmapuri South / East"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              12.1211,
+              78.1582
+            ],
+            [
+              12.2711,
+              78.1582
+            ],
+            [
+              12.2711,
+              78.3082
+            ],
+            [
+              12.1211,
+              78.3082
+            ],
+            [
+              12.1211,
+              78.1582
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "state": "Tamil Nadu",
+        "district": "Krishnagiri",
+        "taluk": "Krishnagiri North / West"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              12.368599999999999,
+              78.0637
+            ],
+            [
+              12.5186,
+              78.0637
+            ],
+            [
+              12.5186,
+              78.2137
+            ],
+            [
+              12.368599999999999,
+              78.2137
+            ],
+            [
+              12.368599999999999,
+              78.0637
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "state": "Tamil Nadu",
+        "district": "Krishnagiri",
+        "taluk": "Krishnagiri South / East"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              12.5186,
+              78.2137
+            ],
+            [
+              12.6686,
+              78.2137
+            ],
+            [
+              12.6686,
+              78.36370000000001
+            ],
+            [
+              12.5186,
+              78.36370000000001
+            ],
+            [
+              12.5186,
+              78.2137
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "state": "Tamil Nadu",
+        "district": "Erode",
+        "taluk": "Erode North / West"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              11.190999999999999,
+              77.5672
+            ],
+            [
+              11.341,
+              77.5672
+            ],
+            [
+              11.341,
+              77.7172
+            ],
+            [
+              11.190999999999999,
+              77.7172
+            ],
+            [
+              11.190999999999999,
+              77.5672
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "state": "Tamil Nadu",
+        "district": "Erode",
+        "taluk": "Erode South / East"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              11.341,
+              77.7172
+            ],
+            [
+              11.491,
+              77.7172
+            ],
+            [
+              11.491,
+              77.86720000000001
+            ],
+            [
+              11.341,
+              77.86720000000001
+            ],
+            [
+              11.341,
+              77.7172
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "state": "Tamil Nadu",
+        "district": "Tiruppur",
+        "taluk": "Tiruppur North / West"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              10.958499999999999,
+              77.19109999999999
+            ],
+            [
+              11.1085,
+              77.19109999999999
+            ],
+            [
+              11.1085,
+              77.3411
+            ],
+            [
+              10.958499999999999,
+              77.3411
+            ],
+            [
+              10.958499999999999,
+              77.19109999999999
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "state": "Tamil Nadu",
+        "district": "Tiruppur",
+        "taluk": "Tiruppur South / East"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              11.1085,
+              77.3411
+            ],
+            [
+              11.2585,
+              77.3411
+            ],
+            [
+              11.2585,
+              77.4911
+            ],
+            [
+              11.1085,
+              77.4911
+            ],
+            [
+              11.1085,
+              77.3411
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "state": "Tamil Nadu",
+        "district": "Coimbatore",
+        "taluk": "Coimbatore North / West"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              10.8668,
+              76.80579999999999
+            ],
+            [
+              11.0168,
+              76.80579999999999
+            ],
+            [
+              11.0168,
+              76.9558
+            ],
+            [
+              10.8668,
+              76.9558
+            ],
+            [
+              10.8668,
+              76.80579999999999
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "state": "Tamil Nadu",
+        "district": "Coimbatore",
+        "taluk": "Coimbatore South / East"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              11.0168,
+              76.9558
+            ],
+            [
+              11.1668,
+              76.9558
+            ],
+            [
+              11.1668,
+              77.1058
+            ],
+            [
+              11.0168,
+              77.1058
+            ],
+            [
+              11.0168,
+              76.9558
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "state": "Tamil Nadu",
+        "district": "The Nilgiris",
+        "taluk": "The Nilgiris North / West"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              11.3416,
+              76.5837
+            ],
+            [
+              11.4916,
+              76.5837
+            ],
+            [
+              11.4916,
+              76.7337
+            ],
+            [
+              11.3416,
+              76.7337
+            ],
+            [
+              11.3416,
+              76.5837
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "state": "Tamil Nadu",
+        "district": "The Nilgiris",
+        "taluk": "The Nilgiris South / East"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              11.4916,
+              76.7337
+            ],
+            [
+              11.6416,
+              76.7337
+            ],
+            [
+              11.6416,
+              76.8837
+            ],
+            [
+              11.4916,
+              76.8837
+            ],
+            [
+              11.4916,
+              76.7337
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "state": "Tamil Nadu",
+        "district": "Thanjavur",
+        "taluk": "Thanjavur North / West"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              10.637,
+              78.9878
+            ],
+            [
+              10.787,
+              78.9878
+            ],
+            [
+              10.787,
+              79.1378
+            ],
+            [
+              10.637,
+              79.1378
+            ],
+            [
+              10.637,
+              78.9878
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "state": "Tamil Nadu",
+        "district": "Thanjavur",
+        "taluk": "Thanjavur South / East"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              10.787,
+              79.1378
+            ],
+            [
+              10.937000000000001,
+              79.1378
+            ],
+            [
+              10.937000000000001,
+              79.2878
+            ],
+            [
+              10.787,
+              79.2878
+            ],
+            [
+              10.787,
+              79.1378
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "state": "Tamil Nadu",
+        "district": "Tiruvarur",
+        "taluk": "Tiruvarur North / West"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              10.6225,
+              79.48649999999999
+            ],
+            [
+              10.7725,
+              79.48649999999999
+            ],
+            [
+              10.7725,
+              79.6365
+            ],
+            [
+              10.6225,
+              79.6365
+            ],
+            [
+              10.6225,
+              79.48649999999999
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "state": "Tamil Nadu",
+        "district": "Tiruvarur",
+        "taluk": "Tiruvarur South / East"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              10.7725,
+              79.6365
+            ],
+            [
+              10.922500000000001,
+              79.6365
+            ],
+            [
+              10.922500000000001,
+              79.7865
+            ],
+            [
+              10.7725,
+              79.7865
+            ],
+            [
+              10.7725,
+              79.6365
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "state": "Tamil Nadu",
+        "district": "Nagapattinam",
+        "taluk": "Nagapattinam North / West"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              10.615599999999999,
+              79.69239999999999
+            ],
+            [
+              10.7656,
+              79.69239999999999
+            ],
+            [
+              10.7656,
+              79.8424
+            ],
+            [
+              10.615599999999999,
+              79.8424
+            ],
+            [
+              10.615599999999999,
+              79.69239999999999
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "state": "Tamil Nadu",
+        "district": "Nagapattinam",
+        "taluk": "Nagapattinam South / East"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              10.7656,
+              79.8424
+            ],
+            [
+              10.9156,
+              79.8424
+            ],
+            [
+              10.9156,
+              79.9924
+            ],
+            [
+              10.7656,
+              79.9924
+            ],
+            [
+              10.7656,
+              79.8424
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "state": "Tamil Nadu",
+        "district": "Mayiladuthurai",
+        "taluk": "Mayiladuthurai North / West"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              10.9518,
+              79.50219999999999
+            ],
+            [
+              11.1018,
+              79.50219999999999
+            ],
+            [
+              11.1018,
+              79.6522
+            ],
+            [
+              10.9518,
+              79.6522
+            ],
+            [
+              10.9518,
+              79.50219999999999
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "state": "Tamil Nadu",
+        "district": "Mayiladuthurai",
+        "taluk": "Mayiladuthurai South / East"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              11.1018,
+              79.6522
+            ],
+            [
+              11.251800000000001,
+              79.6522
+            ],
+            [
+              11.251800000000001,
+              79.8022
+            ],
+            [
+              11.1018,
+              79.8022
+            ],
+            [
+              11.1018,
+              79.6522
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "state": "Tamil Nadu",
+        "district": "Tiruchirappalli",
+        "taluk": "Tiruchirappalli North / West"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              10.6405,
+              78.5547
+            ],
+            [
+              10.7905,
+              78.5547
+            ],
+            [
+              10.7905,
+              78.7047
+            ],
+            [
+              10.6405,
+              78.7047
+            ],
+            [
+              10.6405,
+              78.5547
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "state": "Tamil Nadu",
+        "district": "Tiruchirappalli",
+        "taluk": "Tiruchirappalli South / East"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              10.7905,
+              78.7047
+            ],
+            [
+              10.9405,
+              78.7047
+            ],
+            [
+              10.9405,
+              78.85470000000001
+            ],
+            [
+              10.7905,
+              78.85470000000001
+            ],
+            [
+              10.7905,
+              78.7047
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "state": "Tamil Nadu",
+        "district": "Perambalur",
+        "taluk": "Perambalur North / West"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              11.0842,
+              78.732
+            ],
+            [
+              11.2342,
+              78.732
+            ],
+            [
+              11.2342,
+              78.882
+            ],
+            [
+              11.0842,
+              78.882
+            ],
+            [
+              11.0842,
+              78.732
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "state": "Tamil Nadu",
+        "district": "Perambalur",
+        "taluk": "Perambalur South / East"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              11.2342,
+              78.882
+            ],
+            [
+              11.3842,
+              78.882
+            ],
+            [
+              11.3842,
+              79.03200000000001
+            ],
+            [
+              11.2342,
+              79.03200000000001
+            ],
+            [
+              11.2342,
+              78.882
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "state": "Tamil Nadu",
+        "district": "Ariyalur",
+        "taluk": "Ariyalur North / West"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              10.9901,
+              78.92859999999999
+            ],
+            [
+              11.1401,
+              78.92859999999999
+            ],
+            [
+              11.1401,
+              79.0786
+            ],
+            [
+              10.9901,
+              79.0786
+            ],
+            [
+              10.9901,
+              78.92859999999999
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "state": "Tamil Nadu",
+        "district": "Ariyalur",
+        "taluk": "Ariyalur South / East"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              11.1401,
+              79.0786
+            ],
+            [
+              11.2901,
+              79.0786
+            ],
+            [
+              11.2901,
+              79.2286
+            ],
+            [
+              11.1401,
+              79.2286
+            ],
+            [
+              11.1401,
+              79.0786
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "state": "Tamil Nadu",
+        "district": "Pudukkottai",
+        "taluk": "Pudukkottai North / West"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              10.2333,
+              78.64999999999999
+            ],
+            [
+              10.3833,
+              78.64999999999999
+            ],
+            [
+              10.3833,
+              78.8
+            ],
+            [
+              10.2333,
+              78.8
+            ],
+            [
+              10.2333,
+              78.64999999999999
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "state": "Tamil Nadu",
+        "district": "Pudukkottai",
+        "taluk": "Pudukkottai South / East"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              10.3833,
+              78.8
+            ],
+            [
+              10.5333,
+              78.8
+            ],
+            [
+              10.5333,
+              78.95
+            ],
+            [
+              10.3833,
+              78.95
+            ],
+            [
+              10.3833,
+              78.8
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "state": "Tamil Nadu",
+        "district": "Karur",
+        "taluk": "Karur North / West"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              10.8101,
+              77.9266
+            ],
+            [
+              10.9601,
+              77.9266
+            ],
+            [
+              10.9601,
+              78.0766
+            ],
+            [
+              10.8101,
+              78.0766
+            ],
+            [
+              10.8101,
+              77.9266
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "state": "Tamil Nadu",
+        "district": "Karur",
+        "taluk": "Karur South / East"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              10.9601,
+              78.0766
+            ],
+            [
+              11.110100000000001,
+              78.0766
+            ],
+            [
+              11.110100000000001,
+              78.2266
+            ],
+            [
+              10.9601,
+              78.2266
+            ],
+            [
+              10.9601,
+              78.0766
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "state": "Tamil Nadu",
+        "district": "Madurai",
+        "taluk": "Madurai North / West"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              9.7752,
+              77.96979999999999
+            ],
+            [
+              9.9252,
+              77.96979999999999
+            ],
+            [
+              9.9252,
+              78.1198
+            ],
+            [
+              9.7752,
+              78.1198
+            ],
+            [
+              9.7752,
+              77.96979999999999
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "state": "Tamil Nadu",
+        "district": "Madurai",
+        "taluk": "Madurai South / East"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              9.9252,
+              78.1198
+            ],
+            [
+              10.0752,
+              78.1198
+            ],
+            [
+              10.0752,
+              78.2698
+            ],
+            [
+              9.9252,
+              78.2698
+            ],
+            [
+              9.9252,
+              78.1198
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "state": "Tamil Nadu",
+        "district": "Theni",
+        "taluk": "Theni North / West"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              9.8604,
+              77.32679999999999
+            ],
+            [
+              10.0104,
+              77.32679999999999
+            ],
+            [
+              10.0104,
+              77.4768
+            ],
+            [
+              9.8604,
+              77.4768
+            ],
+            [
+              9.8604,
+              77.32679999999999
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "state": "Tamil Nadu",
+        "district": "Theni",
+        "taluk": "Theni South / East"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              10.0104,
+              77.4768
+            ],
+            [
+              10.160400000000001,
+              77.4768
+            ],
+            [
+              10.160400000000001,
+              77.6268
+            ],
+            [
+              10.0104,
+              77.6268
+            ],
+            [
+              10.0104,
+              77.4768
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "state": "Tamil Nadu",
+        "district": "Dindigul",
+        "taluk": "Dindigul North / West"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              10.2173,
+              77.8303
+            ],
+            [
+              10.3673,
+              77.8303
+            ],
+            [
+              10.3673,
+              77.9803
+            ],
+            [
+              10.2173,
+              77.9803
+            ],
+            [
+              10.2173,
+              77.8303
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "state": "Tamil Nadu",
+        "district": "Dindigul",
+        "taluk": "Dindigul South / East"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              10.3673,
+              77.9803
+            ],
+            [
+              10.5173,
+              77.9803
+            ],
+            [
+              10.5173,
+              78.1303
+            ],
+            [
+              10.3673,
+              78.1303
+            ],
+            [
+              10.3673,
+              77.9803
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "state": "Tamil Nadu",
+        "district": "Ramanathapuram",
+        "taluk": "Ramanathapuram North / West"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              9.213899999999999,
+              78.6895
+            ],
+            [
+              9.3639,
+              78.6895
+            ],
+            [
+              9.3639,
+              78.8395
+            ],
+            [
+              9.213899999999999,
+              78.8395
+            ],
+            [
+              9.213899999999999,
+              78.6895
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "state": "Tamil Nadu",
+        "district": "Ramanathapuram",
+        "taluk": "Ramanathapuram South / East"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              9.3639,
+              78.8395
+            ],
+            [
+              9.5139,
+              78.8395
+            ],
+            [
+              9.5139,
+              78.9895
+            ],
+            [
+              9.3639,
+              78.9895
+            ],
+            [
+              9.3639,
+              78.8395
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "state": "Tamil Nadu",
+        "district": "Sivaganga",
+        "taluk": "Sivaganga North / West"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              9.693299999999999,
+              78.3309
+            ],
+            [
+              9.8433,
+              78.3309
+            ],
+            [
+              9.8433,
+              78.4809
+            ],
+            [
+              9.693299999999999,
+              78.4809
+            ],
+            [
+              9.693299999999999,
+              78.3309
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "state": "Tamil Nadu",
+        "district": "Sivaganga",
+        "taluk": "Sivaganga South / East"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              9.8433,
+              78.4809
+            ],
+            [
+              9.9933,
+              78.4809
+            ],
+            [
+              9.9933,
+              78.63090000000001
+            ],
+            [
+              9.8433,
+              78.63090000000001
+            ],
+            [
+              9.8433,
+              78.4809
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "state": "Tamil Nadu",
+        "district": "Virudhunagar",
+        "taluk": "Virudhunagar North / West"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              9.418,
+              77.8124
+            ],
+            [
+              9.568,
+              77.8124
+            ],
+            [
+              9.568,
+              77.9624
+            ],
+            [
+              9.418,
+              77.9624
+            ],
+            [
+              9.418,
+              77.8124
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "state": "Tamil Nadu",
+        "district": "Virudhunagar",
+        "taluk": "Virudhunagar South / East"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              9.568,
+              77.9624
+            ],
+            [
+              9.718,
+              77.9624
+            ],
+            [
+              9.718,
+              78.11240000000001
+            ],
+            [
+              9.568,
+              78.11240000000001
+            ],
+            [
+              9.568,
+              77.9624
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "state": "Tamil Nadu",
+        "district": "Tirunelveli",
+        "taluk": "Tirunelveli North / West"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              8.5639,
+              77.60669999999999
+            ],
+            [
+              8.7139,
+              77.60669999999999
+            ],
+            [
+              8.7139,
+              77.7567
+            ],
+            [
+              8.5639,
+              77.7567
+            ],
+            [
+              8.5639,
+              77.60669999999999
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "state": "Tamil Nadu",
+        "district": "Tirunelveli",
+        "taluk": "Tirunelveli South / East"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              8.7139,
+              77.7567
+            ],
+            [
+              8.863900000000001,
+              77.7567
+            ],
+            [
+              8.863900000000001,
+              77.9067
+            ],
+            [
+              8.7139,
+              77.9067
+            ],
+            [
+              8.7139,
+              77.7567
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "state": "Tamil Nadu",
+        "district": "Tenkasi",
+        "taluk": "Tenkasi North / West"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              8.8093,
+              77.16499999999999
+            ],
+            [
+              8.9593,
+              77.16499999999999
+            ],
+            [
+              8.9593,
+              77.315
+            ],
+            [
+              8.8093,
+              77.315
+            ],
+            [
+              8.8093,
+              77.16499999999999
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "state": "Tamil Nadu",
+        "district": "Tenkasi",
+        "taluk": "Tenkasi South / East"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              8.9593,
+              77.315
+            ],
+            [
+              9.109300000000001,
+              77.315
+            ],
+            [
+              9.109300000000001,
+              77.465
+            ],
+            [
+              8.9593,
+              77.465
+            ],
+            [
+              8.9593,
+              77.315
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "state": "Tamil Nadu",
+        "district": "Thoothukudi",
+        "taluk": "Thoothukudi North / West"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              8.6142,
+              77.98479999999999
+            ],
+            [
+              8.7642,
+              77.98479999999999
+            ],
+            [
+              8.7642,
+              78.1348
+            ],
+            [
+              8.6142,
+              78.1348
+            ],
+            [
+              8.6142,
+              77.98479999999999
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "state": "Tamil Nadu",
+        "district": "Thoothukudi",
+        "taluk": "Thoothukudi South / East"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              8.7642,
+              78.1348
+            ],
+            [
+              8.914200000000001,
+              78.1348
+            ],
+            [
+              8.914200000000001,
+              78.2848
+            ],
+            [
+              8.7642,
+              78.2848
+            ],
+            [
+              8.7642,
+              78.1348
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "state": "Tamil Nadu",
+        "district": "Kanyakumari",
+        "taluk": "Kanyakumari North / West"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              7.9383,
+              77.3885
+            ],
+            [
+              8.0883,
+              77.3885
+            ],
+            [
+              8.0883,
+              77.5385
+            ],
+            [
+              7.9383,
+              77.5385
+            ],
+            [
+              7.9383,
+              77.3885
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "state": "Tamil Nadu",
+        "district": "Kanyakumari",
+        "taluk": "Kanyakumari South / East"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              8.0883,
+              77.5385
+            ],
+            [
+              8.2383,
+              77.5385
+            ],
+            [
+              8.2383,
+              77.6885
+            ],
+            [
+              8.0883,
+              77.6885
+            ],
+            [
+              8.0883,
+              77.5385
+            ]
+          ]
+        ]
+      }
+    }
+  ]
+}

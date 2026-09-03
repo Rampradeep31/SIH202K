@@ -1,0 +1,63 @@
+name: Deploy to GitHub Pages
+
+# Publishes the site to GitHub Pages: the per-state apps at the root, plus the
+# generated API reference (JSDoc + pdoc) under /docs/api/. A repo has a single
+# Pages site, so the docs ride along as a subpath rather than a second site.
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+
+      - name: Overlay data branches into the site
+        uses: ./.github/actions/overlay-data-branches
+        with:
+          branches: data/boundary-tiles data/parcels-index
+
+      - name: Setup environment
+        uses: ./.github/actions/setup-pipeline
+        with:
+          node-version: "22"
+          requirements-file: scraper/requirements-dev.txt
+          npm-install: "true"
+
+      - name: Build API reference (JSDoc + pdoc)
+        run: npm run docs
+
+      - name: Trim build-only files from the publish root
+        run: |
+          rm -rf node_modules package-lock.json
+          find . -type d -name __pycache__ -prune -exec rm -rf {} +
+
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@45bfe0192ca1faeb007ade9deae92b16b8254a0d # v6
+
+      - name: Upload Pages Artifact
+        uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5
+        with:
+          path: .
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@cd2ce8fcbc39b97be8ca5fce6e763baed58fa128 # v5

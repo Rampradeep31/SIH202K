@@ -1,0 +1,769 @@
+location_id,district,year,dispute_type,count,status
+1,Ariyalur,2021,Boundary Dispute,14,Pending
+1,Ariyalur,2021,Ownership/Title Dispute,15,Pending
+1,Ariyalur,2021,Partition Suit,12,Disposed
+1,Ariyalur,2021,Encroachment,17,Pending
+1,Ariyalur,2021,Tenancy Dispute,14,Pending
+1,Ariyalur,2021,Land Acquisition Compensation,11,Pending
+1,Ariyalur,2022,Boundary Dispute,22,Pending
+1,Ariyalur,2022,Ownership/Title Dispute,12,Pending
+1,Ariyalur,2022,Partition Suit,21,Pending
+1,Ariyalur,2022,Encroachment,15,Pending
+1,Ariyalur,2022,Tenancy Dispute,17,Pending
+1,Ariyalur,2022,Land Acquisition Compensation,11,Pending
+1,Ariyalur,2023,Boundary Dispute,13,Pending
+1,Ariyalur,2023,Ownership/Title Dispute,13,Disposed
+1,Ariyalur,2023,Partition Suit,18,Pending
+1,Ariyalur,2023,Encroachment,16,Pending
+1,Ariyalur,2023,Tenancy Dispute,14,Disposed
+1,Ariyalur,2023,Land Acquisition Compensation,17,Under Appeal
+1,Ariyalur,2024,Boundary Dispute,14,Disposed
+1,Ariyalur,2024,Ownership/Title Dispute,14,Pending
+1,Ariyalur,2024,Partition Suit,11,Under Appeal
+1,Ariyalur,2024,Encroachment,14,Pending
+1,Ariyalur,2024,Tenancy Dispute,17,Disposed
+1,Ariyalur,2024,Land Acquisition Compensation,14,Pending
+2,Chennai,2021,Boundary Dispute,34,Pending
+2,Chennai,2021,Ownership/Title Dispute,45,Pending
+2,Chennai,2021,Partition Suit,61,Pending
+2,Chennai,2021,Encroachment,30,Disposed
+2,Chennai,2021,Tenancy Dispute,47,Pending
+2,Chennai,2021,Land Acquisition Compensation,53,Disposed
+2,Chennai,2022,Boundary Dispute,53,Disposed
+2,Chennai,2022,Ownership/Title Dispute,41,Pending
+2,Chennai,2022,Partition Suit,50,Pending
+2,Chennai,2022,Encroachment,36,Pending
+2,Chennai,2022,Tenancy Dispute,41,Pending
+2,Chennai,2022,Land Acquisition Compensation,37,Pending
+2,Chennai,2023,Boundary Dispute,44,Disposed
+2,Chennai,2023,Ownership/Title Dispute,51,Pending
+2,Chennai,2023,Partition Suit,44,Pending
+2,Chennai,2023,Encroachment,55,Disposed
+2,Chennai,2023,Tenancy Dispute,40,Pending
+2,Chennai,2023,Land Acquisition Compensation,51,Pending
+2,Chennai,2024,Boundary Dispute,37,Disposed
+2,Chennai,2024,Ownership/Title Dispute,32,Disposed
+2,Chennai,2024,Partition Suit,52,Pending
+2,Chennai,2024,Encroachment,47,Disposed
+2,Chennai,2024,Tenancy Dispute,52,Pending
+2,Chennai,2024,Land Acquisition Compensation,44,Disposed
+3,Coimbatore,2021,Boundary Dispute,34,Disposed
+3,Coimbatore,2021,Ownership/Title Dispute,25,Pending
+3,Coimbatore,2021,Partition Suit,36,Under Appeal
+3,Coimbatore,2021,Encroachment,28,Pending
+3,Coimbatore,2021,Tenancy Dispute,27,Pending
+3,Coimbatore,2021,Land Acquisition Compensation,40,Disposed
+3,Coimbatore,2022,Boundary Dispute,33,Pending
+3,Coimbatore,2022,Ownership/Title Dispute,27,Pending
+3,Coimbatore,2022,Partition Suit,42,Pending
+3,Coimbatore,2022,Encroachment,32,Disposed
+3,Coimbatore,2022,Tenancy Dispute,40,Disposed
+3,Coimbatore,2022,Land Acquisition Compensation,36,Disposed
+3,Coimbatore,2023,Boundary Dispute,34,Disposed
+3,Coimbatore,2023,Ownership/Title Dispute,39,Pending
+3,Coimbatore,2023,Partition Suit,22,Disposed
+3,Coimbatore,2023,Encroachment,36,Disposed
+3,Coimbatore,2023,Tenancy Dispute,26,Disposed
+3,Coimbatore,2023,Land Acquisition Compensation,34,Pending
+3,Coimbatore,2024,Boundary Dispute,43,Disposed
+3,Coimbatore,2024,Ownership/Title Dispute,35,Under Appeal
+3,Coimbatore,2024,Partition Suit,29,Pending
+3,Coimbatore,2024,Encroachment,42,Disposed
+3,Coimbatore,2024,Tenancy Dispute,36,Pending
+3,Coimbatore,2024,Land Acquisition Compensation,31,Disposed
+4,Cuddalore,2021,Boundary Dispute,11,Disposed
+4,Cuddalore,2021,Ownership/Title Dispute,15,Under Appeal
+4,Cuddalore,2021,Partition Suit,18,Disposed
+4,Cuddalore,2021,Encroachment,11,Pending
+4,Cuddalore,2021,Tenancy Dispute,13,Pending
+4,Cuddalore,2021,Land Acquisition Compensation,9,Disposed
+4,Cuddalore,2022,Boundary Dispute,12,Pending
+4,Cuddalore,2022,Ownership/Title Dispute,12,Pending
+4,Cuddalore,2022,Partition Suit,22,Pending
+4,Cuddalore,2022,Encroachment,17,Pending
+4,Cuddalore,2022,Tenancy Dispute,18,Pending
+4,Cuddalore,2022,Land Acquisition Compensation,16,Disposed
+4,Cuddalore,2023,Boundary Dispute,17,Pending
+4,Cuddalore,2023,Ownership/Title Dispute,17,Pending
+4,Cuddalore,2023,Partition Suit,14,Pending
+4,Cuddalore,2023,Encroachment,19,Disposed
+4,Cuddalore,2023,Tenancy Dispute,18,Pending
+4,Cuddalore,2023,Land Acquisition Compensation,13,Pending
+4,Cuddalore,2024,Boundary Dispute,16,Pending
+4,Cuddalore,2024,Ownership/Title Dispute,21,Disposed
+4,Cuddalore,2024,Partition Suit,14,Disposed
+4,Cuddalore,2024,Encroachment,17,Disposed
+4,Cuddalore,2024,Tenancy Dispute,16,Pending
+4,Cuddalore,2024,Land Acquisition Compensation,19,Pending
+5,Dharmapuri,2021,Boundary Dispute,19,Pending
+5,Dharmapuri,2021,Ownership/Title Dispute,12,Disposed
+5,Dharmapuri,2021,Partition Suit,16,Under Appeal
+5,Dharmapuri,2021,Encroachment,20,Pending
+5,Dharmapuri,2021,Tenancy Dispute,9,Pending
+5,Dharmapuri,2021,Land Acquisition Compensation,13,Pending
+5,Dharmapuri,2022,Boundary Dispute,15,Pending
+5,Dharmapuri,2022,Ownership/Title Dispute,21,Pending
+5,Dharmapuri,2022,Partition Suit,16,Disposed
+5,Dharmapuri,2022,Encroachment,16,Pending
+5,Dharmapuri,2022,Tenancy Dispute,13,Pending
+5,Dharmapuri,2022,Land Acquisition Compensation,20,Pending
+5,Dharmapuri,2023,Boundary Dispute,13,Pending
+5,Dharmapuri,2023,Ownership/Title Dispute,14,Disposed
+5,Dharmapuri,2023,Partition Suit,15,Under Appeal
+5,Dharmapuri,2023,Encroachment,22,Disposed
+5,Dharmapuri,2023,Tenancy Dispute,18,Pending
+5,Dharmapuri,2023,Land Acquisition Compensation,9,Disposed
+5,Dharmapuri,2024,Boundary Dispute,10,Disposed
+5,Dharmapuri,2024,Ownership/Title Dispute,7,Pending
+5,Dharmapuri,2024,Partition Suit,23,Disposed
+5,Dharmapuri,2024,Encroachment,15,Disposed
+5,Dharmapuri,2024,Tenancy Dispute,11,Disposed
+5,Dharmapuri,2024,Land Acquisition Compensation,23,Disposed
+6,Dindigul,2021,Boundary Dispute,15,Pending
+6,Dindigul,2021,Ownership/Title Dispute,19,Pending
+6,Dindigul,2021,Partition Suit,14,Pending
+6,Dindigul,2021,Encroachment,18,Disposed
+6,Dindigul,2021,Tenancy Dispute,12,Pending
+6,Dindigul,2021,Land Acquisition Compensation,15,Pending
+6,Dindigul,2022,Boundary Dispute,12,Pending
+6,Dindigul,2022,Ownership/Title Dispute,13,Pending
+6,Dindigul,2022,Partition Suit,11,Pending
+6,Dindigul,2022,Encroachment,9,Pending
+6,Dindigul,2022,Tenancy Dispute,22,Pending
+6,Dindigul,2022,Land Acquisition Compensation,21,Pending
+6,Dindigul,2023,Boundary Dispute,11,Pending
+6,Dindigul,2023,Ownership/Title Dispute,24,Pending
+6,Dindigul,2023,Partition Suit,17,Pending
+6,Dindigul,2023,Encroachment,21,Disposed
+6,Dindigul,2023,Tenancy Dispute,15,Disposed
+6,Dindigul,2023,Land Acquisition Compensation,18,Pending
+6,Dindigul,2024,Boundary Dispute,15,Pending
+6,Dindigul,2024,Ownership/Title Dispute,18,Pending
+6,Dindigul,2024,Partition Suit,19,Pending
+6,Dindigul,2024,Encroachment,19,Pending
+6,Dindigul,2024,Tenancy Dispute,19,Disposed
+6,Dindigul,2024,Land Acquisition Compensation,25,Under Appeal
+7,Erode,2021,Boundary Dispute,12,Pending
+7,Erode,2021,Ownership/Title Dispute,15,Pending
+7,Erode,2021,Partition Suit,13,Pending
+7,Erode,2021,Encroachment,12,Pending
+7,Erode,2021,Tenancy Dispute,15,Pending
+7,Erode,2021,Land Acquisition Compensation,14,Pending
+7,Erode,2022,Boundary Dispute,11,Disposed
+7,Erode,2022,Ownership/Title Dispute,17,Pending
+7,Erode,2022,Partition Suit,13,Pending
+7,Erode,2022,Encroachment,19,Under Appeal
+7,Erode,2022,Tenancy Dispute,15,Pending
+7,Erode,2022,Land Acquisition Compensation,14,Pending
+7,Erode,2023,Boundary Dispute,15,Pending
+7,Erode,2023,Ownership/Title Dispute,14,Pending
+7,Erode,2023,Partition Suit,19,Pending
+7,Erode,2023,Encroachment,13,Under Appeal
+7,Erode,2023,Tenancy Dispute,11,Disposed
+7,Erode,2023,Land Acquisition Compensation,16,Disposed
+7,Erode,2024,Boundary Dispute,12,Pending
+7,Erode,2024,Ownership/Title Dispute,15,Pending
+7,Erode,2024,Partition Suit,17,Pending
+7,Erode,2024,Encroachment,12,Disposed
+7,Erode,2024,Tenancy Dispute,16,Pending
+7,Erode,2024,Land Acquisition Compensation,13,Disposed
+8,Kancheepuram,2021,Boundary Dispute,19,Pending
+8,Kancheepuram,2021,Ownership/Title Dispute,12,Pending
+8,Kancheepuram,2021,Partition Suit,11,Disposed
+8,Kancheepuram,2021,Encroachment,11,Under Appeal
+8,Kancheepuram,2021,Tenancy Dispute,22,Disposed
+8,Kancheepuram,2021,Land Acquisition Compensation,9,Disposed
+8,Kancheepuram,2022,Boundary Dispute,14,Disposed
+8,Kancheepuram,2022,Ownership/Title Dispute,14,Disposed
+8,Kancheepuram,2022,Partition Suit,13,Pending
+8,Kancheepuram,2022,Encroachment,20,Pending
+8,Kancheepuram,2022,Tenancy Dispute,14,Pending
+8,Kancheepuram,2022,Land Acquisition Compensation,15,Pending
+8,Kancheepuram,2023,Boundary Dispute,13,Pending
+8,Kancheepuram,2023,Ownership/Title Dispute,19,Pending
+8,Kancheepuram,2023,Partition Suit,15,Pending
+8,Kancheepuram,2023,Encroachment,9,Disposed
+8,Kancheepuram,2023,Tenancy Dispute,8,Under Appeal
+8,Kancheepuram,2023,Land Acquisition Compensation,19,Pending
+8,Kancheepuram,2024,Boundary Dispute,17,Under Appeal
+8,Kancheepuram,2024,Ownership/Title Dispute,10,Under Appeal
+8,Kancheepuram,2024,Partition Suit,9,Under Appeal
+8,Kancheepuram,2024,Encroachment,11,Pending
+8,Kancheepuram,2024,Tenancy Dispute,13,Pending
+8,Kancheepuram,2024,Land Acquisition Compensation,12,Pending
+9,Kanniyakumari,2021,Boundary Dispute,18,Pending
+9,Kanniyakumari,2021,Ownership/Title Dispute,19,Pending
+9,Kanniyakumari,2021,Partition Suit,10,Disposed
+9,Kanniyakumari,2021,Encroachment,16,Under Appeal
+9,Kanniyakumari,2021,Tenancy Dispute,25,Disposed
+9,Kanniyakumari,2021,Land Acquisition Compensation,15,Pending
+9,Kanniyakumari,2022,Boundary Dispute,10,Disposed
+9,Kanniyakumari,2022,Ownership/Title Dispute,15,Disposed
+9,Kanniyakumari,2022,Partition Suit,21,Pending
+9,Kanniyakumari,2022,Encroachment,22,Disposed
+9,Kanniyakumari,2022,Tenancy Dispute,13,Under Appeal
+9,Kanniyakumari,2022,Land Acquisition Compensation,16,Disposed
+9,Kanniyakumari,2023,Boundary Dispute,16,Disposed
+9,Kanniyakumari,2023,Ownership/Title Dispute,22,Pending
+9,Kanniyakumari,2023,Partition Suit,16,Pending
+9,Kanniyakumari,2023,Encroachment,12,Disposed
+9,Kanniyakumari,2023,Tenancy Dispute,12,Pending
+9,Kanniyakumari,2023,Land Acquisition Compensation,13,Disposed
+9,Kanniyakumari,2024,Boundary Dispute,12,Under Appeal
+9,Kanniyakumari,2024,Ownership/Title Dispute,17,Pending
+9,Kanniyakumari,2024,Partition Suit,21,Pending
+9,Kanniyakumari,2024,Encroachment,21,Under Appeal
+9,Kanniyakumari,2024,Tenancy Dispute,18,Disposed
+9,Kanniyakumari,2024,Land Acquisition Compensation,10,Pending
+10,Karur,2021,Boundary Dispute,12,Pending
+10,Karur,2021,Ownership/Title Dispute,21,Pending
+10,Karur,2021,Partition Suit,10,Under Appeal
+10,Karur,2021,Encroachment,14,Disposed
+10,Karur,2021,Tenancy Dispute,12,Pending
+10,Karur,2021,Land Acquisition Compensation,9,Disposed
+10,Karur,2022,Boundary Dispute,14,Under Appeal
+10,Karur,2022,Ownership/Title Dispute,15,Disposed
+10,Karur,2022,Partition Suit,12,Pending
+10,Karur,2022,Encroachment,18,Pending
+10,Karur,2022,Tenancy Dispute,24,Pending
+10,Karur,2022,Land Acquisition Compensation,10,Pending
+10,Karur,2023,Boundary Dispute,10,Under Appeal
+10,Karur,2023,Ownership/Title Dispute,20,Disposed
+10,Karur,2023,Partition Suit,14,Pending
+10,Karur,2023,Encroachment,12,Under Appeal
+10,Karur,2023,Tenancy Dispute,17,Pending
+10,Karur,2023,Land Acquisition Compensation,14,Disposed
+10,Karur,2024,Boundary Dispute,11,Disposed
+10,Karur,2024,Ownership/Title Dispute,10,Pending
+10,Karur,2024,Partition Suit,8,Pending
+10,Karur,2024,Encroachment,19,Pending
+10,Karur,2024,Tenancy Dispute,15,Pending
+10,Karur,2024,Land Acquisition Compensation,19,Disposed
+11,Krishnagiri,2021,Boundary Dispute,13,Pending
+11,Krishnagiri,2021,Ownership/Title Dispute,18,Pending
+11,Krishnagiri,2021,Partition Suit,8,Pending
+11,Krishnagiri,2021,Encroachment,16,Under Appeal
+11,Krishnagiri,2021,Tenancy Dispute,17,Pending
+11,Krishnagiri,2021,Land Acquisition Compensation,19,Pending
+11,Krishnagiri,2022,Boundary Dispute,13,Disposed
+11,Krishnagiri,2022,Ownership/Title Dispute,10,Under Appeal
+11,Krishnagiri,2022,Partition Suit,17,Pending
+11,Krishnagiri,2022,Encroachment,20,Under Appeal
+11,Krishnagiri,2022,Tenancy Dispute,10,Pending
+11,Krishnagiri,2022,Land Acquisition Compensation,14,Pending
+11,Krishnagiri,2023,Boundary Dispute,17,Pending
+11,Krishnagiri,2023,Ownership/Title Dispute,19,Pending
+11,Krishnagiri,2023,Partition Suit,13,Pending
+11,Krishnagiri,2023,Encroachment,16,Pending
+11,Krishnagiri,2023,Tenancy Dispute,14,Pending
+11,Krishnagiri,2023,Land Acquisition Compensation,16,Disposed
+11,Krishnagiri,2024,Boundary Dispute,19,Pending
+11,Krishnagiri,2024,Ownership/Title Dispute,14,Pending
+11,Krishnagiri,2024,Partition Suit,12,Disposed
+11,Krishnagiri,2024,Encroachment,17,Disposed
+11,Krishnagiri,2024,Tenancy Dispute,10,Pending
+11,Krishnagiri,2024,Land Acquisition Compensation,16,Pending
+12,Madurai,2021,Boundary Dispute,28,Disposed
+12,Madurai,2021,Ownership/Title Dispute,34,Disposed
+12,Madurai,2021,Partition Suit,24,Pending
+12,Madurai,2021,Encroachment,25,Disposed
+12,Madurai,2021,Tenancy Dispute,26,Pending
+12,Madurai,2021,Land Acquisition Compensation,24,Pending
+12,Madurai,2022,Boundary Dispute,25,Disposed
+12,Madurai,2022,Ownership/Title Dispute,29,Pending
+12,Madurai,2022,Partition Suit,22,Disposed
+12,Madurai,2022,Encroachment,32,Disposed
+12,Madurai,2022,Tenancy Dispute,25,Under Appeal
+12,Madurai,2022,Land Acquisition Compensation,23,Pending
+12,Madurai,2023,Boundary Dispute,21,Disposed
+12,Madurai,2023,Ownership/Title Dispute,27,Pending
+12,Madurai,2023,Partition Suit,25,Pending
+12,Madurai,2023,Encroachment,25,Disposed
+12,Madurai,2023,Tenancy Dispute,24,Pending
+12,Madurai,2023,Land Acquisition Compensation,27,Pending
+12,Madurai,2024,Boundary Dispute,33,Pending
+12,Madurai,2024,Ownership/Title Dispute,23,Under Appeal
+12,Madurai,2024,Partition Suit,18,Disposed
+12,Madurai,2024,Encroachment,29,Disposed
+12,Madurai,2024,Tenancy Dispute,24,Under Appeal
+12,Madurai,2024,Land Acquisition Compensation,28,Pending
+13,Nagapattinam,2021,Boundary Dispute,13,Disposed
+13,Nagapattinam,2021,Ownership/Title Dispute,11,Under Appeal
+13,Nagapattinam,2021,Partition Suit,15,Disposed
+13,Nagapattinam,2021,Encroachment,17,Pending
+13,Nagapattinam,2021,Tenancy Dispute,20,Pending
+13,Nagapattinam,2021,Land Acquisition Compensation,19,Pending
+13,Nagapattinam,2022,Boundary Dispute,12,Pending
+13,Nagapattinam,2022,Ownership/Title Dispute,18,Pending
+13,Nagapattinam,2022,Partition Suit,8,Pending
+13,Nagapattinam,2022,Encroachment,6,Disposed
+13,Nagapattinam,2022,Tenancy Dispute,16,Disposed
+13,Nagapattinam,2022,Land Acquisition Compensation,10,Disposed
+13,Nagapattinam,2023,Boundary Dispute,16,Pending
+13,Nagapattinam,2023,Ownership/Title Dispute,19,Disposed
+13,Nagapattinam,2023,Partition Suit,16,Disposed
+13,Nagapattinam,2023,Encroachment,20,Pending
+13,Nagapattinam,2023,Tenancy Dispute,20,Disposed
+13,Nagapattinam,2023,Land Acquisition Compensation,11,Under Appeal
+13,Nagapattinam,2024,Boundary Dispute,15,Pending
+13,Nagapattinam,2024,Ownership/Title Dispute,10,Under Appeal
+13,Nagapattinam,2024,Partition Suit,14,Pending
+13,Nagapattinam,2024,Encroachment,11,Pending
+13,Nagapattinam,2024,Tenancy Dispute,17,Under Appeal
+13,Nagapattinam,2024,Land Acquisition Compensation,18,Disposed
+14,Namakkal,2021,Boundary Dispute,20,Pending
+14,Namakkal,2021,Ownership/Title Dispute,20,Pending
+14,Namakkal,2021,Partition Suit,17,Pending
+14,Namakkal,2021,Encroachment,13,Pending
+14,Namakkal,2021,Tenancy Dispute,22,Pending
+14,Namakkal,2021,Land Acquisition Compensation,12,Pending
+14,Namakkal,2022,Boundary Dispute,12,Disposed
+14,Namakkal,2022,Ownership/Title Dispute,21,Pending
+14,Namakkal,2022,Partition Suit,17,Disposed
+14,Namakkal,2022,Encroachment,17,Pending
+14,Namakkal,2022,Tenancy Dispute,13,Pending
+14,Namakkal,2022,Land Acquisition Compensation,14,Pending
+14,Namakkal,2023,Boundary Dispute,11,Disposed
+14,Namakkal,2023,Ownership/Title Dispute,12,Pending
+14,Namakkal,2023,Partition Suit,20,Pending
+14,Namakkal,2023,Encroachment,21,Under Appeal
+14,Namakkal,2023,Tenancy Dispute,12,Disposed
+14,Namakkal,2023,Land Acquisition Compensation,19,Under Appeal
+14,Namakkal,2024,Boundary Dispute,14,Pending
+14,Namakkal,2024,Ownership/Title Dispute,19,Pending
+14,Namakkal,2024,Partition Suit,17,Pending
+14,Namakkal,2024,Encroachment,15,Disposed
+14,Namakkal,2024,Tenancy Dispute,12,Pending
+14,Namakkal,2024,Land Acquisition Compensation,12,Pending
+15,Perambalur,2021,Boundary Dispute,14,Pending
+15,Perambalur,2021,Ownership/Title Dispute,13,Under Appeal
+15,Perambalur,2021,Partition Suit,16,Disposed
+15,Perambalur,2021,Encroachment,11,Pending
+15,Perambalur,2021,Tenancy Dispute,12,Pending
+15,Perambalur,2021,Land Acquisition Compensation,16,Under Appeal
+15,Perambalur,2022,Boundary Dispute,12,Disposed
+15,Perambalur,2022,Ownership/Title Dispute,9,Disposed
+15,Perambalur,2022,Partition Suit,11,Pending
+15,Perambalur,2022,Encroachment,16,Pending
+15,Perambalur,2022,Tenancy Dispute,14,Disposed
+15,Perambalur,2022,Land Acquisition Compensation,19,Pending
+15,Perambalur,2023,Boundary Dispute,24,Pending
+15,Perambalur,2023,Ownership/Title Dispute,13,Under Appeal
+15,Perambalur,2023,Partition Suit,12,Disposed
+15,Perambalur,2023,Encroachment,12,Disposed
+15,Perambalur,2023,Tenancy Dispute,9,Pending
+15,Perambalur,2023,Land Acquisition Compensation,12,Disposed
+15,Perambalur,2024,Boundary Dispute,10,Pending
+15,Perambalur,2024,Ownership/Title Dispute,22,Disposed
+15,Perambalur,2024,Partition Suit,13,Pending
+15,Perambalur,2024,Encroachment,18,Pending
+15,Perambalur,2024,Tenancy Dispute,17,Disposed
+15,Perambalur,2024,Land Acquisition Compensation,19,Under Appeal
+16,Pudukkottai,2021,Boundary Dispute,19,Pending
+16,Pudukkottai,2021,Ownership/Title Dispute,11,Pending
+16,Pudukkottai,2021,Partition Suit,16,Pending
+16,Pudukkottai,2021,Encroachment,11,Pending
+16,Pudukkottai,2021,Tenancy Dispute,18,Pending
+16,Pudukkottai,2021,Land Acquisition Compensation,14,Pending
+16,Pudukkottai,2022,Boundary Dispute,15,Pending
+16,Pudukkottai,2022,Ownership/Title Dispute,12,Pending
+16,Pudukkottai,2022,Partition Suit,19,Pending
+16,Pudukkottai,2022,Encroachment,10,Pending
+16,Pudukkottai,2022,Tenancy Dispute,14,Disposed
+16,Pudukkottai,2022,Land Acquisition Compensation,12,Pending
+16,Pudukkottai,2023,Boundary Dispute,11,Pending
+16,Pudukkottai,2023,Ownership/Title Dispute,17,Pending
+16,Pudukkottai,2023,Partition Suit,12,Pending
+16,Pudukkottai,2023,Encroachment,12,Pending
+16,Pudukkottai,2023,Tenancy Dispute,12,Pending
+16,Pudukkottai,2023,Land Acquisition Compensation,15,Pending
+16,Pudukkottai,2024,Boundary Dispute,17,Disposed
+16,Pudukkottai,2024,Ownership/Title Dispute,11,Disposed
+16,Pudukkottai,2024,Partition Suit,15,Pending
+16,Pudukkottai,2024,Encroachment,10,Pending
+16,Pudukkottai,2024,Tenancy Dispute,21,Under Appeal
+16,Pudukkottai,2024,Land Acquisition Compensation,17,Pending
+17,Ramanathapuram,2021,Boundary Dispute,9,Disposed
+17,Ramanathapuram,2021,Ownership/Title Dispute,18,Pending
+17,Ramanathapuram,2021,Partition Suit,19,Pending
+17,Ramanathapuram,2021,Encroachment,18,Disposed
+17,Ramanathapuram,2021,Tenancy Dispute,11,Pending
+17,Ramanathapuram,2021,Land Acquisition Compensation,15,Pending
+17,Ramanathapuram,2022,Boundary Dispute,12,Disposed
+17,Ramanathapuram,2022,Ownership/Title Dispute,9,Under Appeal
+17,Ramanathapuram,2022,Partition Suit,16,Pending
+17,Ramanathapuram,2022,Encroachment,16,Disposed
+17,Ramanathapuram,2022,Tenancy Dispute,18,Disposed
+17,Ramanathapuram,2022,Land Acquisition Compensation,17,Disposed
+17,Ramanathapuram,2023,Boundary Dispute,20,Pending
+17,Ramanathapuram,2023,Ownership/Title Dispute,16,Pending
+17,Ramanathapuram,2023,Partition Suit,8,Pending
+17,Ramanathapuram,2023,Encroachment,14,Pending
+17,Ramanathapuram,2023,Tenancy Dispute,12,Pending
+17,Ramanathapuram,2023,Land Acquisition Compensation,10,Disposed
+17,Ramanathapuram,2024,Boundary Dispute,24,Pending
+17,Ramanathapuram,2024,Ownership/Title Dispute,19,Pending
+17,Ramanathapuram,2024,Partition Suit,20,Pending
+17,Ramanathapuram,2024,Encroachment,10,Disposed
+17,Ramanathapuram,2024,Tenancy Dispute,21,Disposed
+17,Ramanathapuram,2024,Land Acquisition Compensation,9,Disposed
+18,Salem,2021,Boundary Dispute,28,Pending
+18,Salem,2021,Ownership/Title Dispute,23,Pending
+18,Salem,2021,Partition Suit,17,Pending
+18,Salem,2021,Encroachment,28,Pending
+18,Salem,2021,Tenancy Dispute,16,Pending
+18,Salem,2021,Land Acquisition Compensation,27,Pending
+18,Salem,2022,Boundary Dispute,15,Pending
+18,Salem,2022,Ownership/Title Dispute,26,Under Appeal
+18,Salem,2022,Partition Suit,21,Under Appeal
+18,Salem,2022,Encroachment,17,Pending
+18,Salem,2022,Tenancy Dispute,21,Pending
+18,Salem,2022,Land Acquisition Compensation,18,Under Appeal
+18,Salem,2023,Boundary Dispute,22,Pending
+18,Salem,2023,Ownership/Title Dispute,20,Pending
+18,Salem,2023,Partition Suit,23,Pending
+18,Salem,2023,Encroachment,21,Pending
+18,Salem,2023,Tenancy Dispute,19,Pending
+18,Salem,2023,Land Acquisition Compensation,26,Pending
+18,Salem,2024,Boundary Dispute,18,Pending
+18,Salem,2024,Ownership/Title Dispute,18,Pending
+18,Salem,2024,Partition Suit,27,Pending
+18,Salem,2024,Encroachment,21,Pending
+18,Salem,2024,Tenancy Dispute,25,Pending
+18,Salem,2024,Land Acquisition Compensation,25,Pending
+19,Sivaganga,2021,Boundary Dispute,14,Pending
+19,Sivaganga,2021,Ownership/Title Dispute,15,Pending
+19,Sivaganga,2021,Partition Suit,21,Pending
+19,Sivaganga,2021,Encroachment,15,Pending
+19,Sivaganga,2021,Tenancy Dispute,20,Disposed
+19,Sivaganga,2021,Land Acquisition Compensation,20,Pending
+19,Sivaganga,2022,Boundary Dispute,13,Disposed
+19,Sivaganga,2022,Ownership/Title Dispute,15,Disposed
+19,Sivaganga,2022,Partition Suit,28,Disposed
+19,Sivaganga,2022,Encroachment,16,Disposed
+19,Sivaganga,2022,Tenancy Dispute,11,Pending
+19,Sivaganga,2022,Land Acquisition Compensation,12,Pending
+19,Sivaganga,2023,Boundary Dispute,10,Under Appeal
+19,Sivaganga,2023,Ownership/Title Dispute,13,Pending
+19,Sivaganga,2023,Partition Suit,18,Disposed
+19,Sivaganga,2023,Encroachment,9,Disposed
+19,Sivaganga,2023,Tenancy Dispute,19,Pending
+19,Sivaganga,2023,Land Acquisition Compensation,18,Disposed
+19,Sivaganga,2024,Boundary Dispute,13,Disposed
+19,Sivaganga,2024,Ownership/Title Dispute,16,Disposed
+19,Sivaganga,2024,Partition Suit,10,Disposed
+19,Sivaganga,2024,Encroachment,18,Disposed
+19,Sivaganga,2024,Tenancy Dispute,7,Pending
+19,Sivaganga,2024,Land Acquisition Compensation,13,Pending
+20,Thanjavur,2021,Boundary Dispute,16,Pending
+20,Thanjavur,2021,Ownership/Title Dispute,10,Disposed
+20,Thanjavur,2021,Partition Suit,14,Disposed
+20,Thanjavur,2021,Encroachment,18,Disposed
+20,Thanjavur,2021,Tenancy Dispute,16,Disposed
+20,Thanjavur,2021,Land Acquisition Compensation,16,Disposed
+20,Thanjavur,2022,Boundary Dispute,21,Disposed
+20,Thanjavur,2022,Ownership/Title Dispute,14,Disposed
+20,Thanjavur,2022,Partition Suit,14,Pending
+20,Thanjavur,2022,Encroachment,10,Pending
+20,Thanjavur,2022,Tenancy Dispute,17,Pending
+20,Thanjavur,2022,Land Acquisition Compensation,14,Pending
+20,Thanjavur,2023,Boundary Dispute,12,Pending
+20,Thanjavur,2023,Ownership/Title Dispute,15,Disposed
+20,Thanjavur,2023,Partition Suit,8,Disposed
+20,Thanjavur,2023,Encroachment,16,Disposed
+20,Thanjavur,2023,Tenancy Dispute,12,Disposed
+20,Thanjavur,2023,Land Acquisition Compensation,15,Disposed
+20,Thanjavur,2024,Boundary Dispute,17,Pending
+20,Thanjavur,2024,Ownership/Title Dispute,17,Pending
+20,Thanjavur,2024,Partition Suit,17,Disposed
+20,Thanjavur,2024,Encroachment,14,Disposed
+20,Thanjavur,2024,Tenancy Dispute,15,Pending
+20,Thanjavur,2024,Land Acquisition Compensation,14,Pending
+21,The Nilgiris,2021,Boundary Dispute,19,Disposed
+21,The Nilgiris,2021,Ownership/Title Dispute,16,Pending
+21,The Nilgiris,2021,Partition Suit,12,Disposed
+21,The Nilgiris,2021,Encroachment,18,Pending
+21,The Nilgiris,2021,Tenancy Dispute,16,Pending
+21,The Nilgiris,2021,Land Acquisition Compensation,11,Pending
+21,The Nilgiris,2022,Boundary Dispute,10,Disposed
+21,The Nilgiris,2022,Ownership/Title Dispute,22,Pending
+21,The Nilgiris,2022,Partition Suit,10,Disposed
+21,The Nilgiris,2022,Encroachment,15,Under Appeal
+21,The Nilgiris,2022,Tenancy Dispute,11,Pending
+21,The Nilgiris,2022,Land Acquisition Compensation,11,Pending
+21,The Nilgiris,2023,Boundary Dispute,17,Pending
+21,The Nilgiris,2023,Ownership/Title Dispute,14,Disposed
+21,The Nilgiris,2023,Partition Suit,10,Disposed
+21,The Nilgiris,2023,Encroachment,16,Disposed
+21,The Nilgiris,2023,Tenancy Dispute,10,Disposed
+21,The Nilgiris,2023,Land Acquisition Compensation,16,Pending
+21,The Nilgiris,2024,Boundary Dispute,13,Pending
+21,The Nilgiris,2024,Ownership/Title Dispute,8,Pending
+21,The Nilgiris,2024,Partition Suit,17,Disposed
+21,The Nilgiris,2024,Encroachment,15,Pending
+21,The Nilgiris,2024,Tenancy Dispute,7,Disposed
+21,The Nilgiris,2024,Land Acquisition Compensation,11,Pending
+22,Theni,2021,Boundary Dispute,12,Pending
+22,Theni,2021,Ownership/Title Dispute,15,Pending
+22,Theni,2021,Partition Suit,8,Disposed
+22,Theni,2021,Encroachment,20,Disposed
+22,Theni,2021,Tenancy Dispute,18,Disposed
+22,Theni,2021,Land Acquisition Compensation,11,Pending
+22,Theni,2022,Boundary Dispute,18,Pending
+22,Theni,2022,Ownership/Title Dispute,24,Pending
+22,Theni,2022,Partition Suit,10,Pending
+22,Theni,2022,Encroachment,14,Pending
+22,Theni,2022,Tenancy Dispute,10,Disposed
+22,Theni,2022,Land Acquisition Compensation,20,Pending
+22,Theni,2023,Boundary Dispute,14,Under Appeal
+22,Theni,2023,Ownership/Title Dispute,17,Under Appeal
+22,Theni,2023,Partition Suit,13,Pending
+22,Theni,2023,Encroachment,11,Pending
+22,Theni,2023,Tenancy Dispute,21,Disposed
+22,Theni,2023,Land Acquisition Compensation,17,Under Appeal
+22,Theni,2024,Boundary Dispute,16,Pending
+22,Theni,2024,Ownership/Title Dispute,15,Pending
+22,Theni,2024,Partition Suit,11,Pending
+22,Theni,2024,Encroachment,12,Under Appeal
+22,Theni,2024,Tenancy Dispute,11,Pending
+22,Theni,2024,Land Acquisition Compensation,20,Disposed
+23,Thiruvallur,2021,Boundary Dispute,16,Pending
+23,Thiruvallur,2021,Ownership/Title Dispute,14,Pending
+23,Thiruvallur,2021,Partition Suit,10,Under Appeal
+23,Thiruvallur,2021,Encroachment,13,Pending
+23,Thiruvallur,2021,Tenancy Dispute,16,Disposed
+23,Thiruvallur,2021,Land Acquisition Compensation,27,Pending
+23,Thiruvallur,2022,Boundary Dispute,23,Disposed
+23,Thiruvallur,2022,Ownership/Title Dispute,17,Disposed
+23,Thiruvallur,2022,Partition Suit,12,Pending
+23,Thiruvallur,2022,Encroachment,14,Disposed
+23,Thiruvallur,2022,Tenancy Dispute,21,Pending
+23,Thiruvallur,2022,Land Acquisition Compensation,12,Pending
+23,Thiruvallur,2023,Boundary Dispute,20,Pending
+23,Thiruvallur,2023,Ownership/Title Dispute,14,Pending
+23,Thiruvallur,2023,Partition Suit,14,Pending
+23,Thiruvallur,2023,Encroachment,14,Pending
+23,Thiruvallur,2023,Tenancy Dispute,15,Pending
+23,Thiruvallur,2023,Land Acquisition Compensation,15,Pending
+23,Thiruvallur,2024,Boundary Dispute,15,Pending
+23,Thiruvallur,2024,Ownership/Title Dispute,14,Disposed
+23,Thiruvallur,2024,Partition Suit,13,Pending
+23,Thiruvallur,2024,Encroachment,13,Disposed
+23,Thiruvallur,2024,Tenancy Dispute,14,Disposed
+23,Thiruvallur,2024,Land Acquisition Compensation,11,Pending
+24,Thiruvarur,2021,Boundary Dispute,20,Under Appeal
+24,Thiruvarur,2021,Ownership/Title Dispute,16,Disposed
+24,Thiruvarur,2021,Partition Suit,11,Under Appeal
+24,Thiruvarur,2021,Encroachment,7,Pending
+24,Thiruvarur,2021,Tenancy Dispute,16,Pending
+24,Thiruvarur,2021,Land Acquisition Compensation,14,Pending
+24,Thiruvarur,2022,Boundary Dispute,8,Under Appeal
+24,Thiruvarur,2022,Ownership/Title Dispute,15,Disposed
+24,Thiruvarur,2022,Partition Suit,14,Pending
+24,Thiruvarur,2022,Encroachment,17,Pending
+24,Thiruvarur,2022,Tenancy Dispute,10,Pending
+24,Thiruvarur,2022,Land Acquisition Compensation,18,Pending
+24,Thiruvarur,2023,Boundary Dispute,22,Pending
+24,Thiruvarur,2023,Ownership/Title Dispute,12,Disposed
+24,Thiruvarur,2023,Partition Suit,6,Pending
+24,Thiruvarur,2023,Encroachment,17,Under Appeal
+24,Thiruvarur,2023,Tenancy Dispute,13,Pending
+24,Thiruvarur,2023,Land Acquisition Compensation,17,Pending
+24,Thiruvarur,2024,Boundary Dispute,17,Pending
+24,Thiruvarur,2024,Ownership/Title Dispute,16,Pending
+24,Thiruvarur,2024,Partition Suit,17,Pending
+24,Thiruvarur,2024,Encroachment,13,Under Appeal
+24,Thiruvarur,2024,Tenancy Dispute,22,Disposed
+24,Thiruvarur,2024,Land Acquisition Compensation,15,Disposed
+25,Thoothukkudi,2021,Boundary Dispute,15,Disposed
+25,Thoothukkudi,2021,Ownership/Title Dispute,20,Under Appeal
+25,Thoothukkudi,2021,Partition Suit,13,Under Appeal
+25,Thoothukkudi,2021,Encroachment,23,Pending
+25,Thoothukkudi,2021,Tenancy Dispute,16,Disposed
+25,Thoothukkudi,2021,Land Acquisition Compensation,26,Pending
+25,Thoothukkudi,2022,Boundary Dispute,23,Disposed
+25,Thoothukkudi,2022,Ownership/Title Dispute,17,Pending
+25,Thoothukkudi,2022,Partition Suit,16,Disposed
+25,Thoothukkudi,2022,Encroachment,11,Disposed
+25,Thoothukkudi,2022,Tenancy Dispute,15,Pending
+25,Thoothukkudi,2022,Land Acquisition Compensation,11,Pending
+25,Thoothukkudi,2023,Boundary Dispute,12,Under Appeal
+25,Thoothukkudi,2023,Ownership/Title Dispute,15,Pending
+25,Thoothukkudi,2023,Partition Suit,18,Pending
+25,Thoothukkudi,2023,Encroachment,14,Pending
+25,Thoothukkudi,2023,Tenancy Dispute,15,Pending
+25,Thoothukkudi,2023,Land Acquisition Compensation,17,Disposed
+25,Thoothukkudi,2024,Boundary Dispute,18,Under Appeal
+25,Thoothukkudi,2024,Ownership/Title Dispute,19,Pending
+25,Thoothukkudi,2024,Partition Suit,19,Disposed
+25,Thoothukkudi,2024,Encroachment,14,Pending
+25,Thoothukkudi,2024,Tenancy Dispute,14,Disposed
+25,Thoothukkudi,2024,Land Acquisition Compensation,22,Pending
+26,Tiruchirappalli,2021,Boundary Dispute,25,Pending
+26,Tiruchirappalli,2021,Ownership/Title Dispute,22,Pending
+26,Tiruchirappalli,2021,Partition Suit,24,Pending
+26,Tiruchirappalli,2021,Encroachment,23,Under Appeal
+26,Tiruchirappalli,2021,Tenancy Dispute,24,Pending
+26,Tiruchirappalli,2021,Land Acquisition Compensation,29,Pending
+26,Tiruchirappalli,2022,Boundary Dispute,18,Under Appeal
+26,Tiruchirappalli,2022,Ownership/Title Dispute,23,Under Appeal
+26,Tiruchirappalli,2022,Partition Suit,30,Pending
+26,Tiruchirappalli,2022,Encroachment,21,Pending
+26,Tiruchirappalli,2022,Tenancy Dispute,19,Pending
+26,Tiruchirappalli,2022,Land Acquisition Compensation,24,Pending
+26,Tiruchirappalli,2023,Boundary Dispute,29,Pending
+26,Tiruchirappalli,2023,Ownership/Title Dispute,19,Pending
+26,Tiruchirappalli,2023,Partition Suit,28,Pending
+26,Tiruchirappalli,2023,Encroachment,21,Pending
+26,Tiruchirappalli,2023,Tenancy Dispute,21,Disposed
+26,Tiruchirappalli,2023,Land Acquisition Compensation,27,Disposed
+26,Tiruchirappalli,2024,Boundary Dispute,18,Disposed
+26,Tiruchirappalli,2024,Ownership/Title Dispute,26,Pending
+26,Tiruchirappalli,2024,Partition Suit,15,Pending
+26,Tiruchirappalli,2024,Encroachment,25,Pending
+26,Tiruchirappalli,2024,Tenancy Dispute,20,Pending
+26,Tiruchirappalli,2024,Land Acquisition Compensation,41,Pending
+27,Tirunelveli,2021,Boundary Dispute,18,Pending
+27,Tirunelveli,2021,Ownership/Title Dispute,10,Pending
+27,Tirunelveli,2021,Partition Suit,13,Under Appeal
+27,Tirunelveli,2021,Encroachment,17,Pending
+27,Tirunelveli,2021,Tenancy Dispute,13,Pending
+27,Tirunelveli,2021,Land Acquisition Compensation,13,Disposed
+27,Tirunelveli,2022,Boundary Dispute,14,Disposed
+27,Tirunelveli,2022,Ownership/Title Dispute,12,Pending
+27,Tirunelveli,2022,Partition Suit,17,Pending
+27,Tirunelveli,2022,Encroachment,23,Pending
+27,Tirunelveli,2022,Tenancy Dispute,17,Pending
+27,Tirunelveli,2022,Land Acquisition Compensation,12,Pending
+27,Tirunelveli,2023,Boundary Dispute,19,Under Appeal
+27,Tirunelveli,2023,Ownership/Title Dispute,14,Disposed
+27,Tirunelveli,2023,Partition Suit,12,Disposed
+27,Tirunelveli,2023,Encroachment,16,Pending
+27,Tirunelveli,2023,Tenancy Dispute,12,Pending
+27,Tirunelveli,2023,Land Acquisition Compensation,22,Disposed
+27,Tirunelveli,2024,Boundary Dispute,9,Disposed
+27,Tirunelveli,2024,Ownership/Title Dispute,16,Pending
+27,Tirunelveli,2024,Partition Suit,17,Disposed
+27,Tirunelveli,2024,Encroachment,20,Pending
+27,Tirunelveli,2024,Tenancy Dispute,14,Pending
+27,Tirunelveli,2024,Land Acquisition Compensation,26,Under Appeal
+28,Tiruppur,2021,Boundary Dispute,19,Disposed
+28,Tiruppur,2021,Ownership/Title Dispute,19,Disposed
+28,Tiruppur,2021,Partition Suit,16,Under Appeal
+28,Tiruppur,2021,Encroachment,22,Pending
+28,Tiruppur,2021,Tenancy Dispute,25,Pending
+28,Tiruppur,2021,Land Acquisition Compensation,18,Pending
+28,Tiruppur,2022,Boundary Dispute,22,Pending
+28,Tiruppur,2022,Ownership/Title Dispute,16,Disposed
+28,Tiruppur,2022,Partition Suit,18,Under Appeal
+28,Tiruppur,2022,Encroachment,18,Disposed
+28,Tiruppur,2022,Tenancy Dispute,27,Disposed
+28,Tiruppur,2022,Land Acquisition Compensation,26,Disposed
+28,Tiruppur,2023,Boundary Dispute,18,Pending
+28,Tiruppur,2023,Ownership/Title Dispute,23,Disposed
+28,Tiruppur,2023,Partition Suit,22,Pending
+28,Tiruppur,2023,Encroachment,23,Disposed
+28,Tiruppur,2023,Tenancy Dispute,18,Pending
+28,Tiruppur,2023,Land Acquisition Compensation,18,Under Appeal
+28,Tiruppur,2024,Boundary Dispute,20,Disposed
+28,Tiruppur,2024,Ownership/Title Dispute,20,Pending
+28,Tiruppur,2024,Partition Suit,23,Pending
+28,Tiruppur,2024,Encroachment,19,Pending
+28,Tiruppur,2024,Tenancy Dispute,25,Disposed
+28,Tiruppur,2024,Land Acquisition Compensation,18,Disposed
+29,Tiruvannamalai,2021,Boundary Dispute,12,Pending
+29,Tiruvannamalai,2021,Ownership/Title Dispute,17,Pending
+29,Tiruvannamalai,2021,Partition Suit,17,Pending
+29,Tiruvannamalai,2021,Encroachment,17,Disposed
+29,Tiruvannamalai,2021,Tenancy Dispute,12,Pending
+29,Tiruvannamalai,2021,Land Acquisition Compensation,15,Pending
+29,Tiruvannamalai,2022,Boundary Dispute,18,Disposed
+29,Tiruvannamalai,2022,Ownership/Title Dispute,11,Pending
+29,Tiruvannamalai,2022,Partition Suit,11,Pending
+29,Tiruvannamalai,2022,Encroachment,25,Pending
+29,Tiruvannamalai,2022,Tenancy Dispute,22,Under Appeal
+29,Tiruvannamalai,2022,Land Acquisition Compensation,12,Disposed
+29,Tiruvannamalai,2023,Boundary Dispute,10,Disposed
+29,Tiruvannamalai,2023,Ownership/Title Dispute,17,Pending
+29,Tiruvannamalai,2023,Partition Suit,17,Pending
+29,Tiruvannamalai,2023,Encroachment,13,Pending
+29,Tiruvannamalai,2023,Tenancy Dispute,16,Under Appeal
+29,Tiruvannamalai,2023,Land Acquisition Compensation,14,Disposed
+29,Tiruvannamalai,2024,Boundary Dispute,8,Pending
+29,Tiruvannamalai,2024,Ownership/Title Dispute,9,Pending
+29,Tiruvannamalai,2024,Partition Suit,8,Pending
+29,Tiruvannamalai,2024,Encroachment,14,Disposed
+29,Tiruvannamalai,2024,Tenancy Dispute,13,Pending
+29,Tiruvannamalai,2024,Land Acquisition Compensation,11,Pending
+30,Vellore,2021,Boundary Dispute,17,Disposed
+30,Vellore,2021,Ownership/Title Dispute,23,Under Appeal
+30,Vellore,2021,Partition Suit,20,Pending
+30,Vellore,2021,Encroachment,21,Pending
+30,Vellore,2021,Tenancy Dispute,24,Pending
+30,Vellore,2021,Land Acquisition Compensation,22,Pending
+30,Vellore,2022,Boundary Dispute,18,Disposed
+30,Vellore,2022,Ownership/Title Dispute,24,Pending
+30,Vellore,2022,Partition Suit,20,Disposed
+30,Vellore,2022,Encroachment,22,Disposed
+30,Vellore,2022,Tenancy Dispute,20,Pending
+30,Vellore,2022,Land Acquisition Compensation,17,Pending
+30,Vellore,2023,Boundary Dispute,20,Under Appeal
+30,Vellore,2023,Ownership/Title Dispute,17,Pending
+30,Vellore,2023,Partition Suit,14,Disposed
+30,Vellore,2023,Encroachment,20,Pending
+30,Vellore,2023,Tenancy Dispute,24,Pending
+30,Vellore,2023,Land Acquisition Compensation,12,Disposed
+30,Vellore,2024,Boundary Dispute,22,Pending
+30,Vellore,2024,Ownership/Title Dispute,24,Under Appeal
+30,Vellore,2024,Partition Suit,19,Pending
+30,Vellore,2024,Encroachment,20,Pending
+30,Vellore,2024,Tenancy Dispute,18,Pending
+30,Vellore,2024,Land Acquisition Compensation,23,Pending
+31,Viluppuram,2021,Boundary Dispute,16,Disposed
+31,Viluppuram,2021,Ownership/Title Dispute,13,Under Appeal
+31,Viluppuram,2021,Partition Suit,15,Pending
+31,Viluppuram,2021,Encroachment,15,Pending
+31,Viluppuram,2021,Tenancy Dispute,22,Pending
+31,Viluppuram,2021,Land Acquisition Compensation,15,Under Appeal
+31,Viluppuram,2022,Boundary Dispute,21,Pending
+31,Viluppuram,2022,Ownership/Title Dispute,11,Pending
+31,Viluppuram,2022,Partition Suit,23,Pending
+31,Viluppuram,2022,Encroachment,17,Pending
+31,Viluppuram,2022,Tenancy Dispute,16,Disposed
+31,Viluppuram,2022,Land Acquisition Compensation,16,Disposed
+31,Viluppuram,2023,Boundary Dispute,9,Disposed
+31,Viluppuram,2023,Ownership/Title Dispute,15,Under Appeal
+31,Viluppuram,2023,Partition Suit,26,Under Appeal
+31,Viluppuram,2023,Encroachment,11,Pending
+31,Viluppuram,2023,Tenancy Dispute,10,Pending
+31,Viluppuram,2023,Land Acquisition Compensation,11,Under Appeal
+31,Viluppuram,2024,Boundary Dispute,14,Disposed
+31,Viluppuram,2024,Ownership/Title Dispute,15,Pending
+31,Viluppuram,2024,Partition Suit,15,Disposed
+31,Viluppuram,2024,Encroachment,23,Pending
+31,Viluppuram,2024,Tenancy Dispute,15,Pending
+31,Viluppuram,2024,Land Acquisition Compensation,14,Pending
+32,Virudhunagar,2021,Boundary Dispute,12,Pending
+32,Virudhunagar,2021,Ownership/Title Dispute,12,Pending
+32,Virudhunagar,2021,Partition Suit,18,Pending
+32,Virudhunagar,2021,Encroachment,11,Pending
+32,Virudhunagar,2021,Tenancy Dispute,20,Under Appeal
+32,Virudhunagar,2021,Land Acquisition Compensation,9,Pending
+32,Virudhunagar,2022,Boundary Dispute,15,Under Appeal
+32,Virudhunagar,2022,Ownership/Title Dispute,8,Pending
+32,Virudhunagar,2022,Partition Suit,15,Pending
+32,Virudhunagar,2022,Encroachment,12,Disposed
+32,Virudhunagar,2022,Tenancy Dispute,11,Disposed
+32,Virudhunagar,2022,Land Acquisition Compensation,13,Pending
+32,Virudhunagar,2023,Boundary Dispute,11,Pending
+32,Virudhunagar,2023,Ownership/Title Dispute,11,Pending
+32,Virudhunagar,2023,Partition Suit,15,Pending
+32,Virudhunagar,2023,Encroachment,13,Under Appeal
+32,Virudhunagar,2023,Tenancy Dispute,7,Pending
+32,Virudhunagar,2023,Land Acquisition Compensation,14,Pending
+32,Virudhunagar,2024,Boundary Dispute,15,Disposed
+32,Virudhunagar,2024,Ownership/Title Dispute,8,Pending
+32,Virudhunagar,2024,Partition Suit,13,Pending
+32,Virudhunagar,2024,Encroachment,19,Disposed
+32,Virudhunagar,2024,Tenancy Dispute,21,Disposed
+32,Virudhunagar,2024,Land Acquisition Compensation,13,Pending
