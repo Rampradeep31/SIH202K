@@ -13,12 +13,14 @@ import {
   ShieldCheck,
   BarChart3,
   Rocket,
-  Users
+  Users,
+  Library
 } from 'lucide-react';
 
 export type NavTab =
   | 'overview'
   | 'research'
+  | 'repository'
   | 'gis'
   | 'land_change'
   | 'predictions'
@@ -40,6 +42,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeTab, onTabChange }) => {
   const menuItems = [
     { id: 'overview', label: 'Overview', icon: LayoutDashboard, badge: null },
     { id: 'research', label: 'Research & Policy', icon: BookOpen, badge: 'RAG' },
+    { id: 'repository', label: 'Document Repository', icon: Library, badge: null },
     { id: 'gis', label: 'GIS Explorer', icon: MapIcon, badge: 'Ask-Map' },
     { id: 'land_change', label: 'Land Change', icon: GitCommit, badge: 'Matrix' },
     { id: 'predictions', label: 'Predictions', icon: TrendingUp, badge: 'XAI' },

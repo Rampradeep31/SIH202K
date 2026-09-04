@@ -102,6 +102,8 @@ export interface RAGSource {
 export interface RAGResponse {
   question: string;
   answer: string;
+  synthesis_method?: string;
+  search_method?: string;
   confidence_score: number;
   key_evidence: string[];
   relevant_locations: string[];

@@ -100,7 +100,7 @@ export const api = {
     method: 'POST',
     body: JSON.stringify({ question })
   }),
-  getDocuments: () => fetchJson<{ policies: any[]; research: any[]; total_documents: number }>('/research/documents'),
+  getDocuments: () => fetchJson<{ policies: any[]; research: any[]; grounding_facts: any[]; total_documents: number }>('/research/documents'),
 
   // Scenarios
   getScenarios: () => fetchJson<{ scenarios: ScenarioItem[]; default_weights: Record<string, number> }>('/scenarios'),

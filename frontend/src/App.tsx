@@ -9,6 +9,7 @@ import { ReportModal } from './components/ReportModal';
 // Pages
 import { OverviewPage } from './pages/OverviewPage';
 import { ResearchCopilotPage } from './pages/ResearchCopilotPage';
+import { RepositoryPage } from './pages/RepositoryPage';
 import { GisExplorerPage } from './pages/GisExplorerPage';
 import { LulcChangePage } from './pages/LulcChangePage';
 import { PredictionsPage } from './pages/PredictionsPage';
@@ -73,6 +74,8 @@ export function App() {
           {activeTab === 'research' && (
             <ResearchCopilotPage onNavigateTab={setActiveTab} />
           )}
+
+          {activeTab === 'repository' && <RepositoryPage />}
 
           {activeTab === 'gis' && (
             <GisExplorerPage

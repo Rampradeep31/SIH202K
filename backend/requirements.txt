@@ -1,0 +1,23 @@
+# Core API
+fastapi==0.115.0
+uvicorn==0.30.6
+pydantic==2.12.5
+pydantic-settings==2.5.2
+
+# Data / ML
+numpy==2.3.5
+pandas==2.3.3
+scikit-learn==1.8.0
+
+# RAG: real semantic search (embeddings) + real LLM answer synthesis
+sentence-transformers==6.0.1   # pulls in torch, transformers — see backend/app/rag/copilot.py
+anthropic==1.3.0               # requires ANTHROPIC_API_KEY env var; see backend/app/rag/llm_synthesis.py
+
+# Satellite pipeline (scripts/tn_satellite_indices_pipeline.py) — not needed
+# to run the backend itself, only to regenerate tamil_nadu_dataset/*.csv
+pystac-client==0.9.0
+planetary-computer==1.0.0
+rasterio==1.5.1
+rasterstats==0.21.0
+shapely==2.1.2
+certifi==2026.1.4

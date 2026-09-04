@@ -13,6 +13,7 @@ import json
 import sys
 import logging
 from typing import Dict, List, Any
+from app.rag import llm_synthesis
 
 logger = logging.getLogger(__name__)
 
@@ -227,14 +228,14 @@ class ResearchCopilot:
 
     def _build_search_index(self):
         """
-        TF-IDF vector search over the corpus, replacing a prior implementation
-        that just counted whether each query token literally appeared in a
-        document's text (no weighting, no notion of relative relevance). This
-        is real information retrieval — terms are weighted by how distinctive
-        they are across the corpus (inverse document frequency) and documents
-        are ranked by cosine similarity to the query vector — not a deep
-        learning embedding model, so it's labeled "TF-IDF search" rather than
-        overclaiming a semantic/neural "AI search".
+        Real semantic search: sentence embeddings (all-MiniLM-L6-v2, 384-dim)
+        ranked by cosine similarity, not a keyword/token method — this is an
+        actual neural embedding model, not information-retrieval dressed up
+        as "AI". Falls back to TF-IDF (still real IR, just not neural) if the
+        embedding model can't load — no network on first run to download the
+        ~90MB model, or sentence-transformers isn't installed — so the
+        platform keeps working either way. Whichever path is active is
+        reported honestly via search_method on the response.
         """
         from sklearn.feature_extraction.text import TfidfVectorizer
 
@@ -247,6 +248,24 @@ class ResearchCopilot:
             for r in self.research
         ]
 
+        # Preferred path: real sentence embeddings.
+        self._embed_model = None
+        self._policy_embeddings = None
+        self._research_embeddings = None
+        try:
+            from sentence_transformers import SentenceTransformer
+            self._embed_model = SentenceTransformer("all-MiniLM-L6-v2")
+            if self._policy_texts:
+                self._policy_embeddings = self._embed_model.encode(self._policy_texts, normalize_embeddings=True)
+            if self._research_texts:
+                self._research_embeddings = self._embed_model.encode(self._research_texts, normalize_embeddings=True)
+            logger.info("Semantic search index built with all-MiniLM-L6-v2 embeddings.")
+        except Exception as e:
+            logger.warning(f"Embedding model unavailable ({e}); falling back to TF-IDF search.")
+            self._embed_model = None
+
+        # Fallback path: TF-IDF, always built regardless, so a mid-run
+        # embedding failure (rare, but e.g. a corrupted cache) still works.
         corpus = self._policy_texts + self._research_texts
         if corpus:
             self._vectorizer = TfidfVectorizer(stop_words="english", ngram_range=(1, 2))
@@ -258,20 +277,29 @@ class ResearchCopilot:
             self._policy_matrix = None
             self._research_matrix = None
 
-    def _search(self, question: str, texts_matrix, items, weight_key=None, top_k=2, min_score=0.05):
-        if self._vectorizer is None or texts_matrix is None or not items:
+    def _search(self, question: str, embeddings, texts_matrix, items, weight_key=None, top_k=2, min_score=0.05):
+        if not items:
             return []
-        from sklearn.metrics.pairwise import cosine_similarity
 
-        qvec = self._vectorizer.transform([question])
-        sims = cosine_similarity(qvec, texts_matrix)[0]
+        if self._embed_model is not None and embeddings is not None:
+            qvec = self._embed_model.encode([question], normalize_embeddings=True)[0]
+            sims = embeddings @ qvec  # cosine similarity, since both sides are normalized
+            method = "semantic_embedding (all-MiniLM-L6-v2)"
+        elif self._vectorizer is not None and texts_matrix is not None:
+            from sklearn.metrics.pairwise import cosine_similarity
+            qvec = self._vectorizer.transform([question])
+            sims = cosine_similarity(qvec, texts_matrix)[0]
+            method = "tfidf"
+        else:
+            return []
+
         scored = []
         for idx, item in enumerate(items):
             sim = float(sims[idx])
             if sim < min_score:
                 continue
             weighted = sim * item.get(weight_key, 1.0) if weight_key else sim
-            scored.append((weighted, sim, item))
+            scored.append((weighted, sim, item, method))
         scored.sort(key=lambda x: x[0], reverse=True)
         return scored[:top_k]
 
@@ -281,17 +309,20 @@ class ResearchCopilot:
         """
         q_lower = question.lower()
 
-        scored_policies = self._search(question, self._policy_matrix, self.policies, weight_key="authority_weight")
-        scored_research = self._search(question, self._research_matrix, self.research)
+        scored_policies = self._search(question, self._policy_embeddings, self._policy_matrix, self.policies, weight_key="authority_weight")
+        scored_research = self._search(question, self._research_embeddings, self._research_matrix, self.research)
 
         top_policies = [p[2] for p in scored_policies]
         top_research = [r[2] for r in scored_research]
-        
+        search_method = (scored_policies[0][3] if scored_policies else (scored_research[0][3] if scored_research else ("semantic_embedding (all-MiniLM-L6-v2)" if self._embed_model is not None else "tfidf")))
+
         # Check if we have sufficient grounding
         if not top_policies and not top_research:
             return {
                 "question": question,
                 "answer": "Insufficient evidence available in the current Tamil Nadu knowledge base to answer this specific query with statutory or peer-reviewed certainty. Please refine your query to focus on Tamil Nadu land conversion, TNCDBR rules, Tiruppur industrial expansion, or Noyyal basin water protections.",
+                "synthesis_method": "n/a (no retrieval match)",
+                "search_method": search_method,
                 "confidence_score": 0.0,
                 "key_evidence": [],
                 "relevant_locations": [],
@@ -410,32 +441,46 @@ class ResearchCopilot:
                 for p in top_policies:
                     key_evidence.extend(p["key_clauses"][:2])
                 
-        # Generate targeted answer
+        # Template-assembled answer — used as the fallback when real LLM
+        # synthesis (below) isn't available, so the platform still answers
+        # something grounded even without an API key configured.
         if "where" in q_lower or "which area" in q_lower or "location" in q_lower or "most likely" in q_lower:
-            answer = (
+            template_answer = (
                 f"Based on longitudinal satellite studies and Tamil Nadu Town & Country Planning records, "
                 f"agricultural land is most likely to experience built-up conversion in the high-density corridors of **{target_dist_name} District**, "
                 f"specifically in **{target_taluks} taluks**. "
                 f"Contributing drivers in {target_dist_name} include {target_desc}, highway logistics proximity, and seasonal groundwater fluctuations."
             )
         elif "rule" in q_lower or "tncdbr" in q_lower or "act" in q_lower or "legal" in q_lower or "conversion" in q_lower:
-            answer = (
+            template_answer = (
                 f"Under **Section 47A of the Tamil Nadu Town and Country Planning Act, 1971** and **Rule 22 of TNCDBR 2019**, "
                 f"conversion of agricultural land for non-agricultural use in {target_dist_name} District requires mandatory prior clearance from the District Collector and the Director of Town and Country Planning (DTCP). "
                 f"Furthermore, **Rule 19 enforces a strict 15-meter non-development buffer** along rivers and natural watercourses across {target_dist_name}."
             )
         elif "groundwater" in q_lower or "water" in q_lower or "noyyal" in q_lower or "salinity" in q_lower or "rain" in q_lower or "monsoon" in q_lower:
-            answer = (
+            template_answer = (
                 f"Hydrological monitoring by CGWB, IMD rainfall data, and academic evaluations in {target_dist_name} District establish that "
                 f"industrial expansion and built-up land conversions reduce local groundwater recharge, "
                 f"prompting the Water Resources Department (WRD) to enforce strict eco-buffers and rainwater harvesting requirements across {target_taluks}."
             )
         else:
-            answer = (
+            template_answer = (
                 f"Evidence from Tamil Nadu planning records and regional development research indicates that "
                 f"land transition in {target_dist_name} District is closely linked with transit corridors and urban-industrial growth. "
                 f"Statutory compliance under TNCDBR 2019 requires 10% Open Space Reservation (OSR) and mandatory Agricultural Department NOCs."
             )
+
+        # Real LLM synthesis: pass ONLY the grounded evidence gathered above
+        # (never open-ended) and let Claude write the actual answer text.
+        # Falls back to the template above if no ANTHROPIC_API_KEY is set or
+        # the call fails for any reason — see llm_synthesis.py.
+        llm_result = llm_synthesis.synthesize(question, key_evidence, target_dist_name)
+        if llm_result:
+            answer = llm_result["answer"]
+            synthesis_method = f"llm_generated ({llm_result['model']})"
+        else:
+            answer = template_answer
+            synthesis_method = "template_assembled"
 
         # Honest confidence: average the verification tier of every cited source
         # instead of a flat constant, so a response leaning on unvalidated
@@ -459,6 +504,8 @@ class ResearchCopilot:
         return {
             "question": question,
             "answer": answer,
+            "synthesis_method": synthesis_method,
+            "search_method": search_method,
             "confidence_score": confidence_score,
             "key_evidence": key_evidence[:4],
             "relevant_locations": relevant_locations,

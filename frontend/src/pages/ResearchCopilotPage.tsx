@@ -163,6 +163,17 @@ export const ResearchCopilotPage: React.FC<ResearchCopilotPageProps> = ({ onNavi
               {result.answer}
             </p>
 
+            {(result.synthesis_method || result.search_method) && (
+              <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-[10px] text-slate-400 font-mono">
+                {result.synthesis_method && (
+                  <span>
+                    Answer: {result.synthesis_method.startsWith('llm_generated') ? '🤖 ' : ''}{result.synthesis_method}
+                  </span>
+                )}
+                {result.search_method && <span>Retrieval: {result.search_method}</span>}
+              </div>
+            )}
+
             {/* Key Evidence Bullet Points */}
             {result.key_evidence.length > 0 && (
               <div className="p-4 bg-slate-50 rounded-md border border-slate-200 space-y-2">
