@@ -3,6 +3,10 @@ Tamil Nadu Land Governance Intelligence Platform (TN-LGIP)
 Backend REST API Entrypoint
 """
 
+from dotenv import load_dotenv
+load_dotenv()  # loads backend/.env if present (ANTHROPIC_API_KEY / GEMINI_API_KEY) — must
+                # run before any module reads those env vars, so this stays first in the file
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.core.config import settings

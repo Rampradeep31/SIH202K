@@ -1,5 +1,14 @@
 import os
+from pathlib import Path
 from pydantic_settings import BaseSettings
+
+# Automatically load backend/.env if python-dotenv is present
+try:
+    from dotenv import load_dotenv
+    env_path = Path(__file__).resolve().parent.parent.parent / ".env"
+    load_dotenv(dotenv_path=env_path)
+except ImportError:
+    pass
 
 class Settings(BaseSettings):
     PROJECT_NAME: str = "Tamil Nadu Land Governance Intelligence Platform (TN-LGIP)"
@@ -14,3 +23,4 @@ class Settings(BaseSettings):
         case_sensitive = True
 
 settings = Settings()
+
