@@ -23,6 +23,7 @@ STATUS_CONFIDENCE_WEIGHT = {
     "VALIDATED_WEAK": 0.75,
     "PENDING_MANUAL_REVIEW": 0.5,
     "MODEL_ESTIMATE": 0.45,
+    "KNOWN_GAP": 0.3,
 }
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
@@ -342,35 +343,55 @@ class ResearchCopilot:
 
         if matched_dist:
             sat_stats = matched_dist.get("sentinel2_stats", {})
-            ndvi_post = sat_stats.get("ndvi_post_monsoon_greenery_by_district", {}).get("mean", 0.52)
-            ndbi_summer = sat_stats.get("ndbi_peak_dry_summer_by_district", {}).get("mean", 0.14)
-            
+            ndvi_entry = sat_stats.get("ndvi_post_monsoon_greenery_by_district")
+            ndbi_entry = sat_stats.get("ndbi_peak_dry_summer_by_district")
+            has_real_satellite_data = bool(ndvi_entry and ndbi_entry)
+
             # Grounding Fact Lookup for matched district
             dist_fact = None
             for f in self.facts:
                 if f.get("category") == "socioeconomic" and (f.get("district", "").lower() == matched_dist["name"].lower() or matched_dist["name"].lower() in f.get("statement", "").lower()):
                     dist_fact = f
                     break
-            
+
             socio_statement = dist_fact["statement"] if dist_fact else f"Demographic data for {target_dist_name}: Population of {matched_dist['population']:,} with {matched_dist['urban_pct']}% urban ratio across {matched_dist['area_sqkm']:,} sq.km."
 
-            key_evidence = [
-                f"District-level built-up growth signal for {target_dist_name} District across {target_taluks} taluks, derived from a statistical NDVI/NDBI baseline model.",
-                f"Modeled district NDVI/NDBI baseline for {target_dist_name} (statistical estimate, not yet validated against live Sentinel-2 STAC imagery): Post-Monsoon NDVI ~{ndvi_post:.4f}, Peak Summer NDBI ~{ndbi_summer:.4f}.",
-                socio_statement,
-                f"Statutory TNCDBR 2019 Rule 22 & Section 47A require mandatory DTCP and Agricultural Department NOC before converting farmland in {target_dist_name}."
-            ]
-
-            # Flag the satellite baseline explicitly as an unvalidated model estimate,
-            # not a verified source — no live Sentinel-2/STAC ingestion backs it yet.
-            sources.append({
-                "type": "Satellite Index Baseline (Modeled Estimate)",
-                "title": f"District NDVI/NDBI Statistical Baseline for {target_dist_name}",
-                "year": 2024,
-                "url": "",
-                "verification_status": "MODEL_ESTIMATE",
-                "is_validated": False
-            })
+            if has_real_satellite_data:
+                ndvi_post = ndvi_entry["mean"]
+                ndbi_summer = ndbi_entry["mean"]
+                key_evidence = [
+                    f"Real Sentinel-2 L2A satellite analysis (Microsoft Planetary Computer STAC, cloud/shadow-masked via SCL) shows built-up expansion signal in {target_dist_name} District across {target_taluks} taluks.",
+                    f"Sentinel-2 zonal stats for {target_dist_name} (real satellite retrieval, not modeled): Post-Monsoon NDVI mean {ndvi_post:.4f} (σ={ndvi_entry['std']:.4f}, n covers full district polygon), Peak Summer NDBI mean {ndbi_summer:.4f} (σ={ndbi_entry['std']:.4f}).",
+                    socio_statement,
+                    f"Statutory TNCDBR 2019 Rule 22 & Section 47A require mandatory DTCP and Agricultural Department NOC before converting farmland in {target_dist_name}."
+                ]
+                sources.append({
+                    "type": "Satellite Index (Real Sentinel-2 Retrieval)",
+                    "title": f"Sentinel-2 L2A NDVI/NDBI Zonal Statistics for {target_dist_name} (2024)",
+                    "year": 2024,
+                    "url": "https://planetarycomputer.microsoft.com/dataset/sentinel-2-l2a",
+                    "verification_status": "VALIDATED",
+                    "is_validated": True
+                })
+            else:
+                # This district/season genuinely has no real satellite reading —
+                # either it wasn't in the boundary file used for the pipeline run
+                # (Mayiladuthurai) or every candidate Sentinel-2 scene was too
+                # cloud-covered over its polygon. Say so plainly rather than
+                # inventing a number.
+                key_evidence = [
+                    f"No verified Sentinel-2 satellite reading is currently available for {target_dist_name} District — this is a real data gap (cloud cover blocked every candidate scene, or the district was outside the boundary file used for satellite processing), not a fabricated figure.",
+                    socio_statement,
+                    f"Statutory TNCDBR 2019 Rule 22 & Section 47A require mandatory DTCP and Agricultural Department NOC before converting farmland in {target_dist_name}."
+                ]
+                sources.append({
+                    "type": "Satellite Index (Data Gap)",
+                    "title": f"No Sentinel-2 Coverage for {target_dist_name} in Current Run",
+                    "year": 2024,
+                    "url": "",
+                    "verification_status": "KNOWN_GAP",
+                    "is_validated": False
+                })
 
             if dist_fact and dist_fact.get("source_url"):
                 sources.append({
@@ -430,7 +451,9 @@ class ResearchCopilot:
 
         limitations = (
             "District-level aggregation; micro-cadastral field disputes and unregistered oral lease tenancies are not reflected in satellite indices. "
-            "NDVI/NDBI figures are a statistical baseline model, not a live Sentinel-2/STAC pull — treat them as indicative, not measured."
+            + ("NDVI/NDBI figures are real Sentinel-2 L2A zonal statistics (Planetary Computer STAC, cloud/shadow-masked), a single representative scene per season rather than a multi-date composite."
+               if matched_dist and matched_dist.get("sentinel2_stats", {}).get("ndvi_post_monsoon_greenery_by_district")
+               else "No verified satellite reading exists for this district/season — stated as a known gap rather than estimated.")
         )
 
         return {
@@ -441,7 +464,7 @@ class ResearchCopilot:
             "relevant_locations": relevant_locations,
             "relevant_policies": [p["title"] for p in top_policies],
             "relevant_research": [r["title"] for r in top_research],
-            "assumptions": "Assumes continued enforcement of TNCDBR 2019 regulations; satellite baseline figures are modeled estimates pending statewide Sentinel-2/STAC ingestion.",
+            "assumptions": "Assumes continued enforcement of TNCDBR 2019 regulations.",
             "limitations": limitations,
             "sources": sources
         }

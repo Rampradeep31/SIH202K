@@ -20,6 +20,7 @@ const VERIFICATION_BADGES: Record<string, { label: string; className: string }> 
   VALIDATED_WEAK: { label: 'Weakly Verified (unconfirmed content match)', className: 'text-amber-700' },
   PENDING_MANUAL_REVIEW: { label: 'Pending Manual Review', className: 'text-amber-700' },
   MODEL_ESTIMATE: { label: 'Modeled Estimate — Not a Verified Source', className: 'text-red-700' },
+  KNOWN_GAP: { label: 'Known Data Gap — No Reading Available', className: 'text-slate-500' },
 };
 
 function getVerificationBadge(status?: string) {
