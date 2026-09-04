@@ -11,7 +11,9 @@ scikit-learn==1.8.0
 
 # RAG: real semantic search (embeddings) + real LLM answer synthesis
 sentence-transformers==6.0.1   # pulls in torch, transformers — see backend/app/rag/copilot.py
-anthropic==1.3.0               # requires ANTHROPIC_API_KEY env var; see backend/app/rag/llm_synthesis.py
+anthropic==1.3.0               # optional: requires ANTHROPIC_API_KEY env var
+google-genai                   # optional: requires GEMINI_API_KEY (or GOOGLE_API_KEY) env var
+# — see backend/app/rag/llm_synthesis.py; set either key, not both required
 
 # Satellite pipeline (scripts/tn_satellite_indices_pipeline.py) — not needed
 # to run the backend itself, only to regenerate tamil_nadu_dataset/*.csv
