@@ -35,6 +35,13 @@ export class ApiForbiddenError extends Error {
   }
 }
 
+export class ApiNotFoundError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = 'ApiNotFoundError';
+  }
+}
+
 async function fetchJson<T>(endpoint: string, options?: RequestInit): Promise<T> {
   try {
     const res = await fetch(`${API_BASE}${endpoint}`, {
@@ -48,6 +55,10 @@ async function fetchJson<T>(endpoint: string, options?: RequestInit): Promise<T>
     if (res.status === 403) {
       const body = await res.json().catch(() => ({}));
       throw new ApiForbiddenError(body.detail || `Role '${currentRole}' does not have permission for this action.`);
+    }
+    if (res.status === 404) {
+      const body = await res.json().catch(() => ({}));
+      throw new ApiNotFoundError(body.detail || `Not found: ${endpoint}`);
     }
     if (!res.ok) {
       throw new Error(`HTTP error ${res.status}: ${res.statusText}`);
@@ -65,8 +76,9 @@ export const api = {
   getTiruppurDetails: () => fetchJson<{ district: string; taluks: Taluk[]; key_corridors: string[]; river_basins: string[] }>('/regions/tiruppur'),
 
   // LULC
-  getLulcSummary: () => fetchJson<{ sample_analyzed_area_ha: number; comparison: LulcComparisonItem[] }>('/lulc'),
-  getLulcChange: () => fetchJson<{ matrix: TransitionMatrixRow[]; classes: string[]; key_transitions: KeyTransitionItem[] }>('/lulc/change'),
+  getLulcSummary: (district: string = 'Tiruppur') => fetchJson<{ region: string; sample_analyzed_area_ha: number; data_source: string; comparison: LulcComparisonItem[] }>(`/lulc?district=${encodeURIComponent(district)}`),
+  getLulcChange: (district: string = 'Tiruppur') => fetchJson<{ region: string; data_source: string; matrix: TransitionMatrixRow[]; classes: string[]; key_transitions: KeyTransitionItem[] }>(`/lulc/change?district=${encodeURIComponent(district)}`),
+  getLulcDistricts: () => fetchJson<{ available_districts: string[]; total_available: number; total_districts: number; missing: string[] }>('/lulc/districts'),
 
   // GIS
   getGisLayers: () => fetchJson<{ available_layers: any[]; pilot_center: { lat: number; lon: number; zoom: number } }>('/gis/layers'),

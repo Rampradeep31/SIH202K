@@ -13,7 +13,11 @@ import csv
 import glob
 import math
 import random
+import logging
+import numpy as np
 from typing import Dict, List, Any
+
+logger = logging.getLogger(__name__)
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 TN_DATASET_DIR = os.path.join(BASE_DIR, "tamil_nadu_dataset")
@@ -514,3 +518,190 @@ def _load_real_parcels() -> List[Dict[str, Any]]:
     return parcels
 
 TIRUPPUR_PARCELS = _load_real_parcels()
+
+
+def _load_all_district_parcels() -> Dict[str, List[Dict[str, Any]]]:
+    """
+    Generalizes _load_real_parcels() (left untouched above, so the already
+    trained/validated ML pipeline — ROC-AUC ~0.87 — never changes) to every
+    other district, for the LULC Change Analytics page. Same approach and
+    same honesty: real cadastral parcel geometry, a real statewide OSM
+    highway/rail network, and real district HQ centroids feed a distance-
+    based conversion-probability model — the labels are still synthetic,
+    same as Tiruppur's, not measured satellite classification.
+    """
+    random.seed(43)  # different from Tiruppur's seed(42) so this isn't a copy
+    result: Dict[str, List[Dict[str, Any]]] = {}
+
+    def calc_dist(lat1, lon1, lat2, lon2):
+        d_lat = (lat1 - lat2) * 111.0
+        d_lon = (lon1 - lon2) * 111.0 * math.cos(math.radians(lat2))
+        return math.sqrt(d_lat ** 2 + d_lon ** 2)
+
+    roads_file = os.path.join(TN_DATASET_DIR, "tamil_nadu_roads_railways.geojson")
+    highway_pts: List[tuple] = []
+    rail_pts: List[tuple] = []
+    if os.path.exists(roads_file):
+        try:
+            with open(roads_file, "r", encoding="utf-8") as f:
+                roads_data = json.load(f)
+            for feat in roads_data.get("features", []):
+                kind = feat.get("properties", {}).get("highway_type")
+                geom = feat.get("geometry", {})
+                gtype = geom.get("type")
+                coords = geom.get("coordinates", [])
+                # 10,359 of 10,360 features are LineString (flat [lon,lat]
+                # list); exactly 1 is MultiLineString (list of such lists).
+                # The first version of this loop assumed LineString only —
+                # hitting that one MultiLineString raised mid-loop, and the
+                # broad except below silently discarded most of the points
+                # gathered so far, which is why every district's
+                # dist_to_nh_km/dist_to_rail_km came back as the 80km
+                # fallback until this was fixed.
+                if gtype == "LineString":
+                    line_lists = [coords]
+                elif gtype == "MultiLineString":
+                    line_lists = coords
+                else:
+                    continue
+                pts = [(lat, lon) for line in line_lists for lon, lat in line]  # file is [lon, lat]
+                if kind == "National Highway":
+                    highway_pts.extend(pts)
+                elif kind == "railway":
+                    rail_pts.extend(pts)
+        except Exception as e:
+            logger.warning(f"Failed to load roads/railways network: {e}")
+
+    cad_file = os.path.join(TN_DATASET_DIR, "tamil_nadu_synthetic_cadastral_parcels.geojson")
+    if not os.path.exists(roads_file) or not os.path.exists(cad_file):
+        return result
+    try:
+        with open(cad_file, "r", encoding="utf-8") as f:
+            cad_data = json.load(f)
+    except Exception:
+        return result
+
+    # This cadastral file uses slightly different spellings for 4 districts
+    # than TAMIL_NADU_DISTRICTS' official names — without this map those
+    # 4 districts would silently come up with zero parcels, indistinguishable
+    # from the 6 real gaps below (5 newly-split districts + Mayiladuthurai
+    # that didn't exist yet when this cadastral file was generated).
+    CADASTRAL_NAME_ALIASES = {
+        "The Nilgiris": "Nilgiris",
+        "Thiruvarur": "Tiruvarur",
+        "Kancheepuram": "Kanchipuram",
+        "Thoothukkudi": "Thoothukudi",
+    }
+
+    by_district: Dict[str, list] = {}
+    for feat in cad_data.get("features", []):
+        dname = feat.get("properties", {}).get("district")
+        dname = CADASTRAL_NAME_ALIASES.get(dname, dname)
+        if dname and dname != "Tiruppur":  # Tiruppur keeps its dedicated dataset above
+            by_district.setdefault(dname, []).append(feat)
+
+    for dist_info in TAMIL_NADU_DISTRICTS:
+        dname = dist_info["name"]
+        features = by_district.get(dname)
+        if not features:
+            continue
+
+        urban_lat, urban_lon = dist_info["lat"], dist_info["lon"]
+        district_pop_density = dist_info["population"] / dist_info["area_sqkm"]
+
+        # Cheap pre-filter before precise distance calc: only consider
+        # road/rail points within ~0.6deg (~65km) of the district HQ.
+        # Checking every parcel against all ~10,000 statewide points would
+        # be far too slow; this cuts each district's candidate set to a
+        # few hundred points while keeping the same real network data.
+        pad = 0.6
+        local_highways = np.array([(lat, lon) for lat, lon in highway_pts
+                                    if abs(lat - urban_lat) < pad and abs(lon - urban_lon) < pad])
+        local_rail = np.array([(lat, lon) for lat, lon in rail_pts
+                               if abs(lat - urban_lat) < pad and abs(lon - urban_lon) < pad])
+
+        def min_dist_to(points: np.ndarray, lat, lon, fallback=80.0):
+            # Vectorized over the whole local point set instead of a Python
+            # min()-over-generator loop — with a few hundred candidate points
+            # per parcel across ~8,000 parcels, the pure-Python version took
+            # ~2.5 minutes at backend startup; this is the same haversine-flat
+            # approximation as calc_dist, just computed on a numpy array at once.
+            if points.size == 0:
+                return fallback
+            d_lat = (lat - points[:, 0]) * 111.0
+            d_lon = (lon - points[:, 1]) * 111.0 * np.cos(np.radians(points[:, 0]))
+            return float(np.sqrt(d_lat ** 2 + d_lon ** 2).min())
+
+        parcels = []
+        for idx, feat in enumerate(features, 1):
+            props = feat.get("properties", {})
+            coords = feat.get("geometry", {}).get("coordinates", [[]])[0]
+            if not coords:
+                continue
+            lons = [c[0] for c in coords]
+            lats = [c[1] for c in coords]
+            clon = sum(lons) / len(lons)
+            clat = sum(lats) / len(lats)
+
+            d_nh = round(min_dist_to(local_highways, clat, clon), 2)
+            d_urban = round(calc_dist(clat, clon, urban_lat, urban_lon), 2)
+            d_rail = round(min_dist_to(local_rail, clat, clon), 2)
+
+            # Same distance-based probability model as Tiruppur's — see the
+            # comment on the equivalent block above for why (real spatial
+            # drivers, not a deterministic rule, plus a floor for
+            # conversion causes this model doesn't capture).
+            conversion_score = max(0.0, 1.0 - (d_nh / 25.0) - (d_urban / 35.0) - (d_rail / 45.0))
+            conversion_prob = min(0.85, max(0.05, conversion_score * 0.7 + 0.28))
+            is_converted = 1 if random.random() < conversion_prob else 0
+            land_use_2023 = "Built-up" if is_converted else "Agriculture"
+
+            ndvi_2018 = round(0.45 + (random.random() * 0.25), 3)
+            ndbi_2018 = round(-0.35 + (random.random() * 0.20), 3)
+            ndvi_shift = (-0.13 if is_converted else -0.025) + (random.random() - 0.5) * 0.35
+            ndbi_shift = (0.16 if is_converted else 0.015) + (random.random() - 0.5) * 0.35
+            ndvi_2023 = round(max(0.05, min(0.85, ndvi_2018 + ndvi_shift)), 3)
+            ndbi_2023 = round(max(-0.40, min(0.60, ndbi_2018 + ndbi_shift)), 3)
+
+            taluk_name = props.get("taluk") or (dist_info["taluks"][0] if dist_info["taluks"] else dname)
+            pop_density = int(district_pop_density * (0.6 + random.random() * 1.2))
+            soil_score = round(max(20.0, min(95.0, 82.0 - (d_urban * 1.0) + (random.random() * 10))), 1)
+            slope = round(1.0 + (random.random() * 4.0), 1)
+
+            half_deg = 0.0015
+            polygon_coords = [
+                [round(clon - half_deg, 5), round(clat - half_deg, 5)],
+                [round(clon + half_deg, 5), round(clat - half_deg, 5)],
+                [round(clon + half_deg, 5), round(clat + half_deg, 5)],
+                [round(clon - half_deg, 5), round(clat + half_deg, 5)],
+                [round(clon - half_deg, 5), round(clat - half_deg, 5)]
+            ]
+
+            parcels.append({
+                "cell_id": f"{dist_info['id'].upper()[:3]}-{idx:04d}",
+                "taluk": taluk_name,
+                "lat": round(clat, 5), "lon": round(clon, 5),
+                "area_ha": round(props.get("area_sqm", 25000) / 10000.0, 1),
+                "lulc_2018": "Agriculture",
+                "lulc_2023": land_use_2023,
+                "transition_type": f"Agriculture -> {land_use_2023}",
+                "converted_agri_to_built": is_converted,
+                "ndvi_2018": ndvi_2018, "ndvi_2023": ndvi_2023,
+                "ndbi_2018": ndbi_2018, "ndbi_2023": ndbi_2023,
+                "ndwi_2023": round(0.05 + random.random() * 0.10, 3),
+                "ndvi_delta": round(ndvi_2023 - ndvi_2018, 3),
+                "ndbi_delta": round(ndbi_2023 - ndbi_2018, 3),
+                "dist_to_nh_km": d_nh, "dist_to_rail_km": d_rail, "dist_to_urban_center_km": d_urban,
+                "groundwater_status": "Over-exploited" if d_urban < 8 else ("Critical" if d_urban < 20 else "Semi-Critical"),
+                "soil_quality_score": soil_score,
+                "pop_density_sqkm": pop_density,
+                "slope_pct": slope,
+                "polygon": polygon_coords
+            })
+        if parcels:
+            result[dname] = parcels
+
+    return result
+
+
+ALL_DISTRICT_PARCELS: Dict[str, List[Dict[str, Any]]] = {"Tiruppur": TIRUPPUR_PARCELS, **_load_all_district_parcels()}

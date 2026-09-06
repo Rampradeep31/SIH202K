@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { api } from '../services/api';
+import { api, ApiNotFoundError } from '../services/api';
 import { LulcComparisonItem, TransitionMatrixRow, KeyTransitionItem } from '../types';
 import {
   GitCommit,
@@ -10,7 +10,8 @@ import {
   MapPin,
   ExternalLink,
   AlertTriangle,
-  Sparkles
+  Sparkles,
+  Info
 } from 'lucide-react';
 import {
   BarChart,
@@ -29,37 +30,71 @@ interface LulcChangePageProps {
 
 export const LulcChangePage: React.FC<LulcChangePageProps> = ({ onNavigateTab }) => {
   const [loading, setLoading] = useState(true);
+  const [availableDistricts, setAvailableDistricts] = useState<string[]>([]);
+  const [selectedDistrict, setSelectedDistrict] = useState('Tiruppur');
+  const [region, setRegion] = useState('Tiruppur District, Tamil Nadu');
+  const [totalArea, setTotalArea] = useState(0);
   const [comparison, setComparison] = useState<LulcComparisonItem[]>([]);
   const [matrix, setMatrix] = useState<TransitionMatrixRow[]>([]);
   const [classes, setClasses] = useState<string[]>([]);
   const [keyTransitions, setKeyTransitions] = useState<KeyTransitionItem[]>([]);
   const [selectedTransition, setSelectedTransition] = useState<KeyTransitionItem | null>(null);
+  const [notFoundMsg, setNotFoundMsg] = useState<string | null>(null);
 
   useEffect(() => {
+    api.getLulcDistricts().then((res) => setAvailableDistricts(res.available_districts)).catch(console.error);
+  }, []);
+
+  useEffect(() => {
+    loadDistrict(selectedDistrict);
+  }, [selectedDistrict]);
+
+  const loadDistrict = (district: string) => {
+    setLoading(true);
+    setNotFoundMsg(null);
     Promise.all([
-      api.getLulcSummary(),
-      api.getLulcChange()
+      api.getLulcSummary(district),
+      api.getLulcChange(district)
     ])
       .then(([sumRes, changeRes]) => {
+        setRegion(sumRes.region);
+        setTotalArea(sumRes.sample_analyzed_area_ha);
         setComparison(sumRes.comparison);
         setMatrix(changeRes.matrix);
         setClasses(changeRes.classes);
         setKeyTransitions(changeRes.key_transitions);
-        if (changeRes.key_transitions.length > 0) {
-          setSelectedTransition(changeRes.key_transitions[0]);
-        }
+        setSelectedTransition(changeRes.key_transitions[0] ?? null);
         setLoading(false);
       })
       .catch((err) => {
         console.error(err);
+        if (err instanceof ApiNotFoundError) {
+          setNotFoundMsg(err.message);
+          setComparison([]);
+          setMatrix([]);
+          setKeyTransitions([]);
+          setSelectedTransition(null);
+        }
         setLoading(false);
       });
-  }, []);
+  };
 
   if (loading) {
     return (
       <div className="p-8 text-center text-slate-500 text-sm">
-        Computing 5-Year LULC Transition Dynamics...
+        Computing 5-Year LULC Transition Dynamics for {selectedDistrict}...
+      </div>
+    );
+  }
+
+  if (notFoundMsg) {
+    return (
+      <div className="p-6 max-w-4xl mx-auto space-y-4">
+        <DistrictSelector value={selectedDistrict} options={availableDistricts} onChange={setSelectedDistrict} />
+        <div className="p-4 bg-amber-50 border border-amber-200 rounded-lg text-sm text-amber-900 flex items-start gap-2">
+          <Info className="w-4 h-4 shrink-0 mt-0.5" />
+          <span>{notFoundMsg}</span>
+        </div>
       </div>
     );
   }
@@ -76,16 +111,20 @@ export const LulcChangePage: React.FC<LulcChangePageProps> = ({ onNavigateTab })
             </span>
           </h1>
           <p className="text-xs text-slate-500 mt-0.5">
-            Multi-temporal satellite-derived conversion dynamics across Tiruppur District, Tamil Nadu.
+            Modeled conversion dynamics across {region} — real parcel geometry, highway/rail network, and
+            district centroids; conversion labels are a distance-based model, not a measured satellite classification.
           </p>
         </div>
-        <button
-          onClick={() => onNavigateTab('gis')}
-          className="text-xs font-semibold text-blue-800 hover:text-blue-900 flex items-center space-x-1"
-        >
-          <span>View on Map</span>
-          <ExternalLink className="w-3.5 h-3.5" />
-        </button>
+        <div className="flex items-center gap-3">
+          <DistrictSelector value={selectedDistrict} options={availableDistricts} onChange={setSelectedDistrict} />
+          <button
+            onClick={() => onNavigateTab('gis')}
+            className="text-xs font-semibold text-blue-800 hover:text-blue-900 flex items-center space-x-1 shrink-0"
+          >
+            <span>View on Map</span>
+            <ExternalLink className="w-3.5 h-3.5" />
+          </button>
+        </div>
       </div>
 
       {/* Summary Cards */}
@@ -180,7 +219,7 @@ export const LulcChangePage: React.FC<LulcChangePageProps> = ({ onNavigateTab })
               <span>Stable Retained Land Use</span>
             </span>
           </div>
-          <span className="font-medium">Total evaluated sample: ~8,000 ha</span>
+          <span className="font-medium">Total evaluated sample: {totalArea.toLocaleString()} ha</span>
         </div>
       </div>
 
@@ -228,3 +267,16 @@ export const LulcChangePage: React.FC<LulcChangePageProps> = ({ onNavigateTab })
     </div>
   );
 };
+
+const DistrictSelector: React.FC<{ value: string; options: string[]; onChange: (d: string) => void }> = ({ value, options, onChange }) => (
+  <select
+    value={value}
+    onChange={(e) => onChange(e.target.value)}
+    className="text-xs font-semibold border border-slate-300 rounded-md px-2.5 py-1.5 bg-white text-slate-800 focus:outline-hidden focus:ring-1 focus:ring-blue-600"
+  >
+    {options.length === 0 && <option value={value}>{value}</option>}
+    {options.map((d) => (
+      <option key={d} value={d}>{d}</option>
+    ))}
+  </select>
+);
