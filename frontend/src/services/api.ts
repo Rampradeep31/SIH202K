@@ -96,9 +96,9 @@ export const api = {
   }),
 
   // Research Copilot RAG
-  queryResearch: (question: string) => fetchJson<RAGResponse>('/research/query', {
+  queryResearch: (question: string, useWebSearch: boolean = false) => fetchJson<RAGResponse>('/research/query', {
     method: 'POST',
-    body: JSON.stringify({ question })
+    body: JSON.stringify({ question, use_web_search: useWebSearch })
   }),
   getDocuments: () => fetchJson<{ policies: any[]; research: any[]; grounding_facts: any[]; total_documents: number }>('/research/documents'),
 

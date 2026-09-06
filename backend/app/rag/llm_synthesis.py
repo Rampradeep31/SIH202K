@@ -129,3 +129,56 @@ def synthesize(question: str, evidence: List[str], district_name: Optional[str] 
         return result
 
     return None
+
+
+WEB_SEARCH_SYSTEM_PROMPT = """You are a general research assistant for Tamil Nadu land governance questions.
+You have access to live Google Search. The internal verified evidence below may be thin or absent for
+this question — you may supplement it with web search, but you must clearly distinguish the two:
+
+- Prefix any claim drawn from the internal evidence with "Per verified platform data:".
+- Prefix any claim drawn from web search with "Per web search (unverified):".
+- Do not claim web-search-derived specifics (street names, exact percentages, named companies) are certain —
+  they are not fact-checked and may be outdated or wrong. Use hedged language ("reportedly", "sources suggest").
+- Still ground in the internal evidence wherever it's relevant — don't ignore it just because search is available.
+- Write 4-6 sentences."""
+
+
+def synthesize_with_web_search(question: str, evidence: List[str], district_name: Optional[str] = None) -> Optional[Dict[str, Any]]:
+    """
+    Explicit, opt-in alternative to synthesize(): lets Gemini use live Google
+    Search to answer more broadly than the internal ~19-document corpus can.
+    This deliberately breaks the platform's default "zero hallucination,
+    verified-corpus-only" guarantee — callers MUST label the result as
+    web-augmented/unverified wherever it's shown, never present it the same
+    way as a synthesize() result. Requires GEMINI_API_KEY/GOOGLE_API_KEY;
+    returns None if unavailable or the call fails (no Anthropic path — the
+    Anthropic API has no equivalent built-in search tool).
+    """
+    api_key = os.environ.get("GEMINI_API_KEY") or os.environ.get("GOOGLE_API_KEY")
+    if not api_key:
+        return None
+    try:
+        from google import genai
+        from google.genai import types
+    except ImportError:
+        logger.warning("GEMINI_API_KEY is set but the google-genai SDK isn't installed; run: pip install google-genai")
+        return None
+
+    try:
+        client = genai.Client(api_key=api_key)
+        response = client.models.generate_content(
+            model=GEMINI_MODEL,
+            contents=_build_user_message(question, evidence, district_name),
+            config=types.GenerateContentConfig(
+                system_instruction=WEB_SEARCH_SYSTEM_PROMPT,
+                max_output_tokens=700,
+                tools=[types.Tool(google_search=types.GoogleSearch())],
+            ),
+        )
+        text = (response.text or "").strip()
+        if not text:
+            return None
+        return {"answer": text, "model": f"{GEMINI_MODEL}+google_search"}
+    except Exception as e:
+        logger.warning(f"Gemini web-search synthesis failed: {e}")
+        return None

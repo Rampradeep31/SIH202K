@@ -104,6 +104,7 @@ export interface RAGResponse {
   answer: string;
   synthesis_method?: string;
   search_method?: string;
+  web_search_used?: boolean;
   confidence_score: number;
   key_evidence: string[];
   relevant_locations: string[];

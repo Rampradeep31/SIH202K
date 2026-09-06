@@ -333,9 +333,15 @@ class ResearchCopilot:
         scored.sort(key=lambda x: x[0], reverse=True)
         return scored[:top_k]
 
-    def query(self, question: str) -> Dict[str, Any]:
+    def query(self, question: str, use_web_search: bool = False) -> Dict[str, Any]:
         """
         Processes research/policy question with grounded retrieval and strict evidence attribution.
+
+        use_web_search=True is an explicit opt-in that breaks the default
+        "verified corpus only" guarantee by letting Gemini supplement with
+        live Google Search — see llm_synthesis.synthesize_with_web_search.
+        Never enable this silently; the caller (the API layer / frontend)
+        must surface that a response used it.
         """
         q_lower = question.lower()
 
@@ -365,12 +371,16 @@ class ResearchCopilot:
         top_research = [r[2] for r in scored_research]
         search_method = (scored_policies[0][3] if scored_policies else (scored_research[0][3] if scored_research else ("semantic_embedding (all-MiniLM-L6-v2)" if self._embed_model is not None else "tfidf")))
 
-        # Check if we have sufficient grounding
-        if not top_policies and not top_research:
+        # Check if we have sufficient grounding. Web search mode exists
+        # specifically to answer questions the internal corpus draws a blank
+        # on, so it must not be short-circuited by this "insufficient
+        # evidence" path — only the strict default mode returns early here.
+        if not top_policies and not top_research and not use_web_search:
             return {
                 "question": question,
                 "answer": "Insufficient evidence available in the current Tamil Nadu knowledge base to answer this specific query with statutory or peer-reviewed certainty. Please refine your query to focus on Tamil Nadu land conversion, TNCDBR rules, Tiruppur industrial expansion, or Noyyal basin water protections.",
                 "synthesis_method": "n/a (no retrieval match)",
+                "web_search_used": False,
                 "search_method": search_method,
                 "confidence_score": 0.0,
                 "key_evidence": [],
@@ -538,17 +548,36 @@ class ResearchCopilot:
                 f"Statutory compliance under TNCDBR 2019 requires 10% Open Space Reservation (OSR) and mandatory Agricultural Department NOCs."
             )
 
-        # Real LLM synthesis: pass ONLY the grounded evidence gathered above
-        # (never open-ended) and let Claude write the actual answer text.
-        # Falls back to the template above if no ANTHROPIC_API_KEY is set or
-        # the call fails for any reason — see llm_synthesis.py.
-        llm_result = llm_synthesis.synthesize(question, key_evidence, target_dist_name)
-        if llm_result:
-            answer = llm_result["answer"]
-            synthesis_method = f"llm_generated ({llm_result['model']})"
-        else:
-            answer = template_answer
-            synthesis_method = "template_assembled"
+        web_search_used = False
+        if use_web_search:
+            # Explicit opt-in only — this deliberately steps outside the
+            # verified-corpus guarantee to let Gemini use live Google Search,
+            # for questions the internal ~19-document corpus can't fully
+            # answer (e.g. named local roads/wards/industrial estates that
+            # aren't in any of our sources). Answer, sources, and confidence
+            # below are ALL still surfaced normally, but the caller must
+            # render this distinctly (see search_method/synthesis_method
+            # prefix "copilot_mode") — never as a verified answer. The label
+            # says "copilot_mode" rather than "web_search" to the user, but
+            # the underlying honesty (unverified, must be flagged) is the same.
+            web_result = llm_synthesis.synthesize_with_web_search(question, key_evidence, target_dist_name)
+            if web_result:
+                answer = web_result["answer"]
+                synthesis_method = f"copilot_mode ({web_result['model']})"
+                web_search_used = True
+
+        if not web_search_used:
+            # Real LLM synthesis: pass ONLY the grounded evidence gathered above
+            # (never open-ended) and let Claude write the actual answer text.
+            # Falls back to the template above if no ANTHROPIC_API_KEY is set or
+            # the call fails for any reason — see llm_synthesis.py.
+            llm_result = llm_synthesis.synthesize(question, key_evidence, target_dist_name)
+            if llm_result:
+                answer = llm_result["answer"]
+                synthesis_method = f"llm_generated ({llm_result['model']})"
+            else:
+                answer = template_answer
+                synthesis_method = "template_assembled"
 
         # Honest confidence: average the verification tier of every cited source
         # instead of a flat constant, so a response leaning on unvalidated
@@ -573,6 +602,7 @@ class ResearchCopilot:
             "question": question,
             "answer": answer,
             "synthesis_method": synthesis_method,
+            "web_search_used": web_search_used,
             "search_method": search_method,
             "confidence_score": confidence_score,
             "key_evidence": key_evidence[:6],

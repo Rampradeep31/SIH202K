@@ -12,7 +12,8 @@ import {
   AlertCircle,
   AlertTriangle,
   CheckCircle2,
-  Sparkles
+  Sparkles,
+  Globe
 } from 'lucide-react';
 
 const VERIFICATION_BADGES: Record<string, { label: string; className: string }> = {
@@ -43,6 +44,7 @@ export const ResearchCopilotPage: React.FC<ResearchCopilotPageProps> = ({ onNavi
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<RAGResponse | null>(null);
   const [documents, setDocuments] = useState<{ policies: any[]; research: any[] }>({ policies: [], research: [] });
+  const [useWebSearch, setUseWebSearch] = useState(false);
 
   useEffect(() => {
     // Initial grounded query
@@ -50,11 +52,11 @@ export const ResearchCopilotPage: React.FC<ResearchCopilotPageProps> = ({ onNavi
     api.getDocuments().then((docRes) => setDocuments(docRes)).catch(console.error);
   }, []);
 
-  const handleQuery = async (queryText: string) => {
+  const handleQuery = async (queryText: string, webSearchOverride?: boolean) => {
     setLoading(true);
     setQuestion(queryText);
     try {
-      const res = await api.queryResearch(queryText);
+      const res = await api.queryResearch(queryText, webSearchOverride ?? useWebSearch);
       setResult(res);
     } catch (err) {
       console.error(err);
@@ -116,6 +118,21 @@ export const ResearchCopilotPage: React.FC<ResearchCopilotPageProps> = ({ onNavi
           </button>
         </form>
 
+        {/* Copilot Mode Opt-In */}
+        <label className="flex items-center gap-2 text-[11px] text-slate-600 cursor-pointer w-fit">
+          <input
+            type="checkbox"
+            checked={useWebSearch}
+            onChange={(e) => setUseWebSearch(e.target.checked)}
+            className="accent-amber-600"
+          />
+          <Globe className="w-3.5 h-3.5 text-amber-600" />
+          <span>
+            Ask Copilot for broader answers beyond the verified corpus
+            <span className="text-amber-700 font-semibold"> (unverified, not fact-checked)</span>
+          </span>
+        </label>
+
         {/* Query Presets */}
         <div className="flex items-center space-x-2 pt-1 overflow-x-auto">
           <span className="text-[11px] text-slate-400 font-semibold shrink-0 uppercase tracking-wider">
@@ -137,7 +154,13 @@ export const ResearchCopilotPage: React.FC<ResearchCopilotPageProps> = ({ onNavi
       {result && (
         <div className="space-y-6">
           {/* Synthesized Grounded Answer */}
-          <div className="bg-white p-6 rounded-lg border border-blue-200 shadow-2xs space-y-4">
+          <div className={`bg-white p-6 rounded-lg border shadow-2xs space-y-4 ${result.web_search_used ? 'border-amber-300' : 'border-blue-200'}`}>
+            {result.web_search_used && (
+              <div className="flex items-center gap-2 p-2.5 bg-amber-50 border border-amber-300 rounded-md text-[11px] text-amber-900 font-semibold">
+                <Globe className="w-4 h-4 shrink-0" />
+                <span>Copilot Answer — supplements verified platform data with live search results not checked against this platform's own corpus. Treat specifics as unconfirmed.</span>
+              </div>
+            )}
             <div className="flex items-center justify-between border-b border-slate-100 pb-3">
               <div className="flex items-center space-x-2">
                 <FileText className="w-4 h-4 text-blue-700" />
@@ -167,7 +190,7 @@ export const ResearchCopilotPage: React.FC<ResearchCopilotPageProps> = ({ onNavi
               <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-[10px] text-slate-400 font-mono">
                 {result.synthesis_method && (
                   <span>
-                    Answer: {result.synthesis_method.startsWith('llm_generated') ? '🤖 ' : ''}{result.synthesis_method}
+                    Answer: {result.synthesis_method.startsWith('llm_generated') ? '🤖 ' : result.synthesis_method.startsWith('copilot_mode') ? '🌐 ' : ''}{result.synthesis_method}
                   </span>
                 )}
                 {result.search_method && <span>Retrieval: {result.search_method}</span>}
