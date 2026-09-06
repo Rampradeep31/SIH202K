@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { api, ApiForbiddenError } from '../services/api';
-import { ScenarioItem, UserRole } from '../types';
+import { ScenarioItem, UserRole, CustomPolicyResult } from '../types';
 import {
   Sliders,
   RotateCcw,
@@ -12,7 +12,9 @@ import {
   Scale,
   ShieldAlert,
   Calculator,
-  Lock
+  Lock,
+  FileText,
+  Lightbulb
 } from 'lucide-react';
 
 const CAN_SIMULATE_ROLES: UserRole[] = ['Government Analyst', 'Policymaker'];
@@ -38,6 +40,9 @@ export const ScenariosPage: React.FC<ScenariosPageProps> = ({ onNavigateTab, onO
   const [scenarios, setScenarios] = useState<ScenarioItem[]>([]);
   const [simError, setSimError] = useState<string | null>(null);
   const canSimulate = CAN_SIMULATE_ROLES.includes(userRole);
+  const [customPolicyText, setCustomPolicyText] = useState('');
+  const [customResult, setCustomResult] = useState<CustomPolicyResult | null>(null);
+  const [customLoading, setCustomLoading] = useState(false);
   const [weights, setWeights] = useState({
     development_suitability: 0.25,
     infrastructure_access: 0.25,
@@ -93,6 +98,24 @@ export const ScenariosPage: React.FC<ScenariosPageProps> = ({ onNavigateTab, onO
     } catch (err) {
       setSimError(err instanceof ApiForbiddenError ? err.message : 'Simulation failed.');
       console.error(err);
+    }
+  };
+
+  const handleAnalyzeCustomPolicy = async () => {
+    if (!canSimulate || !customPolicyText.trim()) return;
+    setCustomLoading(true);
+    setCustomResult(null);
+    try {
+      const res = await api.analyzeCustomPolicy(customPolicyText.trim());
+      setCustomResult(res);
+    } catch (err) {
+      setCustomResult({
+        status: 'unavailable',
+        message: err instanceof ApiForbiddenError ? err.message : 'Analysis request failed.'
+      });
+      console.error(err);
+    } finally {
+      setCustomLoading(false);
     }
   };
 
@@ -232,6 +255,107 @@ export const ScenariosPage: React.FC<ScenariosPageProps> = ({ onNavigateTab, onO
             </div>
           );
         })}
+      </div>
+
+      {/* Test a Custom Policy */}
+      <div className="bg-white p-6 rounded-lg border border-slate-200 shadow-2xs space-y-4">
+        <div className="flex items-center space-x-2 border-b border-slate-100 pb-3">
+          <FileText className="w-4 h-4 text-indigo-700" />
+          <h3 className="text-sm font-bold text-slate-900">Test Your Own Policy</h3>
+          <span className="text-xs font-semibold px-2 py-0.5 rounded bg-indigo-100 text-indigo-800">AI-Estimated</span>
+        </div>
+        <p className="text-xs text-slate-500 -mt-2">
+          Paste or describe a policy in plain language. An LLM estimates the same 5 rubric components used above from
+          what your text actually commits to — the overall score is then computed with the identical formula, not by
+          the model. This is an estimate, not a verified simulation; treat it as a starting point for discussion.
+        </p>
+
+        {!canSimulate && (
+          <div className="p-2.5 bg-slate-50 border border-slate-200 rounded-lg text-[11px] text-slate-600 flex items-center space-x-2">
+            <Lock className="w-3.5 h-3.5 shrink-0 text-slate-400" />
+            <span>Viewing as <strong>{userRole}</strong> — analyzing a custom policy requires Government Analyst or Policymaker role.</span>
+          </div>
+        )}
+
+        <textarea
+          value={customPolicyText}
+          onChange={(e) => setCustomPolicyText(e.target.value)}
+          disabled={!canSimulate}
+          placeholder="e.g. Mandate that all new textile factories within 2km of the Noyyal river install zero-liquid-discharge treatment and pay into a farmer compensation fund equal to 5% of converted land value..."
+          rows={4}
+          className="w-full text-xs border border-slate-300 rounded-md p-3 focus:outline-hidden focus:ring-1 focus:ring-indigo-600 disabled:opacity-50 disabled:bg-slate-50"
+        />
+        <button
+          onClick={handleAnalyzeCustomPolicy}
+          disabled={!canSimulate || !customPolicyText.trim() || customLoading}
+          className="px-4 py-2 bg-indigo-700 hover:bg-indigo-800 text-white text-xs font-semibold rounded-md shadow-xs transition-colors disabled:opacity-40 disabled:cursor-not-allowed flex items-center space-x-1.5"
+        >
+          <Sparkles className="w-3.5 h-3.5" />
+          <span>{customLoading ? 'Analyzing…' : 'Analyze Policy'}</span>
+        </button>
+
+        {customResult && customResult.status === 'unavailable' && (
+          <div className="p-3 bg-amber-50 border border-amber-200 rounded-lg text-xs text-amber-900">
+            {customResult.message}
+          </div>
+        )}
+
+        {customResult && customResult.status === 'success' && customResult.scoring && (
+          <div className="border border-indigo-300 rounded-lg p-5 bg-indigo-50/30 space-y-4">
+            <div className="flex items-center justify-between">
+              <span className="text-xs font-bold text-slate-900">Your Custom Policy</span>
+              <span className="text-sm font-mono font-extrabold px-2.5 py-1 rounded bg-indigo-100 text-indigo-800">
+                {customResult.scoring.overall_score}/100
+              </span>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-2 text-[11px]">
+              {Object.entries(customResult.component_scores || {}).map(([key, val]) => (
+                <div key={key} className="p-2 bg-white rounded border border-indigo-100">
+                  <div className="text-slate-500 capitalize">{key.replace(/_/g, ' ')}</div>
+                  <div className="font-mono font-bold text-indigo-800">{val}/100</div>
+                  {customResult.rationale?.[key] && (
+                    <div className="text-slate-500 mt-1 leading-snug">{customResult.rationale[key]}</div>
+                  )}
+                </div>
+              ))}
+            </div>
+
+            {customResult.comparison_to_baseline && (
+              <div className="p-3 bg-white rounded border border-indigo-100 text-xs text-slate-700">
+                <span className="font-bold text-indigo-900 block mb-1">Vs. Baseline Scenarios</span>
+                {customResult.comparison_to_baseline}
+                {customResult.baseline_scenarios && (
+                  <div className="flex flex-wrap gap-2 mt-2">
+                    {customResult.baseline_scenarios.map((s) => (
+                      <span key={s.id} className="text-[10px] font-mono bg-slate-100 px-1.5 py-0.5 rounded">
+                        {s.name.split(':')[0]}: {s.overall_score}
+                      </span>
+                    ))}
+                  </div>
+                )}
+              </div>
+            )}
+
+            {customResult.suggestions && customResult.suggestions.length > 0 && (
+              <div className="p-3 bg-white rounded border border-indigo-100">
+                <span className="font-bold text-indigo-900 text-xs flex items-center space-x-1.5 mb-1.5">
+                  <Lightbulb className="w-3.5 h-3.5" />
+                  <span>Suggestions</span>
+                </span>
+                <ul className="text-xs text-slate-700 space-y-1 list-disc list-inside">
+                  {customResult.suggestions.map((s, i) => (
+                    <li key={i}>{s}</li>
+                  ))}
+                </ul>
+              </div>
+            )}
+
+            <p className="text-[10px] text-slate-400 font-mono">
+              Answer: 🤖 {customResult.synthesis_method}
+            </p>
+          </div>
+        )}
       </div>
 
       {/* Sensitivity Analysis Control Panel ("What changes the result?") */}

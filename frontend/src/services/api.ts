@@ -14,7 +14,8 @@ import {
   DisputeStats,
   ClimateMetrics,
   InnovationProgramme,
-  Workspace
+  Workspace,
+  CustomPolicyResult
 } from '../types';
 
 const API_BASE = 'http://127.0.0.1:8000/api/v1';
@@ -119,6 +120,10 @@ export const api = {
   simulateScenarios: (weights?: Record<string, number>) => fetchJson<{ status: string; scenarios: ScenarioItem[] }>('/scenarios/simulate', {
     method: 'POST',
     body: JSON.stringify({ weights })
+  }),
+  analyzeCustomPolicy: (policyText: string, district: string = 'Tiruppur') => fetchJson<CustomPolicyResult>('/scenarios/analyze-custom', {
+    method: 'POST',
+    body: JSON.stringify({ policy_text: policyText, district })
   }),
 
   // Models Evaluation

@@ -17,6 +17,8 @@ won't claim AI-generated text it didn't actually produce.
 """
 
 import os
+import json
+import re
 import logging
 from typing import Dict, List, Any, Optional
 
@@ -182,3 +184,100 @@ def synthesize_with_web_search(question: str, evidence: List[str], district_name
     except Exception as e:
         logger.warning(f"Gemini web-search synthesis failed: {e}")
         return None
+
+
+CUSTOM_POLICY_SYSTEM_PROMPT = """You are a policy-scoring assistant for a Tamil Nadu land governance decision-support
+platform. The platform scores any policy on 5 components, each 0-100, using ONLY this fixed formula (weights are not
+yours to change):
+Score = 0.25*DevSuitability + 0.25*InfraAccess + 0.20*AgriPreservation + 0.15*WaterSafety + 0.15*EcoProtection
+
+Given a district's real current profile and a user-submitted policy description, estimate each component honestly
+based on what the policy text actually says it will do — do not default to a flattering score. A policy silent on
+water/groundwater protection should score low on WaterSafety, not a neutral 50.
+
+Respond with ONLY a JSON object (no markdown fences, no prose outside it) shaped exactly like this:
+{
+  "component_scores": {"development_suitability": <0-100 int>, "infrastructure_access": <0-100 int>, "agricultural_preservation": <0-100 int>, "water_flood_safety": <0-100 int>, "ecological_protection": <0-100 int>},
+  "rationale": {"development_suitability": "<one sentence, tied to the policy text>", "infrastructure_access": "...", "agricultural_preservation": "...", "water_flood_safety": "...", "ecological_protection": "..."},
+  "comparison_to_baseline": "<2-3 sentences comparing this policy's likely trade-offs to the baseline/industrial-expansion/sustainable-agro scenarios already on the platform>",
+  "suggestions": ["<specific, actionable improvement>", "<another>", "<another>"]
+}
+
+Do not invent hectare/crore/percentage figures for this hypothetical policy — the platform computes the overall
+score itself from your component_scores; you only estimate those 5 components and explain your reasoning."""
+
+
+def _extract_json(text: str) -> Optional[Dict[str, Any]]:
+    text = text.strip()
+    if text.startswith("```"):
+        text = re.sub(r"^```[a-zA-Z]*\n?", "", text)
+        text = re.sub(r"\n?```$", "", text)
+    try:
+        return json.loads(text)
+    except (json.JSONDecodeError, ValueError):
+        match = re.search(r"\{.*\}", text, re.DOTALL)
+        if match:
+            try:
+                return json.loads(match.group(0))
+            except (json.JSONDecodeError, ValueError):
+                return None
+        return None
+
+
+def _build_custom_policy_message(policy_text: str, district_context: str) -> str:
+    return (
+        f"District profile:\n{district_context}\n\n"
+        f"User-submitted policy to score:\n\"\"\"\n{policy_text}\n\"\"\""
+    )
+
+
+def analyze_custom_policy(policy_text: str, district_context: str) -> Optional[Dict[str, Any]]:
+    """
+    Returns the parsed JSON dict described in CUSTOM_POLICY_SYSTEM_PROMPT, or
+    None if no provider is configured, the call fails, or the response
+    couldn't be parsed as the expected JSON shape — callers must handle None
+    as "unavailable" and must NOT fabricate a score themselves.
+    """
+    user_message = _build_custom_policy_message(policy_text, district_context)
+
+    api_key = os.environ.get("ANTHROPIC_API_KEY")
+    if api_key:
+        try:
+            import anthropic
+            client = anthropic.Anthropic(api_key=api_key)
+            response = client.messages.create(
+                model=ANTHROPIC_MODEL,
+                max_tokens=700,
+                system=CUSTOM_POLICY_SYSTEM_PROMPT,
+                messages=[{"role": "user", "content": user_message}],
+            )
+            text = "".join(b.text for b in response.content if b.type == "text").strip()
+            parsed = _extract_json(text)
+            if parsed:
+                parsed["_model"] = ANTHROPIC_MODEL
+                return parsed
+        except Exception as e:
+            logger.warning(f"Anthropic custom policy analysis failed: {e}")
+
+    gemini_key = os.environ.get("GEMINI_API_KEY") or os.environ.get("GOOGLE_API_KEY")
+    if gemini_key:
+        try:
+            from google import genai
+            from google.genai import types
+            client = genai.Client(api_key=gemini_key)
+            response = client.models.generate_content(
+                model=GEMINI_MODEL,
+                contents=user_message,
+                config=types.GenerateContentConfig(
+                    system_instruction=CUSTOM_POLICY_SYSTEM_PROMPT,
+                    max_output_tokens=700,
+                ),
+            )
+            parsed = _extract_json((response.text or "").strip())
+            if parsed:
+                parsed["_model"] = GEMINI_MODEL
+                return parsed
+        except Exception as e:
+            logger.warning(f"Gemini custom policy analysis failed: {e}")
+
+    return None

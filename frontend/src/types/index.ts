@@ -248,6 +248,20 @@ export interface Workspace {
   note_count?: number;
 }
 
+export interface CustomPolicyResult {
+  status: 'success' | 'unavailable';
+  message?: string;
+  district?: string;
+  policy_text?: string;
+  component_scores?: Record<string, number>;
+  rationale?: Record<string, string>;
+  comparison_to_baseline?: string;
+  suggestions?: string[];
+  scoring?: ScenarioScoring;
+  synthesis_method?: string;
+  baseline_scenarios?: { id: string; name: string; overall_score: number }[];
+}
+
 export interface ExecutiveReport {
   title: string;
   jurisdiction: string;
