@@ -248,6 +248,24 @@ class ResearchCopilot:
             for r in self.research
         ]
 
+        # Which Tamil Nadu district(s) each document actually names — used in
+        # _search() to catch a real failure mode: a paper titled "...Kancheepuram
+        # District..." scores moderately on pure semantic similarity for ANY
+        # Tamil Nadu land-use question, because the corpus is small and most
+        # papers share the same generic "land use/cover change" phrasing. Pure
+        # embedding similarity can't tell "same topic, wrong place" from
+        # "same topic, right place" — this does, by checking the actual named
+        # district against the one the question is about.
+        from app.data.tamilnadu_data import TAMIL_NADU_DISTRICTS
+        self._district_names = [d["name"] for d in TAMIL_NADU_DISTRICTS]
+
+        def _mentioned_districts(text: str):
+            text_lower = text.lower()
+            return {name for name in self._district_names if name.lower() in text_lower}
+
+        self._policy_districts = [_mentioned_districts(t) for t in self._policy_texts]
+        self._research_districts = [_mentioned_districts(t) for t in self._research_texts]
+
         # Preferred path: real sentence embeddings.
         self._embed_model = None
         self._policy_embeddings = None
@@ -277,7 +295,8 @@ class ResearchCopilot:
             self._policy_matrix = None
             self._research_matrix = None
 
-    def _search(self, question: str, embeddings, texts_matrix, items, weight_key=None, top_k=2, min_score=0.05):
+    def _search(self, question: str, embeddings, texts_matrix, items, doc_districts=None,
+                target_district=None, weight_key=None, top_k=2, min_score=0.05):
         if not items:
             return []
 
@@ -299,6 +318,17 @@ class ResearchCopilot:
             if sim < min_score:
                 continue
             weighted = sim * item.get(weight_key, 1.0) if weight_key else sim
+
+            if doc_districts is not None and target_district:
+                mentioned = doc_districts[idx]
+                if target_district in mentioned:
+                    weighted *= 1.6  # names the district actually asked about
+                elif mentioned:
+                    weighted *= 0.15  # names a *different* specific district — usually not relevant
+                # else: no specific district named (general/statewide study) — unchanged
+
+            if weighted < min_score:
+                continue  # a wrong-district penalty can knock a result below the bar entirely
             scored.append((weighted, sim, item, method))
         scored.sort(key=lambda x: x[0], reverse=True)
         return scored[:top_k]
@@ -309,8 +339,27 @@ class ResearchCopilot:
         """
         q_lower = question.lower()
 
-        scored_policies = self._search(question, self._policy_embeddings, self._policy_matrix, self.policies, weight_key="authority_weight")
-        scored_research = self._search(question, self._research_embeddings, self._research_matrix, self.research)
+        # District detection happens before retrieval (not after, as before)
+        # so search can actually use it — this is what fixes citing a paper
+        # about a different district just because it shares generic "land
+        # use change in Tamil Nadu" phrasing with the one actually asked about.
+        from app.data.tamilnadu_data import TAMIL_NADU_DISTRICTS
+        matched_dist = None
+        for d in TAMIL_NADU_DISTRICTS:
+            if d["name"].lower() in q_lower:
+                matched_dist = d
+                break
+        target_district_for_search = matched_dist["name"] if matched_dist else None
+
+        scored_policies = self._search(
+            question, self._policy_embeddings, self._policy_matrix, self.policies,
+            doc_districts=self._policy_districts, target_district=target_district_for_search,
+            weight_key="authority_weight"
+        )
+        scored_research = self._search(
+            question, self._research_embeddings, self._research_matrix, self.research,
+            doc_districts=self._research_districts, target_district=target_district_for_search
+        )
 
         top_policies = [p[2] for p in scored_policies]
         top_research = [r[2] for r in scored_research]
@@ -333,14 +382,8 @@ class ResearchCopilot:
                 "sources": []
             }
 
-        # Dynamic District Detection
-        from app.data.tamilnadu_data import TAMIL_NADU_DISTRICTS
-        matched_dist = None
-        for d in TAMIL_NADU_DISTRICTS:
-            if d["name"].lower() in q_lower:
-                matched_dist = d
-                break
-        
+        # matched_dist was already resolved above, before retrieval, so
+        # search could use it — reused here rather than detected again.
         target_dist_name = matched_dist["name"] if matched_dist else "Tiruppur"
         target_taluks = ", ".join(matched_dist["taluks"][:3]) if matched_dist else "Avinashi, Tiruppur North, and Palladam"
         target_desc = matched_dist["description"] if matched_dist else "textile auxiliary expansion and logistics accessibility"
@@ -433,6 +476,20 @@ class ResearchCopilot:
                     "verification_status": "VALIDATED" if dist_fact.get("verified") else "PENDING_MANUAL_REVIEW",
                     "is_validated": bool(dist_fact.get("verified"))
                 })
+
+            # The 4 bullets above are fixed per-district boilerplate (satellite,
+            # census, TNCDBR) — they say nothing about whatever the question
+            # actually asked if it's outside those 4 topics (groundwater specifics,
+            # dispute stats, a particular research finding, etc.). Without this,
+            # a retrieved-and-cited research paper's actual content never reaches
+            # the LLM, which is why "insufficient evidence" kept showing up even
+            # when a genuinely relevant paper was sitting right there in Sources.
+            if top_research:
+                for r in top_research:
+                    key_evidence.extend(r["key_findings"][:2])
+            if top_policies:
+                for p in top_policies:
+                    key_evidence.extend(p["key_clauses"][:2])
         else:
             if top_research:
                 for r in top_research:
@@ -444,24 +501,35 @@ class ResearchCopilot:
         # Template-assembled answer — used as the fallback when real LLM
         # synthesis (below) isn't available, so the platform still answers
         # something grounded even without an API key configured.
-        if "where" in q_lower or "which area" in q_lower or "location" in q_lower or "most likely" in q_lower:
+        #
+        # Word-boundary matching, not substring: a naive "act" in q_lower
+        # matched inside "extraction", silently routing a groundwater
+        # question into the statutory-rules template instead. Checked in
+        # order of specificity — groundwater/water before the generic
+        # rule/act branch, since a question can plausibly contain both.
+        import re as _re
+
+        def _has_any(*words):
+            return any(_re.search(rf"\b{_re.escape(w)}\b", q_lower) for w in words)
+
+        if _has_any("where", "which area", "location", "most likely"):
             template_answer = (
                 f"Based on longitudinal satellite studies and Tamil Nadu Town & Country Planning records, "
                 f"agricultural land is most likely to experience built-up conversion in the high-density corridors of **{target_dist_name} District**, "
                 f"specifically in **{target_taluks} taluks**. "
                 f"Contributing drivers in {target_dist_name} include {target_desc}, highway logistics proximity, and seasonal groundwater fluctuations."
             )
-        elif "rule" in q_lower or "tncdbr" in q_lower or "act" in q_lower or "legal" in q_lower or "conversion" in q_lower:
-            template_answer = (
-                f"Under **Section 47A of the Tamil Nadu Town and Country Planning Act, 1971** and **Rule 22 of TNCDBR 2019**, "
-                f"conversion of agricultural land for non-agricultural use in {target_dist_name} District requires mandatory prior clearance from the District Collector and the Director of Town and Country Planning (DTCP). "
-                f"Furthermore, **Rule 19 enforces a strict 15-meter non-development buffer** along rivers and natural watercourses across {target_dist_name}."
-            )
-        elif "groundwater" in q_lower or "water" in q_lower or "noyyal" in q_lower or "salinity" in q_lower or "rain" in q_lower or "monsoon" in q_lower:
+        elif _has_any("groundwater", "water", "noyyal", "salinity", "rainfall", "monsoon", "extraction"):
             template_answer = (
                 f"Hydrological monitoring by CGWB, IMD rainfall data, and academic evaluations in {target_dist_name} District establish that "
                 f"industrial expansion and built-up land conversions reduce local groundwater recharge, "
                 f"prompting the Water Resources Department (WRD) to enforce strict eco-buffers and rainwater harvesting requirements across {target_taluks}."
+            )
+        elif _has_any("rule", "tncdbr", "act", "legal", "conversion"):
+            template_answer = (
+                f"Under **Section 47A of the Tamil Nadu Town and Country Planning Act, 1971** and **Rule 22 of TNCDBR 2019**, "
+                f"conversion of agricultural land for non-agricultural use in {target_dist_name} District requires mandatory prior clearance from the District Collector and the Director of Town and Country Planning (DTCP). "
+                f"Furthermore, **Rule 19 enforces a strict 15-meter non-development buffer** along rivers and natural watercourses across {target_dist_name}."
             )
         else:
             template_answer = (
@@ -507,7 +575,7 @@ class ResearchCopilot:
             "synthesis_method": synthesis_method,
             "search_method": search_method,
             "confidence_score": confidence_score,
-            "key_evidence": key_evidence[:4],
+            "key_evidence": key_evidence[:6],
             "relevant_locations": relevant_locations,
             "relevant_policies": [p["title"] for p in top_policies],
             "relevant_research": [r["title"] for r in top_research],

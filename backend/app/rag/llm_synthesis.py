@@ -30,8 +30,16 @@ Zero hallucination policy: answer ONLY using the evidence provided in the user m
 outside knowledge about Tamil Nadu, Indian law, or satellite data beyond what's given.
 
 Rules:
+- Directly answer the literal question asked. If it asks "where", name the specific district/taluk/corridor
+  the evidence gives — do not just gesture at "a signal exists" without naming the place. If it asks "what
+  rule", name the specific rule/section number. A vague restatement that avoids the specifics the evidence
+  actually contains is a failure, even if technically not false.
+- Use ALL the provided evidence that is relevant, not just the first line — evidence lower in the list is
+  often exactly what a "where" or "what rule" question needs (taluk names, rule numbers, statistics).
 - Every claim must trace to a specific piece of provided evidence. Do not invent statistics, case names, or figures.
-- If the provided evidence is insufficient to answer the question, say so plainly instead of filling the gap.
+- Only say the evidence is insufficient if NONE of it is topically relevant to the question. If some evidence
+  addresses part of the question, answer that part fully and then name specifically what's missing — don't
+  default to "insufficient evidence" just because one narrow angle (e.g. an exact extraction rate) isn't covered.
 - Cite evidence inline by referring to what it says (e.g. "Census data shows...", "The Sentinel-2 reading indicates...").
 - Where evidence is explicitly marked as a data gap or low-confidence, reflect that honestly in the answer's tone — do not present it as certain.
 - Write 3-5 sentences. Plain prose, no markdown headers, bold for district/act names is fine.
@@ -61,7 +69,7 @@ def _try_anthropic(question: str, evidence: List[str], district_name: Optional[s
         client = anthropic.Anthropic(api_key=api_key)
         response = client.messages.create(
             model=ANTHROPIC_MODEL,
-            max_tokens=400,
+            max_tokens=550,
             system=SYSTEM_PROMPT,
             messages=[{"role": "user", "content": _build_user_message(question, evidence, district_name)}],
         )
@@ -90,7 +98,7 @@ def _try_gemini(question: str, evidence: List[str], district_name: Optional[str]
             contents=_build_user_message(question, evidence, district_name),
             config=types.GenerateContentConfig(
                 system_instruction=SYSTEM_PROMPT,
-                max_output_tokens=400,
+                max_output_tokens=550,
             ),
         )
         text = (response.text or "").strip()
