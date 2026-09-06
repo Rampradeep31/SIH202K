@@ -86,12 +86,12 @@ export const api = {
   getTamilNaduDistrictsGeoJson: () => fetchJson<any>('/gis/tamilnadu-districts'),
 
   // Predictions
-  getPredictions: (taluk?: string, risk?: string) => {
+  getPredictions: (district: string = 'Tiruppur', taluk?: string, risk?: string) => {
     const params = new URLSearchParams();
+    params.append('district', district);
     if (taluk) params.append('taluk', taluk);
     if (risk) params.append('risk', risk);
-    const queryStr = params.toString() ? `?${params.toString()}` : '';
-    return fetchJson<{ total_evaluated_cells: number; risk_breakdown: Record<string, number>; predictions: PredictionCell[] }>(`/predictions${queryStr}`);
+    return fetchJson<{ region: string; total_evaluated_cells: number; risk_breakdown: Record<string, number>; predictions: PredictionCell[] }>(`/predictions?${params.toString()}`);
   },
   getCellExplanation: (cellId: string) => fetchJson<CellExplanationResponse>(`/predictions/${cellId}`),
 

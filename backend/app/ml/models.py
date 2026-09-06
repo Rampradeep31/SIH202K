@@ -1,6 +1,6 @@
 """
 Machine Learning Core: Land-Use Transition Risk Models
-Task: Predict probability of Agricultural -> Built-up conversion in Tiruppur District, Tamil Nadu.
+Task: Predict probability of Agricultural -> Built-up conversion across Tamil Nadu districts.
 Models:
   - Model A: RandomForestClassifier (Baseline ensemble)
   - Model B: GradientBoostingClassifier (Boosted sequential trees)
@@ -24,8 +24,8 @@ from sklearn.metrics import (
     confusion_matrix, precision_recall_curve, auc
 )
 from sklearn.calibration import calibration_curve
-from typing import Dict, List, Any, Tuple
-from app.data.tamilnadu_data import TIRUPPUR_PARCELS
+from typing import Dict, List, Any, Tuple, Optional
+from app.data.tamilnadu_data import ALL_DISTRICT_PARCELS
 
 FEATURE_NAMES = [
     "dist_to_nh_km",
@@ -42,7 +42,7 @@ FEATURE_NAMES = [
 
 FEATURE_LABELS = {
     "dist_to_nh_km": "Proximity to NH-544 Corridor",
-    "dist_to_urban_center_km": "Proximity to Tiruppur Urban Core",
+    "dist_to_urban_center_km": "Proximity to District Urban Core",
     "dist_to_rail_km": "Railway Logistics Access",
     "ndvi_2018": "Baseline Vegetation Health (NDVI)",
     "ndbi_2018": "Baseline Built-up Index (NDBI)",
@@ -62,12 +62,28 @@ class MLSystem:
         self.metrics_rf = {}
         self.metrics_gb = {}
         self.predictions_cache = {}
+        self.parcels_by_cell_id: Dict[str, Dict[str, Any]] = {}
+        # Every parcel in ALL_DISTRICT_PARCELS only knows its own "taluk",
+        # not which district it's grouped under — tag it once here (in
+        # place; this dict is shared with lulc.py, which doesn't mind the
+        # extra key) so predictions and the cell explainability endpoint
+        # can filter/report by district.
+        for dname, plist in ALL_DISTRICT_PARCELS.items():
+            for p in plist:
+                p.setdefault("district", dname)
+                self.parcels_by_cell_id[p["cell_id"]] = p
         self._train_models()
 
+    def _all_parcels(self) -> List[Dict[str, Any]]:
+        return list(self.parcels_by_cell_id.values())
+
     def _prepare_data(self) -> Tuple[np.ndarray, np.ndarray, List[Dict[str, Any]]]:
-        # Train primarily on agricultural parcels to predict conversion to built-up
-        agri_parcels = [p for p in TIRUPPUR_PARCELS if p["lulc_2018"] == "Agriculture"]
-        
+        # Train on agricultural parcels pooled across every district with
+        # data (not Tiruppur-only) — a statewide-trained model generalizes
+        # better than one fit on a single district's ~280 rows and applied
+        # everywhere else out-of-distribution.
+        agri_parcels = [p for p in self._all_parcels() if p["lulc_2018"] == "Agriculture"]
+
         X_list = []
         y_list = []
         for p in agri_parcels:
@@ -122,7 +138,7 @@ class MLSystem:
         self.metrics_rf = self._compute_evaluation("Random Forest (Model A)", y, y_pred_rf, y_proba_rf, self.model_a_rf.feature_importances_)
         self.metrics_gb = self._compute_evaluation("Gradient Boosting (Model B)", y, y_pred_gb, y_proba_gb, self.model_b_gb.feature_importances_)
         
-        # Pre-calculate predictions across all Tiruppur parcels
+        # Pre-calculate predictions across all districts' parcels
         self._generate_parcel_predictions(agri_parcels)
 
     def _compute_evaluation(self, name: str, y_true: np.ndarray, y_pred: np.ndarray, y_proba: np.ndarray, feat_importances: np.ndarray) -> Dict[str, Any]:
@@ -172,31 +188,47 @@ class MLSystem:
             "feature_importance": features_ranked,
             "training_period": "2018 – 2023 Sentinel-2 Historical Baseline",
             "data_sources": ["Bhuvan LULC (NRSC)", "Copernicus Sentinel-2", "OGD Tamil Nadu", "OpenStreetMap Road Network"],
-            "limitations": "Model trained on Tiruppur semi-arid industrial corridor; applies to Western Agro-Climatic Zone of Tamil Nadu. Requires field validation before statutory rezoning."
+            "limitations": (
+                "Model trained on pooled parcels across all 32 districts with cadastral data (real "
+                "geometry with modeled, not measured, conversion labels — see "
+                "scripts/tn_satellite_indices_pipeline.py for what real satellite data this platform "
+                "does have). ROC-AUC is higher than a single-district model (e.g. Tiruppur alone "
+                "scored ~0.87) because pooling adds strong between-district variance on top of the "
+                "same per-parcel noise — mean distance-to-urban-core ranges from ~5km in Chennai to "
+                "~43km in Ariyalur, which the model can separate on district context alone, not just "
+                "true land-use signal. Requires field validation before statutory rezoning."
+            )
         }
 
     def _generate_parcel_predictions(self, agri_parcels: List[Dict[str, Any]]):
-        for p in TIRUPPUR_PARCELS:
+        # Batch every agricultural parcel into one matrix and call
+        # predict_proba() once per model instead of once per parcel. With
+        # ~7,500 parcels across all districts (vs. ~280 for Tiruppur alone),
+        # one-row-at-a-time calls took ~223s at backend startup — each
+        # sklearn predict_proba call has fixed Python/validation overhead
+        # that dominates when the actual math per row is this cheap.
+        all_parcels = self._all_parcels()
+        agri_in_order = [p for p in all_parcels if p["lulc_2018"] == "Agriculture"]
+        if agri_in_order:
+            X_batch = np.array([[
+                p["dist_to_nh_km"], p["dist_to_urban_center_km"], p["dist_to_rail_km"],
+                p["ndvi_2018"], p["ndbi_2018"], p["ndvi_delta"], p["ndbi_delta"],
+                p["pop_density_sqkm"] / 1000.0, p["soil_quality_score"] / 100.0, p["slope_pct"]
+            ] for p in agri_in_order])
+            probs_rf = self.model_a_rf.predict_proba(X_batch)[:, 1]
+            probs_gb = self.model_b_gb.predict_proba(X_batch)[:, 1]
+            ensemble_probs = {
+                p["cell_id"]: round(float(0.5 * rf + 0.5 * gb), 3)
+                for p, rf, gb in zip(agri_in_order, probs_rf, probs_gb)
+            }
+        else:
+            ensemble_probs = {}
+
+        for p in all_parcels:
             cell_id = p["cell_id"]
             if p["lulc_2018"] == "Agriculture":
-                feat_vector = np.array([[
-                    p["dist_to_nh_km"],
-                    p["dist_to_urban_center_km"],
-                    p["dist_to_rail_km"],
-                    p["ndvi_2018"],
-                    p["ndbi_2018"],
-                    p["ndvi_delta"],
-                    p["ndbi_delta"],
-                    p["pop_density_sqkm"] / 1000.0,
-                    p["soil_quality_score"] / 100.0,
-                    p["slope_pct"]
-                ]])
-                
-                # Ensemble probability (0.5 RF + 0.5 GB)
-                p_rf = float(self.model_a_rf.predict_proba(feat_vector)[0, 1])
-                p_gb = float(self.model_b_gb.predict_proba(feat_vector)[0, 1])
-                prob = round(0.5 * p_rf + 0.5 * p_gb, 3)
-                
+                prob = ensemble_probs[cell_id]
+
                 # Risk category
                 if prob < 0.20:
                     risk_cat = "Very Low"
@@ -216,6 +248,7 @@ class MLSystem:
                 
                 self.predictions_cache[cell_id] = {
                     "cell_id": cell_id,
+                    "district": p["district"],
                     "taluk": p["taluk"],
                     "lat": p["lat"],
                     "lon": p["lon"],
@@ -232,6 +265,7 @@ class MLSystem:
                 risk_cat = "N/A (Built-up)" if p["lulc_2018"] == "Built-up" else ("Protected Water" if p["lulc_2018"] == "Waterbody" else "Low")
                 self.predictions_cache[cell_id] = {
                     "cell_id": cell_id,
+                    "district": p["district"],
                     "taluk": p["taluk"],
                     "lat": p["lat"],
                     "lon": p["lon"],
@@ -271,7 +305,7 @@ class MLSystem:
         if u_dist < 5.0:
             impact = round((5.0 - u_dist) / 5.0 * 28, 1)
             factors.append({
-                "factor": "Peri-Urban Spillover from Tiruppur City",
+                "factor": "Peri-Urban Spillover from District Urban Core",
                 "direction": "increases_risk",
                 "contribution_pct": impact,
                 "detail": f"{u_dist:.1f} km from municipal boundary"
@@ -318,8 +352,10 @@ class MLSystem:
             
         return sorted(factors, key=lambda x: x["contribution_pct"], reverse=True)[:5]
 
-    def get_predictions(self, taluk: str = None, risk: str = None) -> List[Dict[str, Any]]:
+    def get_predictions(self, taluk: str = None, risk: str = None, district: Optional[str] = None) -> List[Dict[str, Any]]:
         results = list(self.predictions_cache.values())
+        if district:
+            results = [r for r in results if r["district"].lower() == district.lower()]
         if taluk:
             results = [r for r in results if r["taluk"].lower() == taluk.lower()]
         if risk:
@@ -330,7 +366,7 @@ class MLSystem:
         if cell_id not in self.predictions_cache:
             return {"error": f"Cell {cell_id} not found"}
         cell_data = self.predictions_cache[cell_id]
-        parcel_meta = next((p for p in TIRUPPUR_PARCELS if p["cell_id"] == cell_id), None)
+        parcel_meta = self.parcels_by_cell_id.get(cell_id)
         
         return {
             "prediction": cell_data,

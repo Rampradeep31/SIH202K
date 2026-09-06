@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { api } from '../services/api';
-import { PredictionCell, CellExplanationResponse } from '../types';
+import { PredictionCell, CellExplanationResponse, District } from '../types';
 import {
   TrendingUp,
   Filter,
@@ -43,25 +43,55 @@ export const PredictionsPage: React.FC<PredictionsPageProps> = ({
   const [explanation, setExplanation] = useState<CellExplanationResponse | null>(null);
   const [talukFilter, setTalukFilter] = useState<string>('');
   const [riskFilter, setRiskFilter] = useState<string>('');
+  const [availableDistricts, setAvailableDistricts] = useState<string[]>([]);
+  const [districtFilter, setDistrictFilter] = useState<string>('Tiruppur');
+  const [talukOptions, setTalukOptions] = useState<string[]>([]);
+
+  useEffect(() => {
+    api.getLulcDistricts().then((res) => setAvailableDistricts(res.available_districts)).catch(console.error);
+    api.getRegions().then((res) => {
+      const match = res.districts.find((d: District) => d.name === 'Tiruppur');
+      setTalukOptions(match?.taluks || []);
+    }).catch(console.error);
+  }, []);
 
   useEffect(() => {
     loadPredictions();
-  }, [talukFilter, riskFilter]);
+  }, [districtFilter, talukFilter, riskFilter]);
+
+  const handleDistrictChange = async (district: string) => {
+    setDistrictFilter(district);
+    setTalukFilter(''); // taluks differ per district — a stale filter from the old one wouldn't match anything
+    try {
+      const res = await api.getRegions();
+      const match = res.districts.find((d: District) => d.name === district);
+      setTalukOptions(match?.taluks || []);
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   const loadPredictions = async () => {
     setLoading(true);
     try {
-      const res = await api.getPredictions(talukFilter || undefined, riskFilter || undefined);
+      const res = await api.getPredictions(districtFilter, talukFilter || undefined, riskFilter || undefined);
       setPredictions(res.predictions);
       setRiskCounts(res.risk_breakdown);
 
-      // Select initially provided cell or first high-risk cell
-      const initialCell = selectedCellId
-        ? res.predictions.find((p) => p.cell_id === selectedCellId)
-        : res.predictions.find((p) => p.risk_category === 'High' || p.risk_category === 'Very High') || res.predictions[0];
+      // Select the initially provided cell if it exists in this district's
+      // results; otherwise (including when switching districts and the old
+      // selection doesn't carry over) fall back to a high-risk cell rather
+      // than leaving the panel blank.
+      const initialCell =
+        (selectedCellId && res.predictions.find((p) => p.cell_id === selectedCellId)) ||
+        res.predictions.find((p) => p.risk_category === 'High' || p.risk_category === 'Very High') ||
+        res.predictions[0];
 
       if (initialCell) {
         handleSelectCell(initialCell);
+      } else {
+        setSelectedCell(null);
+        setExplanation(null);
       }
     } catch (err) {
       console.error(err);
@@ -96,36 +126,48 @@ export const PredictionsPage: React.FC<PredictionsPageProps> = ({
             Predicting probability of Agricultural → Built-up conversion. Features include Sentinel-2 spectral indices, highway proximity, and demographic stress.
           </p>
         </div>
-        <div className="text-right text-xs text-slate-500 font-medium">
-          Language Standard: <span className="font-semibold text-slate-800">"Predicted transition probability"</span> (Probabilistic Decision-Support)
+        <div className="flex flex-col items-end gap-2">
+          <select
+            value={districtFilter}
+            onChange={(e) => handleDistrictChange(e.target.value)}
+            className="text-xs font-semibold border border-slate-300 rounded-md px-2.5 py-1.5 bg-white text-slate-800 focus:outline-hidden focus:ring-1 focus:ring-blue-600"
+          >
+            {availableDistricts.length === 0 && <option value={districtFilter}>{districtFilter}</option>}
+            {availableDistricts.map((d) => (
+              <option key={d} value={d}>{d}</option>
+            ))}
+          </select>
+          <div className="text-right text-xs text-slate-500 font-medium">
+            Language Standard: <span className="font-semibold text-slate-800">"Predicted transition probability"</span> (Probabilistic Decision-Support)
+          </div>
         </div>
       </div>
 
-      {/* Risk Breakdown KPI Strip */}
+      {/* Risk Breakdown KPI Strip — counts are real per-district totals; 0 shows as 0, never a placeholder */}
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
         <div className="p-3 bg-red-50 rounded-lg border border-red-200 text-xs">
           <span className="text-red-700 font-semibold block">Very High Risk (&gt;80%)</span>
-          <div className="text-xl font-bold text-red-800 mt-1">{riskCounts['Very High'] || 14} Cells</div>
+          <div className="text-xl font-bold text-red-800 mt-1">{riskCounts['Very High'] ?? 0} Cells</div>
           <span className="text-[10px] text-red-600">Immediate conversion pressure</span>
         </div>
         <div className="p-3 bg-orange-50 rounded-lg border border-orange-200 text-xs">
           <span className="text-orange-700 font-semibold block">High Risk (60–80%)</span>
-          <div className="text-xl font-bold text-orange-800 mt-1">{riskCounts['High'] || 48} Cells</div>
-          <span className="text-[10px] text-orange-600">Within 3 km of NH-544</span>
+          <div className="text-xl font-bold text-orange-800 mt-1">{riskCounts['High'] ?? 0} Cells</div>
+          <span className="text-[10px] text-orange-600">Within 3 km of highway/rail corridor</span>
         </div>
         <div className="p-3 bg-amber-50 rounded-lg border border-amber-200 text-xs">
           <span className="text-amber-700 font-semibold block">Moderate Risk (40–60%)</span>
-          <div className="text-xl font-bold text-amber-800 mt-1">{riskCounts['Moderate'] || 62} Cells</div>
+          <div className="text-xl font-bold text-amber-800 mt-1">{riskCounts['Moderate'] ?? 0} Cells</div>
           <span className="text-[10px] text-amber-600">Semi-critical groundwater</span>
         </div>
         <div className="p-3 bg-lime-50 rounded-lg border border-lime-200 text-xs">
           <span className="text-lime-700 font-semibold block">Low Risk (20–40%)</span>
-          <div className="text-xl font-bold text-lime-800 mt-1">{riskCounts['Low'] || 86} Cells</div>
+          <div className="text-xl font-bold text-lime-800 mt-1">{riskCounts['Low'] ?? 0} Cells</div>
           <span className="text-[10px] text-lime-600">Agrarian stability</span>
         </div>
         <div className="p-3 bg-emerald-50 rounded-lg border border-emerald-200 text-xs">
           <span className="text-emerald-700 font-semibold block">Very Low Risk (&lt;20%)</span>
-          <div className="text-xl font-bold text-emerald-800 mt-1">{riskCounts['Very Low'] || 110} Cells</div>
+          <div className="text-xl font-bold text-emerald-800 mt-1">{riskCounts['Very Low'] ?? 0} Cells</div>
           <span className="text-[10px] text-emerald-600">Canal command tracts</span>
         </div>
       </div>
@@ -151,12 +193,9 @@ export const PredictionsPage: React.FC<PredictionsPageProps> = ({
               className="px-2 py-1.5 border border-slate-300 rounded bg-white text-slate-700 focus:outline-hidden"
             >
               <option value="">All Taluks</option>
-              <option value="Tiruppur North">Tiruppur North</option>
-              <option value="Avinashi">Avinashi</option>
-              <option value="Palladam">Palladam</option>
-              <option value="Kangeyam">Kangeyam</option>
-              <option value="Dharapuram">Dharapuram</option>
-              <option value="Udumalaipettai">Udumalaipettai</option>
+              {talukOptions.map((t) => (
+                <option key={t} value={t}>{t}</option>
+              ))}
             </select>
 
             <select

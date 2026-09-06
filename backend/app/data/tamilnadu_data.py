@@ -600,6 +600,31 @@ def _load_all_district_parcels() -> Dict[str, List[Dict[str, Any]]]:
         if dname and dname != "Tiruppur":  # Tiruppur keeps its dedicated dataset above
             by_district.setdefault(dname, []).append(feat)
 
+    # Unique cell_id prefix per district. A naive id[:3] collides badly:
+    # Tirupathur/Tiruvannamalai/Tiruchirappalli/Tiruvarur/Tirunelveli all
+    # start "TIR", and Kanchipuram/Kanniyakumari both start "KAN" — with
+    # predictions_cache keyed by cell_id, that silently overwrote one
+    # district's parcels with another's (confirmed: only 29 of 32 districts
+    # with parcel data showed up in predictions_cache before this fix).
+    # Grow the prefix length per district only as far as needed to stay
+    # unique against every other district already assigned one.
+    district_code_by_name: Dict[str, str] = {}
+    used_codes = set()
+    for dist_info in TAMIL_NADU_DISTRICTS:
+        base = dist_info["id"].upper().replace("-", "")
+        length = 3
+        code = base[:length]
+        while code in used_codes and length < len(base):
+            length += 1
+            code = base[:length]
+        if code in used_codes:
+            i = 1
+            while f"{code}{i}" in used_codes:
+                i += 1
+            code = f"{code}{i}"
+        used_codes.add(code)
+        district_code_by_name[dist_info["name"]] = code
+
     for dist_info in TAMIL_NADU_DISTRICTS:
         dname = dist_info["name"]
         features = by_district.get(dname)
@@ -678,7 +703,7 @@ def _load_all_district_parcels() -> Dict[str, List[Dict[str, Any]]]:
             ]
 
             parcels.append({
-                "cell_id": f"{dist_info['id'].upper()[:3]}-{idx:04d}",
+                "cell_id": f"{district_code_by_name[dname]}-{idx:04d}",
                 "taluk": taluk_name,
                 "lat": round(clat, 5), "lon": round(clon, 5),
                 "area_ha": round(props.get("area_sqm", 25000) / 10000.0, 1),

@@ -1,6 +1,5 @@
 from fastapi import APIRouter
 from typing import Dict, Any
-from app.data.tamilnadu_data import TIRUPPUR_PARCELS
 from app.ml.models import ml_system
 
 router = APIRouter(prefix="/evidence", tags=["Evidence Chain & Provenance"])
