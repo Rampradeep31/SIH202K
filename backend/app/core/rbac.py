@@ -24,6 +24,7 @@ PERMISSIONS = {
     "export_raw_dataset": {"Researcher", "Government Analyst", "Policymaker"},
     "post_workspace_note": {"Researcher", "Government Analyst", "Policymaker"},
     "create_workspace": {"Researcher", "Government Analyst", "Policymaker"},
+    "submit_pilot_project": {"Researcher", "Government Analyst", "Policymaker"},
 }
 
 

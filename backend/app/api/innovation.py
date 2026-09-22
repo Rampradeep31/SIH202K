@@ -2,16 +2,34 @@
 Innovation Portal: hackathons, grants, and pilot programmes relevant to
 Indian land governance / geospatial innovation.
 
-Every entry below is a real, independently verifiable programme (checked
-via web search on 2026-09-03) with a working source URL — none of this is
-invented. This mirrors the same "no fabricated citation" discipline applied
-to the research/policy corpus elsewhere in this platform.
+Every entry in PROGRAMMES below is a real, independently verifiable
+programme (checked via web search on 2026-09-03) with a working source URL —
+none of this is invented. This mirrors the same "no fabricated citation"
+discipline applied to the research/policy corpus elsewhere in this platform.
+
+Below that, a genuinely persisted (not just static) pilot-project submission
+and tracker — the same shared-JSON-file pattern as workspaces.py — so this
+is an actual portal a researcher/policymaker can submit into, not only a
+read-only directory of external links.
 """
 
-from fastapi import APIRouter
-from typing import Dict, Any, List
+import os
+import json
+import threading
+import uuid
+from datetime import datetime, timezone
+from fastapi import APIRouter, Depends, HTTPException
+from pydantic import BaseModel
+from typing import Dict, Any, List, Optional
+
+from app.core.rbac import require_permission
 
 router = APIRouter(prefix="/innovation", tags=["Innovation Portal"])
+
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+STORE_DIR = os.path.join(BASE_DIR, "data_store")
+PILOTS_STORE_PATH = os.path.join(STORE_DIR, "pilot_projects.json")
+_pilots_lock = threading.Lock()
 
 PROGRAMMES: List[Dict[str, Any]] = [
     {
@@ -100,8 +118,67 @@ PROGRAMMES: List[Dict[str, Any]] = [
 @router.get("")
 def get_innovation_programmes() -> Dict[str, Any]:
     return {
-        "note": "Curated list of real, independently verifiable national programmes relevant to land governance and geospatial innovation. Not an application portal — each entry links to its official source for details and current application windows.",
+        "note": "Curated list of real, independently verifiable external programmes relevant to land governance and geospatial innovation — each links to its official source for application windows. This platform's own pilot-project tracker is separate: see /innovation/pilot-projects.",
         "total_programmes": len(PROGRAMMES),
         "by_type": sorted(set(p["type"] for p in PROGRAMMES)),
         "programmes": PROGRAMMES,
     }
+
+
+# --- Pilot Project Tracker (genuinely persisted, RBAC-gated submission) ---
+
+class PilotProjectCreateRequest(BaseModel):
+    title: str
+    description: str
+    focus_district: Optional[str] = None
+    proposing_organization: Optional[str] = None
+
+
+def _ensure_pilots_store():
+    os.makedirs(STORE_DIR, exist_ok=True)
+    if not os.path.exists(PILOTS_STORE_PATH):
+        with open(PILOTS_STORE_PATH, "w", encoding="utf-8") as f:
+            json.dump({"pilot_projects": []}, f)
+
+
+def _read_pilots_store() -> Dict[str, Any]:
+    _ensure_pilots_store()
+    with open(PILOTS_STORE_PATH, "r", encoding="utf-8") as f:
+        return json.load(f)
+
+
+def _write_pilots_store(data: Dict[str, Any]):
+    with open(PILOTS_STORE_PATH, "w", encoding="utf-8") as f:
+        json.dump(data, f, indent=2)
+
+
+@router.get("/pilot-projects")
+def list_pilot_projects() -> Dict[str, Any]:
+    with _pilots_lock:
+        data = _read_pilots_store()
+    return {
+        "total_pilot_projects": len(data["pilot_projects"]),
+        "pilot_projects": data["pilot_projects"],
+    }
+
+
+@router.post("/pilot-projects")
+def submit_pilot_project(
+    req: PilotProjectCreateRequest,
+    role: str = Depends(require_permission("submit_pilot_project"))
+) -> Dict[str, Any]:
+    project = {
+        "id": str(uuid.uuid4())[:8],
+        "title": req.title,
+        "description": req.description,
+        "focus_district": req.focus_district,
+        "proposing_organization": req.proposing_organization,
+        "submitted_by_role": role,
+        "status": "Submitted — Pending Review",
+        "submitted_at": datetime.now(timezone.utc).isoformat(),
+    }
+    with _pilots_lock:
+        data = _read_pilots_store()
+        data["pilot_projects"].append(project)
+        _write_pilots_store(data)
+    return project

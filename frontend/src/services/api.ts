@@ -15,7 +15,10 @@ import {
   ClimateMetrics,
   InnovationProgramme,
   Workspace,
-  CustomPolicyResult
+  CustomPolicyResult,
+  VillageResponse,
+  ParcelIntelligenceResponse,
+  ParcelSearchResponse
 } from '../types';
 
 const API_BASE = 'http://127.0.0.1:8000/api/v1';
@@ -168,5 +171,72 @@ export const api = {
   addWorkspaceNote: (workspaceId: string, authorName: string, text: string) => fetchJson<Workspace['notes'][number]>(`/workspaces/${workspaceId}/notes`, {
     method: 'POST',
     body: JSON.stringify({ author_name: authorName, text })
-  })
+  }),
+
+  // Village Directory (Local Government Directory - LGD, 15,179 TN villages)
+  getVillages: (district?: string, taluk?: string, search?: string, limit: number = 100) => {
+    const params = new URLSearchParams();
+    if (district) params.append('district', district);
+    if (taluk) params.append('taluk', taluk);
+    if (search) params.append('q', search);
+    params.append('limit', String(limit));
+    return fetchJson<VillageResponse>(`/villages?${params.toString()}`);
+  },
+
+  // Cadastral Land Parcels & Parcel Intelligence (TNGIS / Tamil Nilam)
+  getParcelIntelligence: (surveyNo: string, district?: string, taluk?: string, village?: string) => {
+    const params = new URLSearchParams();
+    params.append('survey_no', surveyNo);
+    if (district) params.append('district', district);
+    if (taluk) params.append('taluk', taluk);
+    if (village) params.append('village', village);
+    return fetchJson<ParcelIntelligenceResponse>(`/parcels/intelligence?${params.toString()}`);
+  },
+  searchParcels: (query: string, district?: string, taluk?: string) => {
+    const params = new URLSearchParams();
+    params.append('q', query);
+    if (district) params.append('district', district);
+    if (taluk) params.append('taluk', taluk);
+    return fetchJson<ParcelSearchResponse>(`/parcels/search?${params.toString()}`);
+  },
+
+  // Authorized Land & Property Access (RBAC-gated)
+  getAuthorizationStatus: (role: string = 'Public User') => {
+    return fetchJson<any>(`/authorized/status?role=${encodeURIComponent(role)}`);
+  },
+  // Clearance tier is derived server-side from the X-User-Role header
+  // (sent automatically by fetchJson via setCurrentRole) — there is no
+  // client-supplied role param to forge here anymore.
+  getAuthorizedLandRecord: (surveyNo: string, district?: string, taluk?: string, village?: string) => {
+    const params = new URLSearchParams();
+    params.append('survey_no', surveyNo);
+    if (district) params.append('district', district);
+    if (taluk) params.append('taluk', taluk);
+    if (village) params.append('village', village);
+    return fetchJson<any>(`/authorized/land-records?${params.toString()}`);
+  },
+  recordAuditLog: (entry: { survey_no: string; district: string; taluk: string; village: string; access_type: string; data_source: string; status: string; reason: string; }) => {
+    return fetchJson<any>('/authorized/audit-log', {
+      method: 'POST',
+      body: JSON.stringify(entry)
+    });
+  },
+
+  // External Interoperability — live Bhuvan (NRSC/ISRO) WMS integration
+  getBhuvanLayers: () => fetchJson<{
+    status: 'success' | 'unavailable';
+    source: string;
+    message?: string;
+    wms_base_url?: string;
+    total_layers?: number;
+    layers: { name: string; title: string }[];
+  }>('/interop/bhuvan/layers'),
+
+  // Innovation Portal pilot-project tracker
+  getPilotProjects: () => fetchJson<{ total_pilot_projects: number; pilot_projects: any[] }>('/innovation/pilot-projects'),
+  submitPilotProject: (title: string, description: string, focusDistrict?: string, proposingOrganization?: string) =>
+    fetchJson<any>('/innovation/pilot-projects', {
+      method: 'POST',
+      body: JSON.stringify({ title, description, focus_district: focusDistrict, proposing_organization: proposingOrganization })
+    })
 };

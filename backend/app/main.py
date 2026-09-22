@@ -27,6 +27,10 @@ from app.api.disputes import router as disputes_router
 from app.api.climate import router as climate_router
 from app.api.innovation import router as innovation_router
 from app.api.workspaces import router as workspaces_router
+from app.api.villages import router as villages_router
+from app.api.parcels import router as parcels_router
+from app.api.authorized_access import router as authorized_access_router
+from app.api.interop import router as interop_router
 
 app = FastAPI(
     title=settings.PROJECT_NAME,
@@ -61,6 +65,10 @@ app.include_router(disputes_router, prefix=settings.API_V1_STR)
 app.include_router(climate_router, prefix=settings.API_V1_STR)
 app.include_router(innovation_router, prefix=settings.API_V1_STR)
 app.include_router(workspaces_router, prefix=settings.API_V1_STR)
+app.include_router(villages_router, prefix=settings.API_V1_STR)
+app.include_router(parcels_router, prefix=settings.API_V1_STR)
+app.include_router(authorized_access_router, prefix=settings.API_V1_STR)
+app.include_router(interop_router, prefix=settings.API_V1_STR)
 
 @app.get("/")
 def root():

@@ -4,16 +4,105 @@
 
 @layer base {
   body {
-    @apply bg-slate-50 text-slate-900 antialiased font-sans;
+    @apply bg-[#FAF9F5] text-[#1F2421] antialiased font-sans;
+    background-color: #FAF9F5;
+    color: #1F2421;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply text-[#1F2421] tracking-tight;
   }
 }
 
-/* Custom leaflet container styling */
+/* Continuous slow rotation animation for traditional mandalas and rosettes */
+@keyframes slowSpin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-slow-spin {
+  animation: slowSpin 48s linear infinite;
+}
+
+.animate-slow-spin-reverse {
+  animation: slowSpin 60s linear infinite reverse;
+}
+
+/* Website-wide subtle South Indian Heritage Background */
+.tn-site-heritage-bg {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+  background-color: #FAF9F5;
+}
+
+.tn-site-heritage-bg-layer {
+  position: absolute;
+  inset: 0;
+  background-image: url('/assets/tn_heritage_bg.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  opacity: 0.32;
+}
+
+.tn-site-heritage-bg-overlay {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 60% 50%, rgba(250, 249, 245, 0.45) 0%, rgba(250, 249, 245, 0.2) 60%, rgba(250, 249, 245, 0.05) 100%);
+  backdrop-filter: blur(0.3px);
+}
+
+
+
+/* Custom scrollbar for warm heritage light UI */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #F5F2EA;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #D8D2C6;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #B8B0A2;
+}
+
+/* Custom Leaflet Container Styling */
 .leaflet-container {
   width: 100%;
   height: 100%;
-  border-radius: 0.5rem;
+  border-radius: 0.75rem;
   z-index: 10;
+  background: #F5F2EA;
+  font-family: 'Plus Jakarta Sans', Inter, sans-serif;
+}
+
+.leaflet-popup-content-wrapper {
+  background: #FAF9F5;
+  color: #1F2421;
+  border: 1px solid #E2DDD5;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 12px rgba(31, 36, 33, 0.08);
+}
+
+.leaflet-popup-tip {
+  background: #FAF9F5;
 }
 
 /* Printable report styles */

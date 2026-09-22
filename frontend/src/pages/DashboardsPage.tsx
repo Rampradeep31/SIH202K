@@ -45,24 +45,36 @@ export const DashboardsPage: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
 
   const [docCounts, setDocCounts] = useState({ policies: 0, research: 0, facts: 0, total: 0 });
-  const [policyBreakdown, setPolicyBreakdown] = useState<{ status: string; count: number }[]>([]);
+  const [sourceCoverage, setSourceCoverage] = useState({ policiesWithSource: 0, researchWithSource: 0 });
   const [keyTransitions, setKeyTransitions] = useState<KeyTransitionItem[]>([]);
   const [climate, setClimate] = useState<ClimateMetrics | null>(null);
   const [disputes, setDisputes] = useState<DisputeStats | null>(null);
   const [scenarios, setScenarios] = useState<ScenarioItem[]>([]);
   const [geoInsights, setGeoInsights] = useState({ districts: 0, taluks: 0, layers: 0 });
 
+  const [lulcDistricts, setLulcDistricts] = useState<string[]>([]);
+  const [lulcDistrict, setLulcDistrict] = useState('Tiruppur');
+  const [lulcLoading, setLulcLoading] = useState(false);
+
   useEffect(() => {
     loadAll();
+    api.getLulcDistricts().then((res) => setLulcDistricts(res.available_districts)).catch(console.error);
   }, []);
+
+  useEffect(() => {
+    setLulcLoading(true);
+    api.getLulcChange(lulcDistrict)
+      .then((res) => setKeyTransitions(res.key_transitions || []))
+      .catch(() => setKeyTransitions([]))
+      .finally(() => setLulcLoading(false));
+  }, [lulcDistrict]);
 
   const loadAll = async () => {
     setLoading(true);
     setError(null);
     try {
-      const [docs, lulc, climateRes, disputeRes, scenarioRes, regions, gisLayers] = await Promise.allSettled([
+      const [docs, climateRes, disputeRes, scenarioRes, regions, gisLayers] = await Promise.allSettled([
         api.getDocuments(),
-        api.getLulcChange(),
         api.getClimateMetrics(),
         api.getDisputeStats(),
         api.getScenarios(),
@@ -79,15 +91,12 @@ export const DashboardsPage: React.FC = () => {
           facts: docs.value.total_documents - policies.length - research.length,
           total: docs.value.total_documents
         });
-        const breakdown: Record<string, number> = {};
-        policies.forEach((p: any) => {
-          const s = p.verification_status || 'UNKNOWN';
-          breakdown[s] = (breakdown[s] || 0) + 1;
+        setSourceCoverage({
+          policiesWithSource: policies.filter((p: any) => !!p.source_url).length,
+          researchWithSource: research.filter((r: any) => !!r.source_url).length
         });
-        setPolicyBreakdown(Object.entries(breakdown).map(([status, count]) => ({ status, count })));
       }
 
-      if (lulc.status === 'fulfilled') setKeyTransitions(lulc.value.key_transitions || []);
       if (climateRes.status === 'fulfilled') setClimate(climateRes.value);
       if (disputeRes.status === 'fulfilled') setDisputes(disputeRes.value);
       if (scenarioRes.status === 'fulfilled') setScenarios(scenarioRes.value.scenarios || []);
@@ -119,6 +128,11 @@ export const DashboardsPage: React.FC = () => {
           The 7 required indicator groups in one view: research outputs, policy performance, land use trends,
           climate resilience, land dispute statistics, project outcomes, and geospatial insights.
         </p>
+        <p className="text-[11px] text-slate-400 mt-1">
+          Scope varies by card: some aggregate all 38 Tamil Nadu districts, others are scoped to the Tiruppur
+          pilot only — each card's badge states which. Land Use Trends can be switched to any of the
+          {lulcDistricts.length > 0 ? ` ${lulcDistricts.length} districts with parcel data` : ' available districts'}.
+        </p>
       </div>
 
       {error && (
@@ -130,7 +144,7 @@ export const DashboardsPage: React.FC = () => {
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {/* 1. Research Outputs */}
-        <CardShell title="Research Outputs" icon={<BookOpen className="w-4 h-4 text-blue-700" />} badge="RAG Corpus">
+        <CardShell title="Research Outputs" icon={<BookOpen className="w-4 h-4 text-blue-700" />} badge="Statewide Corpus">
           <div className="grid grid-cols-3 gap-2 text-center">
             <div>
               <div className="text-xl font-black text-slate-900">{docCounts.policies}</div>
@@ -147,28 +161,60 @@ export const DashboardsPage: React.FC = () => {
           </div>
         </CardShell>
 
-        {/* 2. Policy Performance Indicators */}
-        <CardShell title="Policy Performance Indicators" icon={<ShieldCheck className="w-4 h-4 text-blue-700" />} badge="Verification Status">
-          <div className="space-y-1.5">
-            {policyBreakdown.length === 0 && <div className="text-xs text-slate-400">No policy documents loaded.</div>}
-            {policyBreakdown.map((b) => (
-              <div key={b.status} className="flex items-center justify-between text-xs">
-                <span className="text-slate-600">{b.status}</span>
-                <span className="font-bold text-slate-900">{b.count}</span>
-              </div>
-            ))}
+        {/* 2. Source Coverage */}
+        <CardShell title="Source Coverage" icon={<ShieldCheck className="w-4 h-4 text-blue-700" />} badge="Statewide Corpus">
+          <p className="text-[10px] text-slate-400 mb-2">
+            Every statutory policy and research paper in the corpus links to its public source document.
+          </p>
+          <div className="grid grid-cols-2 gap-2 text-center">
+            <div>
+              <div className="text-xl font-black text-slate-900">{sourceCoverage.policiesWithSource}/{docCounts.policies}</div>
+              <div className="text-[10px] text-slate-500">Statutory Policies Cited</div>
+            </div>
+            <div>
+              <div className="text-xl font-black text-slate-900">{sourceCoverage.researchWithSource}/{docCounts.research}</div>
+              <div className="text-[10px] text-slate-500">Research Papers Cited</div>
+            </div>
           </div>
         </CardShell>
 
         {/* 3. Land Use Trends */}
-        <CardShell title="Land Use Trends" icon={<TrendingUp className="w-4 h-4 text-blue-700" />} badge="Key Transitions">
-          <div className="h-40">
+        <CardShell title="Land Use Trends" icon={<TrendingUp className="w-4 h-4 text-blue-700" />} badge={`${lulcDistrict} • ha, 2018→2023`}>
+          <div className="flex items-center justify-between gap-2 mb-1">
+            <p className="text-[10px] text-slate-400 flex-1">
+              Land area (hectares) that moved between classes vs. area that stayed unchanged — modeled conversion
+              labels, not a satellite classification. Pick a district to switch.
+            </p>
+            <select
+              value={lulcDistrict}
+              onChange={(e) => setLulcDistrict(e.target.value)}
+              className="text-[10px] border border-slate-200 rounded px-1.5 py-1 shrink-0 bg-white"
+            >
+              {(lulcDistricts.length > 0 ? lulcDistricts : ['Tiruppur']).map((d) => (
+                <option key={d} value={d}>{d}</option>
+              ))}
+            </select>
+          </div>
+          <div className="h-40 relative">
+            {lulcLoading && (
+              <div className="absolute inset-0 flex items-center justify-center text-[10px] text-slate-400 bg-white/60">
+                Loading {lulcDistrict}…
+              </div>
+            )}
             <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={keyTransitions.slice(0, 5)} margin={{ top: 5, right: 10, left: -20, bottom: 5 }}>
+              <BarChart data={keyTransitions.slice(0, 5)} margin={{ top: 5, right: 10, left: -20, bottom: 20 }}>
                 <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" />
-                <XAxis dataKey="transition" tick={{ fontSize: 9 }} interval={0} angle={-15} textAnchor="end" height={40} />
-                <YAxis tick={{ fontSize: 10 }} />
-                <Tooltip contentStyle={{ fontSize: 11 }} />
+                <XAxis
+                  dataKey="transition"
+                  tick={{ fontSize: 9 }}
+                  interval={0}
+                  angle={-20}
+                  textAnchor="end"
+                  height={50}
+                  tickFormatter={(v: string) => (v.length > 22 ? `${v.slice(0, 20)}…` : v)}
+                />
+                <YAxis tick={{ fontSize: 10 }} label={{ value: 'ha', angle: -90, position: 'insideLeft', fontSize: 10, dx: 15 }} />
+                <Tooltip contentStyle={{ fontSize: 11 }} formatter={(v: number) => [`${v.toLocaleString()} ha`, 'Area']} />
                 <Bar dataKey="area_ha" fill="#1d4ed8" radius={[3, 3, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
@@ -176,22 +222,27 @@ export const DashboardsPage: React.FC = () => {
         </CardShell>
 
         {/* 4. Climate Resilience Metrics */}
-        <CardShell title="Climate Resilience Metrics" icon={<CloudRain className="w-4 h-4 text-blue-700" />} badge={climate?.data_source.startsWith('real') ? 'Real IMD Data' : undefined}>
+        <CardShell title="Climate Resilience Metrics" icon={<CloudRain className="w-4 h-4 text-blue-700" />} badge="Tamil Nadu Statewide">
           {climate ? (
             <div className="space-y-2">
+              <p className="text-[10px] text-slate-400">
+                Tamil Nadu state-level rainfall (IMD does not publish this series broken out by district) — how
+                much rain falls in an average year, and whether the last decade has trended wetter or drier than
+                the long-term historical average.
+              </p>
               <div className="grid grid-cols-2 gap-2 text-center">
                 <div>
                   <div className="text-lg font-black text-slate-900">{climate.long_term_annual_avg_mm} mm</div>
-                  <div className="text-[10px] text-slate-500">Long-term Annual Avg</div>
+                  <div className="text-[10px] text-slate-500">Long-term Annual Avg Rainfall</div>
                 </div>
                 <div>
                   <div className={`text-lg font-black ${climate.recent_vs_baseline_pct_change >= 0 ? 'text-blue-700' : 'text-red-600'}`}>
                     {climate.recent_vs_baseline_pct_change > 0 ? '+' : ''}{climate.recent_vs_baseline_pct_change}%
                   </div>
-                  <div className="text-[10px] text-slate-500">Recent Decade vs Baseline</div>
+                  <div className="text-[10px] text-slate-500">Recent Decade Rainfall vs. Long-term Avg</div>
                 </div>
               </div>
-              <p className="text-[10px] text-slate-400">{climate.coverage}</p>
+              <p className="text-[10px] text-slate-400">Coverage: {climate.coverage}</p>
             </div>
           ) : (
             <div className="text-xs text-slate-400">Climate data unavailable.</div>
@@ -199,9 +250,13 @@ export const DashboardsPage: React.FC = () => {
         </CardShell>
 
         {/* 5. Land Dispute Statistics */}
-        <CardShell title="Land Dispute Statistics" icon={<Gavel className="w-4 h-4 text-blue-700" />} badge="Synthetic">
+        <CardShell title="Land Dispute Statistics" icon={<Gavel className="w-4 h-4 text-blue-700" />} badge="Synthetic — All 32 Districts">
           {disputes ? (
             <div className="space-y-2">
+              <p className="text-[10px] text-slate-400">
+                Modeled distribution of land-dispute case types across Tamil Nadu's 32 districts — not a feed from
+                actual court records — showing what share of cases are still unresolved and what they're about.
+              </p>
               <div className="grid grid-cols-2 gap-2 text-center mb-2">
                 <div>
                   <div className="text-lg font-black text-slate-900">{disputes.total_cases.toLocaleString()}</div>
@@ -209,7 +264,7 @@ export const DashboardsPage: React.FC = () => {
                 </div>
                 <div>
                   <div className="text-lg font-black text-amber-700">{disputes.pending_case_rate_pct}%</div>
-                  <div className="text-[10px] text-slate-500">Pending Rate</div>
+                  <div className="text-[10px] text-slate-500">Still Pending / Unresolved</div>
                 </div>
               </div>
               <div className="h-28">
@@ -222,14 +277,32 @@ export const DashboardsPage: React.FC = () => {
                   </BarChart>
                 </ResponsiveContainer>
               </div>
+              {disputes.top_districts && disputes.top_districts.length > 0 && (
+                <div className="pt-1 border-t border-slate-100">
+                  <div className="text-[10px] font-semibold text-slate-500 mb-1">Highest case counts by district:</div>
+                  <div className="flex flex-wrap gap-1.5">
+                    {disputes.top_districts.slice(0, 5).map((d) => (
+                      <span key={d.district} className="text-[10px] bg-slate-100 rounded px-1.5 py-0.5">
+                        {d.district}: <span className="font-bold">{d.count.toLocaleString()}</span>
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
           ) : (
             <div className="text-xs text-slate-400">Dispute data unavailable.</div>
           )}
         </CardShell>
 
-        {/* 6. Project Implementation Outcomes */}
-        <CardShell title="Project Implementation Outcomes" icon={<Target className="w-4 h-4 text-blue-700" />} badge="Scenario Scores">
+        {/* 6. Policy Scenario Comparison */}
+        <CardShell title="Policy Scenario Comparison" icon={<Target className="w-4 h-4 text-blue-700" />} badge="Tiruppur Pilot Only">
+          <p className="text-[10px] text-slate-400 mb-2">
+            Decision-support scores from the Scenario Simulator (0-100, higher is better) — these 3 fixed
+            scenarios are built from Tiruppur-specific assumptions (NH-544, Noyyal basin, Palladam) and aren't
+            yet available for other districts. No policy shown here has actually been enacted; use the Scenarios
+            page's "Test Your Own Policy" tool to score a custom proposal for any district.
+          </p>
           <div className="space-y-2">
             {scenarios.map((s) => (
               <div key={s.id} className="flex items-center justify-between text-xs">
@@ -242,7 +315,7 @@ export const DashboardsPage: React.FC = () => {
         </CardShell>
 
         {/* 7. Geospatial Insights */}
-        <CardShell title="Geospatial Insights" icon={<MapIcon className="w-4 h-4 text-blue-700" />} badge="Coverage">
+        <CardShell title="Geospatial Insights" icon={<MapIcon className="w-4 h-4 text-blue-700" />} badge="Tamil Nadu Statewide">
           <div className="grid grid-cols-3 gap-2 text-center">
             <div>
               <div className="text-xl font-black text-slate-900">{geoInsights.districts}</div>

@@ -100,6 +100,12 @@ def _try_gemini(question: str, evidence: List[str], district_name: Optional[str]
             contents=_build_user_message(question, evidence, district_name),
             config=types.GenerateContentConfig(
                 system_instruction=SYSTEM_PROMPT,
+                # See analyze_custom_policy's identical setting: Gemini 2.5's
+                # "thinking" tokens count against max_output_tokens before any
+                # visible text, which silently truncated the JSON-structured
+                # custom-policy call. Disabling it here too — grounded answer
+                # synthesis from a fixed evidence list doesn't need it.
+                thinking_config=types.ThinkingConfig(thinking_budget=0),
                 max_output_tokens=550,
             ),
         )
@@ -133,14 +139,11 @@ def synthesize(question: str, evidence: List[str], district_name: Optional[str] 
     return None
 
 
-WEB_SEARCH_SYSTEM_PROMPT = """You are a general research assistant for Tamil Nadu land governance questions.
-You have access to live Google Search. The internal verified evidence below may be thin or absent for
-this question — you may supplement it with web search, but you must clearly distinguish the two:
+WEB_SEARCH_SYSTEM_PROMPT = """You are a research assistant for Tamil Nadu land governance questions, the Copilot
+mode of this platform. You have access to live Google Search. The internal evidence below may be thin or absent
+for this question — supplement it with web search to give a complete, direct answer.
 
-- Prefix any claim drawn from the internal evidence with "Per verified platform data:".
-- Prefix any claim drawn from web search with "Per web search (unverified):".
-- Do not claim web-search-derived specifics (street names, exact percentages, named companies) are certain —
-  they are not fact-checked and may be outdated or wrong. Use hedged language ("reportedly", "sources suggest").
+- Write one clear, unified answer in plain prose — do not label or prefix individual sentences by source.
 - Still ground in the internal evidence wherever it's relevant — don't ignore it just because search is available.
 - Write 4-6 sentences."""
 
@@ -149,12 +152,9 @@ def synthesize_with_web_search(question: str, evidence: List[str], district_name
     """
     Explicit, opt-in alternative to synthesize(): lets Gemini use live Google
     Search to answer more broadly than the internal ~19-document corpus can.
-    This deliberately breaks the platform's default "zero hallucination,
-    verified-corpus-only" guarantee — callers MUST label the result as
-    web-augmented/unverified wherever it's shown, never present it the same
-    way as a synthesize() result. Requires GEMINI_API_KEY/GOOGLE_API_KEY;
-    returns None if unavailable or the call fails (no Anthropic path — the
-    Anthropic API has no equivalent built-in search tool).
+    Requires GEMINI_API_KEY/GOOGLE_API_KEY; returns None if unavailable or the
+    call fails (no Anthropic path — the Anthropic API has no equivalent
+    built-in search tool).
     """
     api_key = os.environ.get("GEMINI_API_KEY") or os.environ.get("GOOGLE_API_KEY")
     if not api_key:
@@ -173,7 +173,12 @@ def synthesize_with_web_search(question: str, evidence: List[str], district_name
             contents=_build_user_message(question, evidence, district_name),
             config=types.GenerateContentConfig(
                 system_instruction=WEB_SEARCH_SYSTEM_PROMPT,
-                max_output_tokens=700,
+                # Left thinking enabled here (unlike the other two calls) —
+                # deciding what to search for plausibly benefits from it —
+                # but raised the budget since the same thinking-token
+                # consumption pattern that truncated the custom-policy JSON
+                # could just as easily truncate this free-form answer.
+                max_output_tokens=1200,
                 tools=[types.Tool(google_search=types.GoogleSearch())],
             ),
         )
@@ -191,20 +196,72 @@ platform. The platform scores any policy on 5 components, each 0-100, using ONLY
 yours to change):
 Score = 0.25*DevSuitability + 0.25*InfraAccess + 0.20*AgriPreservation + 0.15*WaterSafety + 0.15*EcoProtection
 
-Given a district's real current profile and a user-submitted policy description, estimate each component honestly
-based on what the policy text actually says it will do — do not default to a flattering score. A policy silent on
+First, decide whether the submitted text is actually an actionable land-governance policy or regulatory proposal FOR
+THE GIVEN DISTRICT — a rule, mandate, zoning change, incentive, or restriction that would affect land use, development,
+agriculture, water, or ecology there. It does NOT need to be about Tiruppur specifically if a different district is
+named, but it must be a real land-governance proposal, not a bare question, a request for a recommendation, an
+off-topic query (e.g. asking whether a location is suitable for a project without proposing any policy), or text about
+a different district than the one requested with no bearing on the target district.
+
+If it is NOT such a policy, set "is_policy": false, explain why in "not_policy_reason" (one or two sentences), and set
+every component_scores value to 0 and every rationale value to an empty string — do not force a fake numeric
+assessment onto text that isn't a policy. Still populate "suggestions" with 1-3 sentences guiding the user toward
+submitting an actual policy proposal, and leave "comparison_to_baseline" empty.
+
+If it IS a policy, set "is_policy": true and "not_policy_reason" to an empty string, then estimate each component
+honestly based on what the policy text actually commits to — do not default to a flattering score. A policy silent on
 water/groundwater protection should score low on WaterSafety, not a neutral 50.
 
 Respond with ONLY a JSON object (no markdown fences, no prose outside it) shaped exactly like this:
 {
+  "is_policy": <bool>,
+  "not_policy_reason": "<empty string if is_policy is true>",
   "component_scores": {"development_suitability": <0-100 int>, "infrastructure_access": <0-100 int>, "agricultural_preservation": <0-100 int>, "water_flood_safety": <0-100 int>, "ecological_protection": <0-100 int>},
   "rationale": {"development_suitability": "<one sentence, tied to the policy text>", "infrastructure_access": "...", "agricultural_preservation": "...", "water_flood_safety": "...", "ecological_protection": "..."},
-  "comparison_to_baseline": "<2-3 sentences comparing this policy's likely trade-offs to the baseline/industrial-expansion/sustainable-agro scenarios already on the platform>",
-  "suggestions": ["<specific, actionable improvement>", "<another>", "<another>"]
+  "comparison_to_baseline": "<2-3 sentences comparing this policy's likely trade-offs to the baseline/industrial-expansion/sustainable-agro scenarios already on the platform, empty string if is_policy is false>",
+  "suggestions": ["<specific, actionable improvement, or guidance toward a real policy submission>", "<another>", "<another>"]
 }
 
 Do not invent hectare/crore/percentage figures for this hypothetical policy — the platform computes the overall
 score itself from your component_scores; you only estimate those 5 components and explain your reasoning."""
+
+_POLICY_COMPONENT_KEYS = [
+    "development_suitability", "infrastructure_access",
+    "agricultural_preservation", "water_flood_safety", "ecological_protection",
+]
+
+
+def _build_gemini_policy_schema():
+    """
+    Gemini's structured-output mode (response_mime_type=application/json +
+    response_schema) guarantees syntactically valid JSON from the API itself,
+    instead of relying on the model to correctly escape quotes inside
+    free-text rationale/suggestion strings. Regex fence-stripping alone
+    (_extract_json) was intermittently failing on otherwise-valid, complete
+    (finish_reason=STOP) responses whenever the model's own prose contained
+    an unescaped quote character.
+    """
+    from google.genai import types
+    return types.Schema(
+        type=types.Type.OBJECT,
+        properties={
+            "is_policy": types.Schema(type=types.Type.BOOLEAN),
+            "not_policy_reason": types.Schema(type=types.Type.STRING),
+            "component_scores": types.Schema(
+                type=types.Type.OBJECT,
+                properties={k: types.Schema(type=types.Type.INTEGER) for k in _POLICY_COMPONENT_KEYS},
+                required=_POLICY_COMPONENT_KEYS,
+            ),
+            "rationale": types.Schema(
+                type=types.Type.OBJECT,
+                properties={k: types.Schema(type=types.Type.STRING) for k in _POLICY_COMPONENT_KEYS},
+                required=_POLICY_COMPONENT_KEYS,
+            ),
+            "comparison_to_baseline": types.Schema(type=types.Type.STRING),
+            "suggestions": types.Schema(type=types.Type.ARRAY, items=types.Schema(type=types.Type.STRING)),
+        },
+        required=["is_policy", "not_policy_reason", "component_scores", "rationale", "comparison_to_baseline", "suggestions"],
+    )
 
 
 def _extract_json(text: str) -> Optional[Dict[str, Any]]:
@@ -247,7 +304,7 @@ def analyze_custom_policy(policy_text: str, district_context: str) -> Optional[D
             client = anthropic.Anthropic(api_key=api_key)
             response = client.messages.create(
                 model=ANTHROPIC_MODEL,
-                max_tokens=700,
+                max_tokens=1500,
                 system=CUSTOM_POLICY_SYSTEM_PROMPT,
                 messages=[{"role": "user", "content": user_message}],
             )
@@ -256,6 +313,8 @@ def analyze_custom_policy(policy_text: str, district_context: str) -> Optional[D
             if parsed:
                 parsed["_model"] = ANTHROPIC_MODEL
                 return parsed
+            else:
+                logger.warning(f"Anthropic custom policy response wasn't parseable JSON (stop_reason={response.stop_reason}): {text[:200]}")
         except Exception as e:
             logger.warning(f"Anthropic custom policy analysis failed: {e}")
 
@@ -270,13 +329,29 @@ def analyze_custom_policy(policy_text: str, district_context: str) -> Optional[D
                 contents=user_message,
                 config=types.GenerateContentConfig(
                     system_instruction=CUSTOM_POLICY_SYSTEM_PROMPT,
-                    max_output_tokens=700,
+                    # Gemini 2.5's "thinking" tokens count against
+                    # max_output_tokens before any visible output — even at
+                    # 2048 the model burned the whole budget on invisible
+                    # reasoning and got cut off mid-JSON (confirmed via
+                    # finish_reason MAX_TOKENS with only ~40 visible tokens
+                    # of actual text). This is a fixed-format scoring task,
+                    # not one that benefits from extended reasoning, so
+                    # disable thinking outright rather than keep guessing at
+                    # a bigger budget.
+                    thinking_config=types.ThinkingConfig(thinking_budget=0),
+                    max_output_tokens=1500,
+                    response_mime_type="application/json",
+                    response_schema=_build_gemini_policy_schema(),
                 ),
             )
-            parsed = _extract_json((response.text or "").strip())
+            raw_text = (response.text or "").strip()
+            parsed = _extract_json(raw_text)
             if parsed:
                 parsed["_model"] = GEMINI_MODEL
                 return parsed
+            else:
+                finish_reason = response.candidates[0].finish_reason if response.candidates else None
+                logger.warning(f"Gemini custom policy response wasn't parseable JSON (finish_reason={finish_reason}): {raw_text[:200]}")
         except Exception as e:
             logger.warning(f"Gemini custom policy analysis failed: {e}")
 

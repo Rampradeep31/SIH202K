@@ -17,7 +17,10 @@ class Settings(BaseSettings):
     API_V1_STR: str = "/api/v1"
     JURISDICTION: str = "State of Tamil Nadu, India"
     PILOT_DISTRICT: str = "Tiruppur"
-    CORS_ORIGINS: list[str] = ["http://localhost:5173", "http://127.0.0.1:5173", "http://localhost:3000", "*"]
+    # No wildcard here: browsers reject a credentialed request (allow_credentials=True
+    # in main.py) against Access-Control-Allow-Origin: *, so "*" alongside explicit
+    # origins was dead weight that also widened the attack surface for no benefit.
+    CORS_ORIGINS: list[str] = ["http://localhost:5173", "http://127.0.0.1:5173", "http://localhost:3000"]
     
     class Config:
         case_sensitive = True

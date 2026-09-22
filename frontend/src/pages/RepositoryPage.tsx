@@ -20,12 +20,6 @@ const TYPE_META: Record<DocType, { icon: React.ReactNode; className: string }> =
   'Grounding Fact': { icon: <ScrollText className="w-3.5 h-3.5" />, className: 'bg-slate-200 text-slate-700' },
 };
 
-const STATUS_META: Record<string, string> = {
-  VALIDATED: 'text-emerald-700',
-  VALIDATED_WEAK: 'text-amber-700',
-  PENDING_MANUAL_REVIEW: 'text-amber-700',
-};
-
 export const RepositoryPage: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [docs, setDocs] = useState<RepoDoc[]>([]);
@@ -150,11 +144,6 @@ export const RepositoryPage: React.FC = () => {
                         {d.type}
                       </span>
                       {d.year && <span className="text-[10px] font-mono text-slate-400">{d.year}</span>}
-                      {d.verification_status && (
-                        <span className={`text-[10px] font-semibold ${STATUS_META[d.verification_status] || 'text-slate-400'}`}>
-                          {d.verification_status.replace(/_/g, ' ').toLowerCase()}
-                        </span>
-                      )}
                     </div>
                     <div className="text-sm font-semibold text-slate-900 leading-snug">{d.title}</div>
                     {d.subtitle && <div className="text-xs text-slate-500 mt-0.5">{d.subtitle}</div>}

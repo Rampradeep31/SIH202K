@@ -99,6 +99,19 @@ def analyze_custom_policy(
             )
         }
 
+    if not result.get("is_policy", True):
+        return {
+            "status": "not_a_policy",
+            "message": result.get("not_policy_reason") or (
+                "This text doesn't read as an actionable land-governance policy for "
+                f"{district} — it can't be scored against the rubric."
+            ),
+            "district": district,
+            "policy_text": req.policy_text,
+            "suggestions": result.get("suggestions", []),
+            "synthesis_method": f"llm_generated ({result.get('_model', 'unknown')})",
+        }
+
     component_scores = result.get("component_scores", {})
     try:
         clamped = {

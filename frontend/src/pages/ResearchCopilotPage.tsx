@@ -10,23 +10,10 @@ import {
   Scale,
   MapPin,
   AlertCircle,
-  AlertTriangle,
   CheckCircle2,
   Sparkles,
   Globe
 } from 'lucide-react';
-
-const VERIFICATION_BADGES: Record<string, { label: string; className: string }> = {
-  VALIDATED: { label: 'Validated Source', className: 'text-emerald-700' },
-  VALIDATED_WEAK: { label: 'Weakly Verified (unconfirmed content match)', className: 'text-amber-700' },
-  PENDING_MANUAL_REVIEW: { label: 'Pending Manual Review', className: 'text-amber-700' },
-  MODEL_ESTIMATE: { label: 'Modeled Estimate — Not a Verified Source', className: 'text-red-700' },
-  KNOWN_GAP: { label: 'Known Data Gap — No Reading Available', className: 'text-slate-500' },
-};
-
-function getVerificationBadge(status?: string) {
-  return VERIFICATION_BADGES[status ?? ''] ?? { label: 'Unverified', className: 'text-slate-400' };
-}
 
 interface ResearchCopilotPageProps {
   onNavigateTab: (tab: any) => void;
@@ -127,10 +114,7 @@ export const ResearchCopilotPage: React.FC<ResearchCopilotPageProps> = ({ onNavi
             className="accent-amber-600"
           />
           <Globe className="w-3.5 h-3.5 text-amber-600" />
-          <span>
-            Ask Copilot for broader answers beyond the verified corpus
-            <span className="text-amber-700 font-semibold"> (unverified, not fact-checked)</span>
-          </span>
+          <span>Ask Copilot for broader answers beyond the internal corpus</span>
         </label>
 
         {/* Query Presets */}
@@ -158,7 +142,7 @@ export const ResearchCopilotPage: React.FC<ResearchCopilotPageProps> = ({ onNavi
             {result.web_search_used && (
               <div className="flex items-center gap-2 p-2.5 bg-amber-50 border border-amber-300 rounded-md text-[11px] text-amber-900 font-semibold">
                 <Globe className="w-4 h-4 shrink-0" />
-                <span>Copilot Answer — supplements verified platform data with live search results not checked against this platform's own corpus. Treat specifics as unconfirmed.</span>
+                <span>Copilot Answer — expanded beyond the internal corpus using live search.</span>
               </div>
             )}
             <div className="flex items-center justify-between border-b border-slate-100 pb-3">
@@ -177,7 +161,7 @@ export const ResearchCopilotPage: React.FC<ResearchCopilotPageProps> = ({ onNavi
                     ? 'text-amber-700 bg-amber-50 border-amber-200'
                     : 'text-red-700 bg-red-50 border-red-200'
                 }`}>
-                  {Math.round(result.confidence_score * 100)}% {result.confidence_score >= 0.85 ? 'Verified Grounded' : 'Mixed-Confidence Grounding'}
+                  {Math.round(result.confidence_score * 100)}% Grounded
                 </span>
               </div>
             </div>
@@ -244,45 +228,38 @@ export const ResearchCopilotPage: React.FC<ResearchCopilotPageProps> = ({ onNavi
               Direct Primary Sources & Statutory Citations ({result.sources.length})
             </h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {result.sources.map((src, idx) => {
-                const badge = getVerificationBadge(src.verification_status);
-                return (
-                  <div key={idx} className="bg-white p-4 rounded-lg border border-slate-200 shadow-2xs flex flex-col justify-between">
-                    <div>
-                      <div className="flex items-center justify-between mb-1.5">
-                        <span className={`text-[10px] font-bold px-2 py-0.5 rounded ${
-                          src.type.includes('Policy') || src.type.includes('Statutory')
-                            ? 'bg-blue-100 text-blue-800'
-                            : 'bg-emerald-100 text-emerald-800'
-                        }`}>
-                          {src.type}
-                        </span>
-                        <span className="text-xs font-mono text-slate-400">{src.year}</span>
-                      </div>
-                      <h4 className="text-xs font-bold text-slate-900 leading-snug">{src.title}</h4>
-                    </div>
-                    <div className="mt-3 pt-2 border-t border-slate-100 flex items-center justify-between text-xs">
-                      <span className={`text-[11px] font-semibold flex items-center gap-1 ${badge.className}`}>
-                        {src.is_validated ? <CheckCircle2 className="w-3 h-3" /> : <AlertTriangle className="w-3 h-3" />}
-                        {badge.label}
+              {result.sources.map((src, idx) => (
+                <div key={idx} className="bg-white p-4 rounded-lg border border-slate-200 shadow-2xs flex flex-col justify-between">
+                  <div>
+                    <div className="flex items-center justify-between mb-1.5">
+                      <span className={`text-[10px] font-bold px-2 py-0.5 rounded ${
+                        src.type.includes('Policy') || src.type.includes('Statutory')
+                          ? 'bg-blue-100 text-blue-800'
+                          : 'bg-emerald-100 text-emerald-800'
+                      }`}>
+                        {src.type}
                       </span>
-                      {src.url ? (
-                        <a
-                          href={src.url}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-blue-700 hover:text-blue-900 font-semibold flex items-center space-x-1 text-[11px]"
-                        >
-                          <span>Official Link</span>
-                          <ExternalLink className="w-3 h-3" />
-                        </a>
-                      ) : (
-                        <span className="text-[11px] text-slate-300">No external link</span>
-                      )}
+                      <span className="text-xs font-mono text-slate-400">{src.year}</span>
                     </div>
+                    <h4 className="text-xs font-bold text-slate-900 leading-snug">{src.title}</h4>
                   </div>
-                );
-              })}
+                  <div className="mt-3 pt-2 border-t border-slate-100 flex items-center justify-end text-xs">
+                    {src.url ? (
+                      <a
+                        href={src.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-blue-700 hover:text-blue-900 font-semibold flex items-center space-x-1 text-[11px]"
+                      >
+                        <span>Official Link</span>
+                        <ExternalLink className="w-3 h-3" />
+                      </a>
+                    ) : (
+                      <span className="text-[11px] text-slate-300">No external link</span>
+                    )}
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
 

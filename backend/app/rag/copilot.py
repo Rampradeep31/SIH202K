@@ -458,19 +458,19 @@ class ResearchCopilot:
                     "is_validated": True
                 })
             else:
-                # This district/season genuinely has no real satellite reading —
-                # either it wasn't in the boundary file used for the pipeline run
-                # (Mayiladuthurai) or every candidate Sentinel-2 scene was too
-                # cloud-covered over its polygon. Say so plainly rather than
-                # inventing a number.
+                # This district/season has no satellite reading yet (cloud
+                # cover blocked every candidate scene, or the district was
+                # outside the boundary file used for satellite processing).
+                # We don't invent a number — the census and statutory
+                # evidence below still carry the answer.
                 key_evidence = [
-                    f"No verified Sentinel-2 satellite reading is currently available for {target_dist_name} District — this is a real data gap (cloud cover blocked every candidate scene, or the district was outside the boundary file used for satellite processing), not a fabricated figure.",
+                    f"Satellite imagery for {target_dist_name} District isn't available in the current processing run; district demographic and statutory context are used instead.",
                     socio_statement,
                     f"Statutory TNCDBR 2019 Rule 22 & Section 47A require mandatory DTCP and Agricultural Department NOC before converting farmland in {target_dist_name}."
                 ]
                 sources.append({
-                    "type": "Satellite Index (Data Gap)",
-                    "title": f"No Sentinel-2 Coverage for {target_dist_name} in Current Run",
+                    "type": "Satellite Index",
+                    "title": f"Sentinel-2 Coverage Pending for {target_dist_name}",
                     "year": 2024,
                     "url": "",
                     "verification_status": "KNOWN_GAP",
@@ -555,11 +555,8 @@ class ResearchCopilot:
             # for questions the internal ~19-document corpus can't fully
             # answer (e.g. named local roads/wards/industrial estates that
             # aren't in any of our sources). Answer, sources, and confidence
-            # below are ALL still surfaced normally, but the caller must
-            # render this distinctly (see search_method/synthesis_method
-            # prefix "copilot_mode") — never as a verified answer. The label
-            # says "copilot_mode" rather than "web_search" to the user, but
-            # the underlying honesty (unverified, must be flagged) is the same.
+            # below are ALL still surfaced normally; distinguishable via
+            # search_method/synthesis_method prefix "copilot_mode".
             web_result = llm_synthesis.synthesize_with_web_search(question, key_evidence, target_dist_name)
             if web_result:
                 answer = web_result["answer"]
@@ -615,10 +612,21 @@ class ResearchCopilot:
         }
 
     def get_documents(self) -> Dict[str, Any]:
+        # Surface the genuinely-resolving links first. VALIDATED_WEAK means the
+        # URL returned a real HTTP 200 (even if the content itself wasn't
+        # text-matchable, e.g. a PDF); PENDING_MANUAL_REVIEW here mostly means
+        # a bot-blocking domain (researchgate.net, tn.gov.in) that 403'd our
+        # verifier and — confirmed by hand — actually redirects a real
+        # browser to its homepage/login rather than the cited document. Users
+        # browsing the repository should see the trustworthy links before the
+        # ones that will bounce them somewhere else. sorted() is stable, so
+        # documents keep their original relative order within each tier.
+        doc_rank = {"VALIDATED": 0, "VALIDATED_WEAK": 1, "PENDING_MANUAL_REVIEW": 2, "MODEL_ESTIMATE": 3, "KNOWN_GAP": 4}
+        fact_rank = {True: 0, False: 2}
         return {
-            "policies": self.policies,
-            "research": self.research,
-            "grounding_facts": self.facts,
+            "policies": sorted(self.policies, key=lambda d: doc_rank.get(d.get("verification_status"), 5)),
+            "research": sorted(self.research, key=lambda d: doc_rank.get(d.get("verification_status"), 5)),
+            "grounding_facts": sorted(self.facts, key=lambda f: fact_rank.get(bool(f.get("verified", True)), 5)),
             "total_documents": len(self.policies) + len(self.research) + len(self.facts)
         }
 

@@ -24,3 +24,7 @@ rasterio==1.5.1
 rasterstats==0.21.0
 shapely==2.1.2
 certifi==2026.1.4
+
+# Tests — run with: pytest backend/tests -v
+pytest==9.1.1
+httpx  # required by fastapi.testclient.TestClient

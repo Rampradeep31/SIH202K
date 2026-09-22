@@ -1,0 +1,57 @@
+name: Update Boundary Tiles
+
+# Rebuilds tiles/boundaries.pmtiles (the all-state boundary vector tiles) and the
+# per-state boundary_bounds.json indexes from the committed simplified GeoJSON,
+# then publishes them to the data/boundary-tiles branch (regenerable artifacts
+# live outside main's reviewed history; deploy-pages/release overlay them).
+# Boundaries change rarely, so this runs monthly (after the monthly boundary
+# refresh lands) and on demand — the tiling itself is light, but tippecanoe
+# must be built from source here, so it lives in CI.
+
+on:
+  schedule:
+    - cron: "0 6 1 * *" # monthly — 1st 06:00 UTC (after the 03:00 boundaries refresh)
+  workflow_dispatch:
+
+permissions:
+  contents: write # push the data/boundary-tiles branch
+
+concurrency:
+  group: build-boundary-tiles
+  cancel-in-progress: false
+
+env:
+  TIPPECANOE_TAG: "2.79.0"
+
+jobs:
+  tiles:
+    runs-on: ubuntu-latest
+
+    steps:      
+      - name: Checkout repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+
+      - name: Setup environment
+        uses: ./.github/actions/setup-pipeline
+
+      - name: Build tippecanoe from source (pinned tag)
+        run: |
+          sudo apt-get update -q
+          sudo apt-get install -y -q libsqlite3-dev zlib1g-dev
+          git clone --depth 1 --branch "$TIPPECANOE_TAG" \
+            https://github.com/felt/tippecanoe.git /tmp/tippecanoe
+          make -C /tmp/tippecanoe -j"$(nproc)"
+          sudo make -C /tmp/tippecanoe install
+          tippecanoe --version
+
+      - name: Build boundary tiles + bounds indexes
+        run: python scraper/build_boundary_tiles.py
+
+      - name: Publish to the data/boundary-tiles branch
+        uses: ./.github/actions/publish-data-branch
+        with:
+          branch: data/boundary-tiles
+          files: tiles/boundaries.pmtiles */web/data/boundary_bounds.json
+          message: "data: boundary vector tiles + bounds indexes"
+          summary: "🗺️ Published boundary tiles + bounds indexes to data/boundary-tiles."
+          token: ${{ github.token }}
