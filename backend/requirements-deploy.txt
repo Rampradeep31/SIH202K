@@ -7,14 +7,6 @@
 # a deploy that doesn't use it. Regenerating tamil_nadu_dataset/*.csv still
 # needs the full backend/requirements.txt, run locally.
 
-# sentence-transformers pulls in torch, and PyPI's default torch wheel bundles
-# the FULL CUDA toolkit (nvidia-cublas, nvidia-cudnn, nvidia-nccl, triton...) —
-# multiple hundred MB to 1GB+ of GPU libraries that are pure dead weight on
-# Render's CPU-only instances. This forces the CPU-only build instead, which
-# meaningfully shrinks install size and (likely) the memory footprint and
-# import time that were making the health check time out.
---extra-index-url https://download.pytorch.org/whl/cpu
-
 # Core API
 fastapi==0.115.0
 uvicorn==0.30.6
@@ -27,7 +19,21 @@ numpy==2.3.5
 pandas==2.3.3
 scikit-learn==1.8.0
 
-# RAG: real semantic search (embeddings) + real LLM answer synthesis
-sentence-transformers==6.0.1
+# RAG: real LLM answer synthesis
 anthropic==1.3.0
 google-genai
+
+# sentence-transformers (semantic embedding search) is deliberately EXCLUDED
+# from this deploy tier. It pulls in torch, and even forced to the CPU-only
+# wheel, torch + transformers + the loaded model pushed this app over
+# Render's free-tier 512MB limit — confirmed via an actual "Out of memory
+# (used over 512Mi)" deploy failure. app/rag/copilot.py already has a real,
+# always-tested fallback for exactly this: its sentence-transformers import
+# is wrapped in try/except, and TF-IDF (scikit-learn, already a dependency
+# above) is *always* built as a parallel index regardless of which path
+# succeeds. Without this package installed, that except branch fires, logs
+# a warning, and the RAG copilot runs entirely on TF-IDF — a real quality
+# trade-off (n-gram term matching instead of dense semantic embeddings),
+# not a crash or a mocked response. Re-add sentence-transformers==6.0.1
+# here (plus the CPU-torch --extra-index-url block, see git history) if
+# you move to a paid Render plan with more memory.
