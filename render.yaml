@@ -1,0 +1,30 @@
+services:
+  - type: web
+    name: tn-lgip
+    runtime: python
+    # No rootDir: this build needs both frontend/ (npm build) and backend/
+    # (pip install), so commands run from the repo root and cd where needed.
+    buildCommand: >-
+      cd frontend && npm install && npm run build && cd ../backend &&
+      pip install -r requirements-deploy.txt
+    startCommand: cd backend && uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    plan: free
+    healthCheckPath: /health
+    envVars:
+      # Pinned for broad prebuilt-wheel availability (torch, sentence-transformers).
+      - key: PYTHON_VERSION
+        value: 3.12.7
+      - key: NODE_VERSION
+        value: 20.18.0
+      # Baked into the frontend build as a relative path — frontend and
+      # backend are served from the same origin here, so no absolute host
+      # or CORS configuration is needed at all.
+      - key: VITE_API_BASE_URL
+        value: /api/v1
+      # Set these in the Render dashboard after the first deploy — never
+      # commit real key values here. Either key alone is enough (RAG falls
+      # back Anthropic -> Gemini); set both if you want the fallback to work.
+      - key: ANTHROPIC_API_KEY
+        sync: false
+      - key: GEMINI_API_KEY
+        sync: false

@@ -7,8 +7,10 @@ from dotenv import load_dotenv
 load_dotenv()  # loads backend/.env if present (ANTHROPIC_API_KEY / GEMINI_API_KEY) — must
                 # run before any module reads those env vars, so this stays first in the file
 
+import os
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
 from app.core.config import settings
 
 # Import API routers
@@ -70,8 +72,8 @@ app.include_router(parcels_router, prefix=settings.API_V1_STR)
 app.include_router(authorized_access_router, prefix=settings.API_V1_STR)
 app.include_router(interop_router, prefix=settings.API_V1_STR)
 
-@app.get("/")
-def root():
+@app.get("/api/status")
+def api_status():
     return {
         "platform": settings.PROJECT_NAME,
         "tagline": settings.PROJECT_TAGLINE,
@@ -85,6 +87,22 @@ def root():
 @app.get("/health")
 def health_check():
     return {"status": "healthy", "service": "TN-LGIP Backend"}
+
+# Serve the built frontend from this same process/origin — one deployed
+# service, one URL, no CORS split needed. Registered LAST and after every
+# API router above: Starlette tries routes in registration order, so
+# /api/v1/*, /health, /docs etc. all still match their own routes first;
+# only requests that don't match any of those fall through to this mount.
+# Only mounts if frontend/dist actually exists (StaticFiles errors at
+# startup on a missing directory) — local `uvicorn app.main:app` without a
+# frontend build stays a pure API server, matching the existing dev workflow
+# (Vite dev server on :5173, backend on :8000).
+_FRONTEND_DIST = os.path.join(
+    os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))),
+    "frontend", "dist"
+)
+if os.path.isdir(_FRONTEND_DIST):
+    app.mount("/", StaticFiles(directory=_FRONTEND_DIST, html=True), name="frontend")
 
 if __name__ == "__main__":
     import uvicorn

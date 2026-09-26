@@ -21,9 +21,16 @@ class Settings(BaseSettings):
     # in main.py) against Access-Control-Allow-Origin: *, so "*" alongside explicit
     # origins was dead weight that also widened the attack surface for no benefit.
     CORS_ORIGINS: list[str] = ["http://localhost:5173", "http://127.0.0.1:5173", "http://localhost:3000"]
-    
+    # Set on the deployed backend (e.g. Render) to your Vercel frontend URL —
+    # appended below rather than read directly into CORS_ORIGINS, since
+    # pydantic-settings expects list-typed env vars as JSON, not a bare URL.
+    FRONTEND_URL: str = ""
+
     class Config:
         case_sensitive = True
 
 settings = Settings()
+
+if settings.FRONTEND_URL and settings.FRONTEND_URL not in settings.CORS_ORIGINS:
+    settings.CORS_ORIGINS = settings.CORS_ORIGINS + [settings.FRONTEND_URL]
 

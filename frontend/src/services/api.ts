@@ -21,7 +21,10 @@ import {
   ParcelSearchResponse
 } from '../types';
 
-const API_BASE = 'http://127.0.0.1:8000/api/v1';
+// VITE_API_BASE_URL lets a deployed build (Vercel) point at the real backend
+// host (e.g. Render) instead of localhost — set it in the Vercel project's
+// environment variables. Local dev keeps working with no .env needed.
+const API_BASE = import.meta.env.VITE_API_BASE_URL || 'http://127.0.0.1:8000/api/v1';
 
 // Prototype-scope role identity: sent as a header on every request so the
 // backend's RBAC layer (app/core/rbac.py) can actually enforce permissions

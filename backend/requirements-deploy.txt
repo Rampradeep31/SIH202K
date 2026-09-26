@@ -1,0 +1,25 @@
+# Trimmed dependency set for deploying the live backend (Render). Excludes
+# packages only used by the offline satellite-reprocessing script
+# (scripts/tn_satellite_indices_pipeline.py) and dev/test tooling — none of
+# app/ imports rasterio, pystac-client, planetary-computer, rasterstats, or
+# shapely (verified via grep), and pulling in rasterio's GDAL-linked wheel
+# on a platform it may not have a prebuilt wheel for is unnecessary risk on
+# a deploy that doesn't use it. Regenerating tamil_nadu_dataset/*.csv still
+# needs the full backend/requirements.txt, run locally.
+
+# Core API
+fastapi==0.115.0
+uvicorn==0.30.6
+pydantic==2.12.5
+pydantic-settings==2.5.2
+python-dotenv
+
+# Data / ML
+numpy==2.3.5
+pandas==2.3.3
+scikit-learn==1.8.0
+
+# RAG: real semantic search (embeddings) + real LLM answer synthesis
+sentence-transformers==6.0.1
+anthropic==1.3.0
+google-genai
