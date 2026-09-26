@@ -630,4 +630,27 @@ class ResearchCopilot:
             "total_documents": len(self.policies) + len(self.research) + len(self.facts)
         }
 
-copilot = ResearchCopilot()
+class _LazyResearchCopilot:
+    """
+    Defers real ResearchCopilot() construction — loading the
+    sentence-transformer model (all-MiniLM-L6-v2, plus torch/transformers
+    import overhead) and building the document embedding index — until
+    first access, instead of at module-import time. Same rationale as
+    _LazyMLSystem in app/ml/models.py: every router imports this module's
+    singleton at its own top level, so the old eager version blocked
+    uvicorn from registering *any* route, including /health, until this
+    finished — fine locally, but slow enough on a weaker deploy host (e.g.
+    Render's free tier) to time out the platform's health check entirely.
+    """
+    def __init__(self):
+        self._real = None
+
+    def _ensure(self) -> "ResearchCopilot":
+        if self._real is None:
+            self._real = ResearchCopilot()
+        return self._real
+
+    def __getattr__(self, name):
+        return getattr(self._ensure(), name)
+
+copilot = _LazyResearchCopilot()

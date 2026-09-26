@@ -388,5 +388,36 @@ class MLSystem:
             }
         }
 
-# Global singleton
-ml_system = MLSystem()
+class _LazyMLSystem:
+    """
+    Defers the real MLSystem() construction — 5-fold CV training plus
+    batched predict_proba over ~8,640 pooled parcels, 55s+ even on a
+    reasonably fast local machine — until the first attribute a caller
+    actually accesses, instead of at module-import time.
+
+    Every router that touches ML predictions does `from app.ml.models
+    import ml_system` at its own top level, and app/main.py imports every
+    router before defining any FastAPI route. On the old eager singleton,
+    that meant the whole training run had to finish before uvicorn could
+    even register `/health`, let alone answer it — fine locally, but on a
+    slower deploy host (e.g. Render's free tier) that blocked long enough
+    for the platform's health check to time out the deploy entirely.
+
+    __getattr__ only fires for attributes not already found on this proxy
+    itself, so existing call sites (`ml_system.get_predictions(...)`,
+    `ml_system.metrics_rf`, etc.) keep working completely unchanged — the
+    first one just pays the training cost once, and it's cached after.
+    """
+    def __init__(self):
+        self._real = None
+
+    def _ensure(self) -> "MLSystem":
+        if self._real is None:
+            self._real = MLSystem()
+        return self._real
+
+    def __getattr__(self, name):
+        return getattr(self._ensure(), name)
+
+# Global singleton (lazy — see _LazyMLSystem above)
+ml_system = _LazyMLSystem()

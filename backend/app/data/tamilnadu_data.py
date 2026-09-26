@@ -16,6 +16,7 @@ import random
 import logging
 import numpy as np
 from typing import Dict, List, Any
+from collections.abc import Mapping
 
 logger = logging.getLogger(__name__)
 
@@ -729,4 +730,38 @@ def _load_all_district_parcels() -> Dict[str, List[Dict[str, Any]]]:
     return result
 
 
-ALL_DISTRICT_PARCELS: Dict[str, List[Dict[str, Any]]] = {"Tiruppur": TIRUPPUR_PARCELS, **_load_all_district_parcels()}
+class _LazyDistrictParcels(Mapping):
+    """
+    Defers _load_all_district_parcels() — parsing the statewide cadastral
+    GeoJSON and generating conversion-probability labels across ~8,640
+    parcels in 32 districts, ~5s on a fast local machine, meaningfully more
+    on a slower deploy host — until this mapping is first actually read,
+    instead of at import time.
+
+    Several modules (ml/models.py, api/lulc.py, api/scenarios.py) import
+    ALL_DISTRICT_PARCELS at their own top level, and app/main.py imports all
+    of those before defining any FastAPI route — so the old eager dict
+    blocked uvicorn from registering *any* route, including /health, until
+    this finished loading. Implementing the read-only Mapping protocol
+    (__getitem__/__iter__/__len__) means the .get()/.items()/.keys()/`in`
+    call sites already in use keep working completely unchanged; the first
+    one just pays the load cost once, cached after.
+    """
+    def __init__(self):
+        self._real = None
+
+    def _ensure(self) -> Dict[str, List[Dict[str, Any]]]:
+        if self._real is None:
+            self._real = {"Tiruppur": TIRUPPUR_PARCELS, **_load_all_district_parcels()}
+        return self._real
+
+    def __getitem__(self, key):
+        return self._ensure()[key]
+
+    def __iter__(self):
+        return iter(self._ensure())
+
+    def __len__(self):
+        return len(self._ensure())
+
+ALL_DISTRICT_PARCELS: Dict[str, List[Dict[str, Any]]] = _LazyDistrictParcels()
