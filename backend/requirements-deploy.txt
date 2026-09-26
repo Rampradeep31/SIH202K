@@ -7,6 +7,14 @@
 # a deploy that doesn't use it. Regenerating tamil_nadu_dataset/*.csv still
 # needs the full backend/requirements.txt, run locally.
 
+# sentence-transformers pulls in torch, and PyPI's default torch wheel bundles
+# the FULL CUDA toolkit (nvidia-cublas, nvidia-cudnn, nvidia-nccl, triton...) —
+# multiple hundred MB to 1GB+ of GPU libraries that are pure dead weight on
+# Render's CPU-only instances. This forces the CPU-only build instead, which
+# meaningfully shrinks install size and (likely) the memory footprint and
+# import time that were making the health check time out.
+--extra-index-url https://download.pytorch.org/whl/cpu
+
 # Core API
 fastapi==0.115.0
 uvicorn==0.30.6
